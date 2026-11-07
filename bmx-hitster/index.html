@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BMX Hitster – Wer fährt zu diesem Song?</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#111;--paper:#f3ecdc;--ink:#141414;--red:#e63b2e;--yellow:#ffd23f;--green:#2fb36b;--t1:#e63b2e;--t2:#2e7de6;--t3:#2fb36b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--paper);font-family:'Space Grotesk',system-ui,sans-serif;min-height:100vh;
+  background-image:repeating-linear-gradient(-45deg,#151515 0 14px,#111 14px 28px)}
+h1,h2,h3,.disp{font-family:'Anton',Impact,sans-serif;letter-spacing:.02em;text-transform:uppercase;margin:0}
+a{color:inherit}
+.wrap{max-width:1150px;margin:0 auto;padding:20px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+header h1{font-size:clamp(32px,6vw,58px);line-height:.9;transform:rotate(-2deg)}
+header h1 span{background:var(--red);color:var(--paper);padding:0 .15em}
+.tag{font-size:13px;opacity:.7}
+.panel{background:var(--paper);color:var(--ink);padding:20px;border:3px solid var(--ink);box-shadow:8px 8px 0 var(--yellow)}
+.panel + .panel{margin-top:22px}
+button{font-family:'Anton',sans-serif;text-transform:uppercase;letter-spacing:.04em;font-size:18px;border:3px solid var(--ink);
+  background:var(--yellow);color:var(--ink);padding:10px 18px;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:transform .08s}
+button:hover{transform:translate(-1px,-1px)}
+button:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+button.sec{background:var(--paper)} button.red{background:var(--red);color:var(--paper)}
+button.small{font-size:14px;padding:6px 10px;box-shadow:3px 3px 0 var(--ink)}
+button:disabled{opacity:.4;cursor:not-allowed}
+input,select,textarea{font:inherit;padding:8px 10px;border:3px solid var(--ink);background:#fff;color:var(--ink);max-width:100%}
+input[type=checkbox]{width:20px;height:20px;vertical-align:middle;margin-right:6px}
+label{font-weight:700;display:block;margin:12px 0 4px}
+label.chk{font-weight:600;display:flex;align-items:center;margin:8px 0}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.hidden{display:none!important}
+.hint{font-size:13px;opacity:.75}
+.warn{background:var(--red);color:var(--paper);padding:10px 14px;font-weight:700;margin-bottom:16px;border:3px solid var(--ink)}
+code{background:#0001;padding:0 4px}
+
+.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:18px}
+.team{background:#1c1c1c;border:3px solid #333;padding:12px}
+.team.active{border-color:var(--yellow);box-shadow:0 0 0 3px var(--yellow)}
+.team h3{font-size:24px}.team .score{font-family:'Anton';font-size:40px;line-height:1}
+.team .bar{height:6px;margin:6px 0 10px}
+.timeline{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.yr{font-family:'Anton';font-size:15px;background:var(--paper);color:var(--ink);padding:2px 6px}
+.slot{width:22px;height:26px;border:2px dashed #666;background:transparent;box-shadow:none;padding:0;font-size:12px;color:#aaa}
+.slot.pick{border:2px solid var(--yellow);background:var(--yellow);color:var(--ink)}
+.slot:hover{transform:none;border-color:var(--yellow)}
+
+.stage{display:grid;grid-template-columns:minmax(300px,480px) 1fr;gap:20px}
+@media(max-width:820px){.stage{grid-template-columns:1fr}}
+.screen{position:relative;aspect-ratio:16/9;background:#000;border:3px solid var(--paper);overflow:hidden}
+.screen .host{position:absolute;inset:0}
+.screen .host iframe,.screen #ytHost{position:absolute;inset:0;width:100%;height:100%;border:0}
+.cover{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;pointer-events:none;
+  background:repeating-conic-gradient(var(--red) 0 15deg,var(--ink) 15deg 30deg)}
+.disc{width:46%;aspect-ratio:1;border-radius:50%;border:3px solid var(--paper);
+  background:radial-gradient(circle,#ddd 0 10%,#111 11% 30%,#222 31% 32%,#111 33% 48%,#222 49% 50%,#111 51%)}
+.playing .disc{animation:spin 1.6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.info{background:var(--ink);border:3px solid var(--paper);border-top:0;padding:16px;text-align:center}
+.info .big{font-family:'Anton';font-size:60px;color:var(--yellow);line-height:1}
+.info .vid{font-family:'Anton';font-size:26px;text-transform:uppercase;margin-top:4px}
+.info .rid{font-size:18px;font-weight:700;margin-top:6px}
+.info .song{font-size:14px;opacity:.85;margin-top:10px;border-top:1px solid #444;padding-top:8px}
+.info .meta{font-size:12px;opacity:.65;margin-top:5px}
+.info a{color:var(--yellow)}
+.status{font-size:14px;min-height:20px;margin-top:8px;opacity:.85}
+.status a{color:var(--yellow)}
+.mc{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mc button{font-family:'Space Grotesk';text-transform:none;font-size:15px;font-weight:700;background:#fff;text-align:left}
+.mc button:disabled{opacity:.55;cursor:default}.mc button.ok:disabled,.mc button.bad:disabled{opacity:1}
+.mc button.sel{background:var(--yellow)} .mc button.ok{background:var(--green);color:#fff} .mc button.bad{background:var(--red);color:#fff}
+.judge{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0;align-items:center}
+.judge button.on{background:var(--green);color:#fff}
+.steps h3{font-size:22px;margin:14px 0 6px}.steps h3:first-child{margin-top:0}
+.res{font-family:'Anton';font-size:22px;margin-top:10px}
+.win{text-align:center;padding:40px}.win h2{font-size:64px;color:var(--yellow)}
+textarea{width:100%;min-height:140px;font-family:monospace;font-size:12px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:4px 6px;border-bottom:1px solid #0002;vertical-align:top}
+th{font-family:'Anton';font-weight:400;letter-spacing:.03em}
+.pill{display:inline-block;padding:1px 6px;font-size:11px;font-weight:700;border:2px solid var(--ink)}
+.p-ok{background:var(--green);color:#fff}.p-low{background:var(--red);color:#fff}.p-na{background:#ddd}
+.hints li{margin:4px 0;cursor:pointer}.hints li:hover{background:var(--yellow)}
+.scroll{max-height:420px;overflow:auto;border:2px solid var(--ink);background:#fff}
+.screen{cursor:pointer}
+.soundcheck{display:flex;gap:16px;align-items:center;margin-top:16px;padding:12px;border:3px dashed var(--ink)}
+.testbox{position:relative;width:200px;height:200px;flex:none;background:#000;overflow:hidden}
+.testbox iframe,.testbox #testHost{position:absolute;inset:0;width:100%;height:100%;border:0}
+.testbox .tcover{position:absolute;inset:0;z-index:3;pointer-events:none;display:flex;align-items:center;justify-content:center;text-align:center;
+  font-family:'Anton';color:var(--paper);background:repeating-conic-gradient(var(--red) 0 15deg,var(--ink) 15deg 30deg)}
+.testbox .tcover span{background:var(--ink);padding:4px 8px}
+@media(max-width:600px){.soundcheck{flex-direction:column;align-items:flex-start}}
+tr.edit td{background:var(--yellow)}
+tr.edit input{padding:5px 8px;border-width:2px}
+.mini{font-size:12px;padding:3px 7px;box-shadow:2px 2px 0 var(--ink)}
+footer{margin-top:30px;font-size:12px;opacity:.55;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <h1>BMX <span>Hitster</span></h1>
+    <div class="tag">Song hören → Fahrer, Video und Jahr tippen. DVDs und Webvideos ab 2004.</div>
+  </div>
+  <button class="sec small" id="btnRestart">Neues Spiel</button>
+</header>
+
+<div id="fileWarn" class="warn hidden">Die Datei ist lokal geöffnet. YouTube spielt so nicht ab – das Spiel versucht dann die Tonspur über einen Umweg oder nimmt die 30-s-Vorschau. Für zuverlässigen Originalton: Datei auf GitHub Pages (oder einen anderen Webserver) legen und von dort öffnen.</div>
+
+<!-- ================= SETUP ================= -->
+<section id="setup">
+ <div class="panel">
+  <h2 style="font-size:34px">Spiel einrichten</h2>
+  <div class="grid3">
+    <div><label>Anzahl Teams</label><select id="teamCount"><option value="2">2 Teams</option><option value="3">3 Teams</option></select></div>
+    <div><label>Ziel (Punkte zum Sieg)</label><select id="target"><option>8</option><option selected>10</option><option>15</option><option>20</option></select></div>
+    <div><label>Modus</label><select id="mode"><option value="mc">Leicht – Multiple Choice</option><option value="free">Profi – frei tippen, Spielleitung wertet</option></select></div>
+  </div>
+  <div class="grid3" id="teamNames"></div>
+  <div class="grid3">
+    <div><label>Videos ab Jahr</label><select id="yearFrom"></select></div>
+    <div><label>Formate</label><select id="fmt"><option value="all">DVD + Web</option><option value="dvd">nur DVD-Parts</option><option value="web">nur Webvideos</option></select></div>
+  </div>
+  <label class="chk"><input type="checkbox" id="min20k" checked>Webvideos nur mit mindestens 20.000 Aufrufen</label>
+  <label class="chk"><input type="checkbox" id="strict">… auch Webvideos rauswerfen, deren Aufrufe sich nicht prüfen lassen</label>
+  <label class="chk"><input type="checkbox" id="bonus" checked>Heimspiel-Bonus: Sunday-/Sport-Import-Edits, gefilmt von Timm Wiegmann (ohne Aufruf-Grenze)</label>
+  <div class="status" id="viewStatus" style="opacity:1"></div>
+  <div class="soundcheck">
+    <div class="testbox"><div id="testHost"></div><div id="testVm" class="host"></div><div class="tcover"><span>🔇 Ton-Check</span></div></div>
+    <div>
+      <b>Ton-Check:</b> spielt jedes Originalvideo stumm kurz an und merkt sich, welche in diesem Browser laufen. Gesperrte Videos bekommen im Spiel automatisch einen Ersatzton. Läuft beim ersten Öffnen von selbst (ca. 2–4 Minuten), Ergebnis bleibt gespeichert.
+      <div class="status" id="scStatus" style="opacity:1"></div>
+      <button class="sec small" id="btnSC" style="margin-top:6px">Ton-Check neu starten</button>
+    </div>
+  </div>
+  <p class="hint" id="deckInfo" style="font-size:15px;opacity:1;font-weight:700"></p>
+  <div class="row" style="margin-top:14px">
+    <button id="btnStart">Los geht's</button>
+    <button class="sec small" id="btnCheck">Aufrufe neu prüfen</button>
+    <button class="sec small" id="btnList">Kartenliste</button>
+  </div>
+  <div id="cardList" class="hidden" style="margin-top:14px"><div class="scroll" id="cardTable"></div></div>
+
+  <div class="steps" style="margin-top:22px">
+    <h3>So läuft's</h3>
+    <div style="font-size:15px;line-height:1.5">
+      Die Teams sind reihum dran. Der Song läuft – wenn möglich als <b>Originalton direkt aus dem BMX-Video</b>, das Bild bleibt verdeckt. Das aktive Team tippt:<br>
+      <b>① Fahrer</b> (1 Punkt) · <b>② Video</b> (1 Punkt) · <b>③ Jahr</b>: Karte in die eigene Zeitleiste einsortieren – liegt sie richtig, bleibt sie liegen (1 Punkt).<br>
+      Daneben? Die anderen Teams dürfen <b>klauen</b>. Wer zuerst die Zielpunktzahl hat, gewinnt.<br>
+      <span class="hint" style="font-size:14px">Das Bild bleibt die ganze Zeit verdeckt, es läuft nur der Ton. Nach dem Aufdecken kann man das Video auf Wunsch zeigen. Fängt der Song an der falschen Stelle an: zur richtigen Stelle spulen und <b>⏱ Start hier merken</b> drücken – gilt ab dann immer.</span>
+    </div>
+  </div>
+ </div>
+
+ <!-- Song-Detektiv -->
+ <div class="panel" id="detective">
+  <h2 style="font-size:30px">Song-Detektiv: eigene Karte anlegen</h2>
+  <p class="hint" style="font-size:14px;opacity:1">YouTube- oder Vimeo-Link einfügen. Das Spiel holt Titel, Jahr und Aufrufe und durchsucht <b>Beschreibung und Kommentare</b> nach dem Song („Music:“, „song?“, „track name“ …). Klick auf einen Treffer übernimmt ihn ins Songfeld.</p>
+  <div class="row"><input id="detUrl" placeholder="https://www.youtube.com/watch?v=…" style="flex:1;min-width:260px"><button class="small" id="btnDet">Analysieren</button></div>
+  <div class="status" id="detStatus"></div>
+  <div id="detHints"></div>
+  <div class="grid3">
+    <div><label>Song</label><input id="fSong"></div>
+    <div><label>Künstler</label><input id="fArtist"></div>
+    <div><label>Fahrer (Komma-getrennt)</label><input id="fRiders"></div>
+    <div><label>Video / Edit-Titel</label><input id="fVideo"></div>
+    <div><label>Jahr</label><input id="fYear" type="number" min="1990" max="2030"></div>
+    <div><label>Firma / Kanal</label><input id="fCompany"></div>
+    <div><label>Format</label><select id="fFmt"><option>Web</option><option>DVD</option></select></div>
+    <div><label>Startzeit (Sekunden)</label><input id="fStart" type="number" value="20" min="0"></div>
+  </div>
+  <div class="row" style="margin-top:12px"><button class="small" id="btnAdd">Karte speichern</button><span class="hint" id="addMsg"></span></div>
+  <details style="margin-top:14px"><summary style="cursor:pointer;font-weight:700">Eigene Karten verwalten (JSON)</summary>
+    <p class="hint">Eigene Karten werden in diesem Browser gespeichert. Zum Sichern oder Teilen: kopieren und woanders wieder einfügen.</p>
+    <textarea id="customText"></textarea>
+    <div class="row" style="margin-top:8px"><button class="small" id="btnCustomSave">Übernehmen</button><button class="sec small" id="btnCustomCopy">Kopieren</button><span class="hint" id="customMsg"></span></div>
+  </details>
+ </div>
+</section>
+
+<!-- ================= GAME ================= -->
+<section id="game" class="hidden">
+  <div class="teams" id="teams"></div>
+  <div class="stage">
+    <div>
+      <div class="screen" id="screen">
+        <div class="host" id="ytWrap"><div id="ytHost"></div></div>
+        <div class="host" id="vmHost"></div>
+        <div class="cover" id="cover"><div class="disc"></div></div>
+      </div>
+      <div class="info hidden" id="info"></div>
+      <div class="row" style="margin-top:12px">
+        <button id="btnPlay">▶ Abspielen</button>
+        <button class="sec small" id="btnFwd">+15 s</button>
+        <button class="sec small" id="btnStop">■ Stop</button>
+        <button class="sec small hidden" id="btnMark" title="Aktuelle Stelle als Startpunkt dieser Karte speichern">⏱ Start hier merken</button>
+      </div>
+      <div class="status" id="audioStatus"></div>
+      <div class="status" id="fallback"></div>
+    </div>
+    <div class="panel steps" id="guessPanel"></div>
+  </div>
+</section>
+
+<section id="winner" class="hidden panel win"></section>
+
+<footer>
+  Kartendaten aus der <a href="https://bmxmdb.com" target="_blank" rel="noopener">BMX Movie Database</a> (DVD-Parts) und aus den Song-Credits der Videobeschreibungen, gesammelt über <a href="https://bmxunion.com" target="_blank" rel="noopener">bmxunion.com</a> (Webvideos). Nicht jede Angabe ist unabhängig geprüft.
+  Ton: Originalvideo über YouTube/Vimeo, sonst 30-s-Vorschau (iTunes, Ersatz Deezer), sonst Songsuche über Invidious.
+  Aufrufzahlen werden beim Start live abgefragt (Return YouTube Dislike API, Invidious, Vimeo) – diese Dienste sind inoffiziell und nicht immer erreichbar.
+</footer>
+</div>
+
+<audio id="audio" preload="auto"></audio>
+
+<script>
+/* =====================================================================
+   KARTEN
+   fmt "DVD" = Part aus einer DVD/Full-Length (keine Aufruf-Grenze)
+   fmt "Web" = Webvideo (Aufruf-Grenze 20.000 greift)
+   yt / vimeo = Video-ID → Originalton aus dem Video; start = Startsekunde
+   ===================================================================== */
+const BMXMDB = id => 'https://bmxmdb.com/films/'+id;
+const DEFAULT_DECK = [
+ // ---------- DVD-Parts (Quelle: bmxmdb.com) ----------
+ {song:"Touch You Touch You",artist:"Hot Hot Heat",riders:["Joe Simon"],video:"The Calling",year:2005,company:"The Shadow Conspiracy",fmt:"DVD",src:BMXMDB("86-The-Calling")},
+ {song:"Worked Up So Sexual",artist:"The Faint",riders:["Ryan Sher"],video:"The Calling",year:2005,company:"The Shadow Conspiracy",fmt:"DVD",src:BMXMDB("86-The-Calling")},
+ {song:"Somebody Put Something in My Drink",artist:"Ramones",riders:["Byron Anderson"],video:"The Calling",year:2005,company:"The Shadow Conspiracy",fmt:"DVD",src:BMXMDB("86-The-Calling")},
+ {song:"Platinum Plus",artist:"Big L",riders:["John Jennings"],video:"The Calling",year:2005,company:"The Shadow Conspiracy",fmt:"DVD",src:BMXMDB("86-The-Calling")},
+ {song:"Enfilade",artist:"At the Drive-In",riders:["Alistair Whitton"],video:"The Calling",year:2005,company:"The Shadow Conspiracy",fmt:"DVD",src:BMXMDB("86-The-Calling")},
+ {song:"Yoshimi Battles the Pink Robots Pt. 2",artist:"The Flaming Lips",riders:["Dave Jacobs"],video:"The Great Eviction",year:2004,company:"Shook",fmt:"DVD",src:BMXMDB("793-The-Great-Eviction")},
+ {song:"So Says I",artist:"The Shins",riders:["Dominic Trovato"],video:"The Great Eviction",year:2004,company:"Shook",fmt:"DVD",src:BMXMDB("793-The-Great-Eviction"),yt:"69imwBrjobQ",start:12},
+ {song:"6 Underground",artist:"Sneaker Pimps",riders:["Aaron Bostrom","Chad Shackleford","Joey Neudenbach","Nick Toncheff"],section:"Part One",video:"The Great Eviction",year:2004,company:"Shook",fmt:"DVD",src:BMXMDB("793-The-Great-Eviction")},
+ {song:"Steven Smith",artist:"The Organ",riders:["Neil Harrington"],video:"Stoked On Being Pumped",year:2007,company:"Mutiny Bikes",fmt:"DVD",src:BMXMDB("2-Stoked-On-Being-Pumped")},
+ {song:"Maniac",artist:"Michael Sembello",riders:["Cole Todorovich"],video:"Stoked On Being Pumped",year:2007,company:"Mutiny Bikes",fmt:"DVD",src:BMXMDB("2-Stoked-On-Being-Pumped")},
+ {song:"Up Against the Wall",artist:"Peter Bjorn and John",riders:["Mat Roe"],video:"Stoked On Being Pumped",year:2007,company:"Mutiny Bikes",fmt:"DVD",src:BMXMDB("2-Stoked-On-Being-Pumped")},
+ {song:"Spring and by Summer Fall",artist:"Blonde Redhead",riders:["Justin Simpson"],video:"Stoked On Being Pumped",year:2007,company:"Mutiny Bikes",fmt:"DVD",src:BMXMDB("2-Stoked-On-Being-Pumped")},
+ {song:"D.A.N.C.E.",artist:"Justice",riders:["Ryan Smith"],section:"Intro & Ryan Smith",video:"Stoked On Being Pumped",year:2007,company:"Mutiny Bikes",fmt:"DVD",src:BMXMDB("2-Stoked-On-Being-Pumped")},
+ {song:"E-Pro",artist:"Beck",riders:["Steve Kennedy"],video:"456",year:2006,company:"Vult",fmt:"DVD",src:BMXMDB("401-456")},
+ {song:"Glass Danse",artist:"The Faint",riders:["Matt Colisch"],video:"456",year:2006,company:"Vult",fmt:"DVD",src:BMXMDB("401-456")},
+ {song:"Emerge",artist:"Fischerspooner",riders:["Mike Saavedra"],video:"456",year:2006,company:"Vult",fmt:"DVD",src:BMXMDB("401-456")},
+ {song:"Lost Boys",artist:"The 69 Eyes",riders:["Ben Hucke"],video:"456",year:2006,company:"Vult",fmt:"DVD",src:BMXMDB("401-456")},
+ {song:"Juice (Know the Ledge)",artist:"Eric B. & Rakim",riders:["Ryan Sher","Ryan Mills","KC Badger"],section:"Basement Crew",video:"456",year:2006,company:"Vult",fmt:"DVD",src:BMXMDB("401-456")},
+ {song:"Welcome to Chicago",artist:"Kill Hannah",riders:["Kevin Porter","Tony Cardona","Dan Bogard","Tony Malouf"],section:"Chicago Section",video:"456",year:2006,company:"Vult",fmt:"DVD",src:BMXMDB("401-456")},
+ {song:"Hope You're Happy Now",artist:"The Sounds",riders:["Jerry Bagley","Brandan 'Punjab' Pundai","Sean Burns"],section:"Mix Section 2",video:"456",year:2006,company:"Vult",fmt:"DVD",src:BMXMDB("401-456")},
+ {song:"Diamonds from Sierra Leone",artist:"Kanye West",riders:["Ryan Nyquist","Dave Jacobs","Cory Nastazio","Robbie Morales","Jerry Bagley"],section:"Southern California & Credits",video:"456",year:2006,company:"Vult",fmt:"DVD",src:BMXMDB("401-456")},
+ {song:"1969",artist:"Iggy Pop",riders:["Brian Kachinsky","Kevin Porter","Mike Saavedra","Steve Kennedy","Ben Hucke","Eddie Cleveland"],section:"Aloha (Crew-Video)",video:"Aloha",year:2006,company:"Vult",fmt:"DVD",src:BMXMDB("390-aloha")},
+ {song:"Going Back to Cali",artist:"LL Cool J",riders:["Brian Kachinsky","Kevin Porter","Mike Saavedra","Steve Kennedy","Ben Hucke","Eddie Cleveland"],section:"Aloha (Crew-Video)",video:"Aloha",year:2006,company:"Vult",fmt:"DVD",src:BMXMDB("390-aloha")},
+ {song:"Juicy",artist:"The Notorious B.I.G.",riders:["Dennis Enarson","Kyle Hart","Chris Hervan","Cory Nastazio","Rick Thorne"],section:"B Side (Crew-Video)",video:"Aloha",year:2006,company:"Vult",fmt:"DVD",src:BMXMDB("390-aloha")},
+ {song:"What a Waster",artist:"The Libertines",riders:["Ross Tanner"],video:"Against All Odds",year:2006,company:"Shitluck",fmt:"DVD",src:BMXMDB("118-against-all-odds")},
+ {song:"Grease",artist:"Blacklisted",riders:["Richard Ayres"],video:"Against All Odds",year:2006,company:"Shitluck",fmt:"DVD",src:BMXMDB("118-against-all-odds")},
+ {song:"Somebody Put Something in My Drink",artist:"Ramones",riders:["Derrick Girard"],video:"Against All Odds",year:2006,company:"Shitluck",fmt:"DVD",src:BMXMDB("118-against-all-odds")},
+ {song:"Fixed Income",artist:"DJ Shadow",riders:["Chris Wilson"],video:"Against All Odds",year:2006,company:"Shitluck",fmt:"DVD",src:BMXMDB("118-against-all-odds")},
+ {song:"Salt Shaker",artist:"Ying Yang Twins",riders:["Billy Ashby"],video:"Against All Odds",year:2006,company:"Shitluck",fmt:"DVD",src:BMXMDB("118-against-all-odds")},
+ {song:"Better Off Dead",artist:"La Peste",riders:["Ryan Metro"],video:"Against All Odds",year:2006,company:"Shitluck",fmt:"DVD",src:BMXMDB("118-against-all-odds")},
+ {song:"Fire Woman",artist:"The Cult",riders:["Derrick Girard","Tony Hamlin","Mike Tag"],section:"Mix Section",video:"Against All Odds",year:2006,company:"Shitluck",fmt:"DVD",src:BMXMDB("118-against-all-odds")},
+ {song:"Neighborhood #3 (Power Out)",artist:"Arcade Fire",riders:["Neil Harrington","Brandon Hoerres","Matt Roe","Joe Simon","Vidal Vigil","Morgan Wade"],section:"Crew-Video",video:"Mutiny Road Trip",year:2005,company:"Mutiny Bikes",fmt:"DVD",src:BMXMDB("167-mutiny-road-trip")},
+ {song:"The Skin of My Yellow Country Teeth",artist:"Clap Your Hands Say Yeah",riders:["Neil Harrington","Brandon Hoerres","Matt Roe","Joe Simon","Vidal Vigil","Morgan Wade"],section:"Crew-Video",video:"Mutiny Road Trip",year:2005,company:"Mutiny Bikes",fmt:"DVD",src:BMXMDB("167-mutiny-road-trip")},
+ {song:"Call Me",artist:"Blondie",riders:["Neil Harrington","Brandon Hoerres","Matt Roe","Joe Simon","Vidal Vigil","Morgan Wade"],section:"Crew-Video",video:"Mutiny Road Trip",year:2005,company:"Mutiny Bikes",fmt:"DVD",src:BMXMDB("167-mutiny-road-trip")},
+ {song:"Two Rocking Chairs on a Porch",artist:"Piebald",riders:["Nick Halsey"],video:"Macneil",year:2004,company:"Macneil",fmt:"DVD",src:BMXMDB("93-macneil")},
+ {song:"I Want to Conquer the World",artist:"Bad Religion",riders:["Dom Mach"],video:"Macneil",year:2004,company:"Macneil",fmt:"DVD",src:BMXMDB("93-macneil")},
+ {song:"Killing Spree",artist:"Swollen Members",riders:["John Heaton"],video:"Macneil",year:2004,company:"Macneil",fmt:"DVD",src:BMXMDB("93-macneil")},
+ {song:"Checkin' It Out",artist:"The Donnas",riders:["Dave Freimuth"],video:"Macneil",year:2004,company:"Macneil",fmt:"DVD",src:BMXMDB("93-macneil")},
+ {song:"Miracle",artist:"Elliott",riders:["Ruben Alcantara"],video:"Macneil",year:2004,company:"Macneil",fmt:"DVD",src:BMXMDB("93-macneil")},
+ {song:"Alone / Down on It",artist:"The Spitfires",song2:"The Bicycle Song – Buck 65",riders:["Jay Miron"],video:"Macneil",year:2004,company:"Macneil",fmt:"DVD",src:BMXMDB("93-macneil"),yt:"1MLqyBU35YA",start:10},
+ {song:"Never Scared",artist:"Bone Crusher",riders:["Colt Fake"],video:"Banned 4 Life",year:2010,company:"Banned",fmt:"DVD",src:BMXMDB("800-banned-4-life")},
+ {song:"Ice Ice Baby",artist:"Vanilla Ice",riders:["Mike Hoder","Bruce Crisman","Davey Watson","Seth Kimbrough"],section:"Crew-Video",video:"As One",year:2006,company:"Facad",fmt:"DVD",src:BMXMDB("24-as-one")},
+ {song:"A Horse with No Name",artist:"America",riders:["Mike Hoder","Bruce Crisman","Davey Watson","Seth Kimbrough"],section:"Crew-Video",video:"As One",year:2006,company:"Facad",fmt:"DVD",src:BMXMDB("24-as-one")},
+ // DVD-Parts, die die Firmen selbst online gestellt haben (Quelle: bmxunion.com)
+ {song:"Live and Let Die",artist:"Wings",song2:"Daybreaker – Electric Light Orchestra",riders:["Dennis Enarson"],video:"Last Chance",year:2011,company:"Demolition",fmt:"DVD",yt:"vZGpX7dRFtI",start:15,src:"https://bmxunion.com/demolition-dennis-enarson-last-chance/"},
+ {song:"Panda Blood",artist:"Corrupt Autopilot",riders:["Eli Platt","Greg D'Amico","Greg Smee","Boy Janssen","Rich Forne","Raphael Jeroma-Williams","Ryan Sher","Nick Bullen"],section:"Skeleton Crew",video:"Get Used To It",year:2013,company:"Subrosa",fmt:"DVD",yt:"ILpTTZh1okM",start:15,src:"https://bmxunion.com/tag/eli-platt/"},
+ {song:"Feel the Pain",artist:"Hozay",riders:["Lahsaan Kobza"],video:"Get Used To It",year:2013,company:"Subrosa",fmt:"DVD",yt:"wRbgBrg-xbw",start:15,src:"https://bmxunion.com/video-recap-930-106/"},
+
+ // ---------- Webvideos (Song-Credits aus den Videobeschreibungen, via bmxunion.com) ----------
+ {song:"Ungrateful Are the Dead",artist:"Graveyard",riders:["Garrett Reynolds"],video:"Web-Edit",year:2012,company:"Fiend",fmt:"Web",vimeo:"49634037",start:15,src:"https://bmxunion.com/fiend-garrett-reynolds-edit/"},
+ {song:"My Generation",artist:"Ernie Hines",riders:["Minty"],video:"Talk Is Cheap",year:2012,company:"Cult",fmt:"Web",vimeo:"50348967",start:15,src:"https://bmxunion.com/cult-minty-talk-is-cheap/"},
+ {song:"Into the Void",artist:"Black Sabbath",riders:["Dan Conway","Brian Histand","Brendon Reith","Nick Bott"],video:"VX2012",year:2012,company:"Orchid",fmt:"Web",vimeo:"41023692",start:15,src:"https://bmxunion.com/tag/orchid/"},
+ {song:"Hurt So Good",artist:"Millie Jackson",riders:["Alex Kennedy"],video:"Sessions 01",year:2013,company:"Cult",fmt:"Web",vimeo:"72632505",start:15,src:"https://bmxunion.com/cult-alex-kennedy-sessions-01/"},
+ {song:"Red in the Morning",artist:"The Gaslight Anthem",riders:["Filip Banik"],video:"Welcome Edit",year:2013,company:"Kink",fmt:"Web",vimeo:"62961164",start:15,src:"https://bmxunion.com/kink-filip-banik-welcome-edit/"},
+ {song:"Cometh Down Hessian",artist:"High on Fire",riders:["Chad Osburn"],video:"Web-Edit",year:2013,company:"Kink",fmt:"Web",vimeo:"59610578",start:15,src:"https://bmxunion.com/video-recap-211-217/"},
+ {song:"Duet",artist:"Gonjasufi",riders:["Brock Olive"],video:"Brisbane Edit",year:2013,company:"Premium",fmt:"Web",vimeo:"59451599",start:15,src:"https://bmxunion.com/video-recap-211-217/"},
+ {song:"Maggie May",artist:"Rod Stewart",riders:["Larry Edgar"],video:"Web-Edit",year:2013,company:"SE Bikes",fmt:"Web",vimeo:"59865934",start:15,src:"https://bmxunion.com/video-recap-211-217/"},
+ {song:"The Deep",artist:"Data Romance",riders:["Daniel Sandoval"],video:"Devotion",year:2013,company:"",fmt:"Web",vimeo:"47148304",start:15,src:"https://bmxunion.com/video-recap-211-217/"},
+ {song:"Sixteen Summers, Fifteen Falls",artist:"Townes Van Zandt",riders:["Calvin Kosovich"],video:"Welcome to Kink",year:2013,company:"Kink",fmt:"Web",vimeo:"75809123",start:15,src:"https://bmxunion.com/video-recap-930-106/"},
+ {song:"Don't Stand in Line",artist:"Front Line Assembly",riders:["Jim Borio"],video:"Paine Park Session",year:2013,company:"Fit Bike Co.",fmt:"Web",vimeo:"75033365",start:15,src:"https://bmxunion.com/video-recap-930-106/"},
+ {song:"Cyclope et Othello",artist:"Le Chapelier Fou",riders:["Maxime Charveron","Luc Legrand"],video:"Antipodes (Looping-Edit)",year:2013,company:"Soul BMX x Sosh",fmt:"Web",yt:"58HnfAsaoxs",start:10,src:"https://bmxunion.com/video-recap-930-106/"},
+ {song:"The Wild One",artist:"Link Wray",riders:["Pat Quinn"],video:"Rotten",year:2013,company:"",fmt:"Web",yt:"RhLqKpM8hSs",start:15,src:"https://bmxunion.com/video-recap-930-106/"},
+ {song:"Alien Blues",artist:"Vundabar",riders:["Kriss Kyle","Felix Prangenberg","Daniel Tünte"],video:"Happy Days: Copenhagen",year:2017,company:"freedombmx",fmt:"Web",yt:"AJoD-DoxGI4",start:20,src:"https://bmxunion.com/happy-days-kriss-kyle-felix-prangenberg-daniel-tunte-in-copenhagen/"},
+ {song:"Bob N Weave",artist:"Clueless Kit",riders:["Colin Varanyak","JJ Palmere","Demarcus Paul"],video:"Drop the Pin",year:2018,company:"Ride BMX",fmt:"Web",yt:"3tpUPi-Y4Yw",start:15,src:"https://bmxunion.com/tag/jj-palmere/"},
+ {song:"Sometimes",artist:"Ride the Blinds",riders:["Larry Edgar","Sean Ricany","Travis Hughes"],video:"Welcome to the Family",year:2018,company:"Vans",fmt:"Web",yt:"OYtib9AGVc8",start:20,src:"https://bmxunion.com/tag/must-see/page/61/"},
+ {song:"Scene from a Dream of Angels",artist:"Outskirts of Infinity",riders:["Mike Gray"],video:"Web-Edit",year:2018,company:"Haro",fmt:"Web",yt:"xIbnbiuETaA",start:20,src:"https://bmxunion.com/tag/must-see/page/61/"},
+ {song:"Meridian",artist:"ODESZA",riders:["Kriss Kyle"],video:"Dubai",year:2019,company:"Red Bull",fmt:"Web",yt:"0y04vdZvmag",start:20,src:"https://bmxunion.com/red-bull-kriss-kyle-in-dubai-bmx-video/"},
+ {song:"Orbit",artist:"Oliver Lodge",riders:["Dennis Enarson"],video:"Right Here",year:2020,company:"Vans",fmt:"Web",yt:"hHOttB2enSQ",start:20,src:"https://bmxunion.com/vans-dennis-enarson-right-here/"},
+ {song:"Live with Me",artist:"Humble Pie",riders:["Broc Raiford"],video:"Strike",year:2022,company:"Odyssey",fmt:"Web",yt:"7xKEbhRibxI",start:15,src:"https://bmxunion.com/tag/odyssey-bmx/page/10"},
+ {song:"Black Rainbow",artist:"The Black Heart Death Cult",riders:["Boyd Hilder"],video:"Sprocket Promo",year:2022,company:"Odyssey",fmt:"Web",yt:"iJbs8sQhJKI",start:10,src:"https://bmxunion.com/tag/odyssey-bmx/page/10"},
+ // Webvideos ohne Video-ID (aus bmxmdb) – Aufrufe nicht prüfbar
+ {song:"Solitaire",artist:"The Notwist",riders:["Rob Diquattro"],video:"Act Like You Know",year:2009,company:"Act Like You Know",fmt:"Web",src:BMXMDB("256-act-like-you-know")},
+ {song:"Onion Head",artist:"Sean Price",riders:["Bobby Simmons"],video:"Act Like You Know",year:2009,company:"Act Like You Know",fmt:"Web",src:BMXMDB("256-act-like-you-know")},
+ {song:"Mr. Brightside",artist:"The Killers",riders:["Misha Krotov","Anatoliy Antipov","Evgeniy Nesterov","Vladimir Smirnov"],section:"Crew-Video",video:"BDD – Without Dream",year:2007,company:"BDD Team",fmt:"Web",src:BMXMDB("175-bdd-without-dream")},
+ {song:"Honeybear",artist:"Yeah Yeah Yeahs",riders:["Mike Hines"],video:"Lateral Progression",year:2008,company:"Clickedbmx.com",fmt:"Web",src:BMXMDB("120-lateral-progression")},
+
+ // ---------- Heimspiel-Bonus (gefilmt & geschnitten von Timm Wiegmann) ----------
+ {song:"Set Me Free",artist:"The Heavy",riders:["Lukas Häusler"],video:"Welcome to Sunday",year:2014,company:"Sunday / Sport Import",fmt:"Web",yt:"CTX4PyZqsZI",start:15,bonus:true,src:"https://bmxunion.com/tag/sport-import/"},
+ {song:"Night Moves",artist:"Bob Seger",riders:["Daniel Portorreal"],video:"Welcome to Sunday",year:2014,company:"Sunday / Sport Import",fmt:"Web",vimeo:"99120190",start:15,bonus:true,src:"https://bmxunion.com/tag/sport-import/"},
+ {song:"Kaleidoscope Hearts",artist:"Magic Wands",riders:["Kevin Liehn"],video:"Welcome to Sunday",year:2013,company:"Sunday / Sport Import",fmt:"Web",vimeo:"78736307",start:15,bonus:true,src:"https://bmxunion.com/tag/sport-import/"},
+];
+
+/* ===================== Helfer ===================== */
+const $ = s => document.querySelector(s);
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const fmtNum = n => n==null?'–':n.toLocaleString('de-DE');
+const LS = { get(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } },
+             set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} } };
+const isFile = location.protocol==='file:';
+if(isFile) $('#fileWarn').classList.remove('hidden');
+
+function jsonp(url, cbParam='callback', ms=8000){
+  return new Promise((res,rej)=>{
+    const cb='bmxcb_'+Math.random().toString(36).slice(2);
+    const s=document.createElement('script');
+    const timer=setTimeout(()=>{done();rej('timeout');},ms);
+    function done(){ clearTimeout(timer); try{delete window[cb];}catch(e){window[cb]=undefined;} s.remove(); }
+    window[cb]=d=>{done();res(d);};
+    s.onerror=()=>{done();rej('net');};
+    s.src=url+(url.includes('?')?'&':'?')+cbParam+'='+cb;
+    document.head.appendChild(s);
+  });
+}
+async function fetchJSON(url, ms=8000){
+  const ctl=new AbortController(); const t=setTimeout(()=>ctl.abort(),ms);
+  try{ const r=await fetch(url,{signal:ctl.signal}); if(!r.ok) throw r.status; return await r.json(); }
+  finally{ clearTimeout(t); }
+}
+// Invidious: offene YouTube-Frontends mit API (inoffiziell, Instanzen wechseln)
+const INVIDIOUS=['https://inv.nadeko.net','https://yewtu.be','https://invidious.nerdvpn.de','https://invidious.privacyredirect.com'];
+async function inv(path){
+  for(const b of INVIDIOUS){ try{ return await fetchJSON(b+path,9000); }catch(e){} }
+  throw 'kein Invidious-Server erreichbar';
+}
+
+/* ===================== Deck & Aufrufe ===================== */
+const custom = () => LS.get('bmxHitsterCustom_v2',[]);
+// Nachträgliche Änderungen pro Karte (Video-Link, Startzeit) – im Browser gespeichert
+const cardKey = c => [c.artist,c.song,c.video].map(x=>String(x).toLowerCase().replace(/[^a-z0-9]/g,'')).join('|');
+let OVR = LS.get('bmxHitsterOverrides',{});
+function applyOvr(c){
+  const o=OVR[cardKey(c)]; if(!o) return c;
+  const r={...c,ovr:true};
+  if(o.video==='none'){ delete r.yt; delete r.vimeo; }
+  else if(o.video&&o.video.yt){ r.yt=o.video.yt; delete r.vimeo; }
+  else if(o.video&&o.video.vimeo){ r.vimeo=o.video.vimeo; delete r.yt; }
+  if(o.start!=null) r.start=o.start;
+  return r;
+}
+const allCards = () => DEFAULT_DECK.concat(custom().map(c=>({...c,custom:true}))).map(applyOvr);
+const parseTime = s => { s=String(s||'').trim(); if(!s) return null; const m=s.match(/^(\d+):(\d{1,2})$/); return m?(+m[1])*60+(+m[2]):(isNaN(+s)?null:+s); };
+const vKey = c => c.yt?'yt:'+c.yt : c.vimeo?'vm:'+c.vimeo : null;
+let VIEWS = LS.get('bmxHitsterViews',{});   // key -> {v:Zahl|null, t:Zeit}
+const viewsOf = c => { if(c.views!=null) return c.views; const k=vKey(c); return k&&VIEWS[k]?VIEWS[k].v:null; };
+
+async function ytViews(id){
+  try{ const d=await fetchJSON('https://returnyoutubedislikeapi.com/votes?videoId='+id,8000); if(typeof d.viewCount==='number') return d.viewCount; }catch(e){}
+  try{ const d=await inv('/api/v1/videos/'+id+'?fields=viewCount'); if(typeof d.viewCount==='number') return d.viewCount; }catch(e){}
+  return null;
+}
+async function vimeoInfo(id){
+  const d=await jsonp('https://vimeo.com/api/v2/video/'+id+'.json');
+  return Array.isArray(d)?d[0]:null;
+}
+async function vimeoViews(id){
+  try{ const v=await vimeoInfo(id); const n=v&&v.stats_number_of_plays; return typeof n==='number'?n:(n!=null&&!isNaN(+n)?+n:null); }catch(e){ return null; }
+}
+async function checkViews(force=false){
+  const todo=allCards().filter(c=>c.fmt==='Web'&&vKey(c)&&c.views==null)
+    .filter(c=>force||!VIEWS[vKey(c)]||Date.now()-VIEWS[vKey(c)].t>7*864e5);
+  const uniq=[...new Map(todo.map(c=>[vKey(c),c])).values()];
+  if(!uniq.length){ updateDeckInfo(); return; }
+  let done=0; $('#viewStatus').textContent=`Prüfe Aufrufe … 0/${uniq.length}`;
+  const worker=async()=>{ while(uniq.length){ const c=uniq.shift(); const k=vKey(c);
+      const v=c.yt?await ytViews(c.yt):await vimeoViews(c.vimeo);
+      VIEWS[k]={v,t:Date.now()}; done++; $('#viewStatus').textContent=`Prüfe Aufrufe … ${done}`; } };
+  await Promise.all([worker(),worker(),worker(),worker()]);
+  LS.set('bmxHitsterViews',VIEWS); updateDeckInfo(); renderCardList();
+}
+function opts(){ return { yearFrom:+$('#yearFrom').value||0, fmt:$('#fmt').value, min20k:$('#min20k').checked, strict:$('#strict').checked, bonus:$('#bonus').checked }; }
+function eligible(c,o=opts()){
+  if(c.year<o.yearFrom) return false;
+  if(o.fmt==='dvd'&&c.fmt!=='DVD') return false;
+  if(o.fmt==='web'&&c.fmt!=='Web') return false;
+  if(c.bonus&&!o.bonus) return false;
+  if(noSound(c)) return false;
+  if(c.fmt==='Web'&&o.min20k&&!c.bonus){
+    const v=viewsOf(c);
+    if(v!=null&&v<20000) return false;
+    if(v==null&&o.strict) return false;
+  }
+  return true;
+}
+// Karte hat sicher keinen Ton: kein spielbares Video und die Song-Vorschau wurde nicht gefunden
+function noSound(c){
+  const s=scOf(c);
+  const vid=(c.yt&&!isFile&&!(s&&s.ok===false))||(c.vimeo&&!(s&&s.ok===false));
+  if(vid) return false;
+  const p=PV[songKey(c)];
+  return !!(p&&p.ok===false);
+}
+function viewPill(c){
+  if(c.fmt!=='Web') return '<span class="pill p-na">DVD</span>';
+  const v=viewsOf(c);
+  if(v==null) return '<span class="pill p-na">nicht prüfbar</span>';
+  return `<span class="pill ${v>=20000?'p-ok':'p-low'}">${fmtNum(v)}</span>`;
+}
+
+/* ===================== SETUP ===================== */
+const TEAM_COLORS=['var(--t1)','var(--t2)','var(--t3)'];
+const DEFAULT_NAMES=['Team Pegs','Team Freecoaster','Team Gyro'];
+function renderSetup(){
+  const n=+$('#teamCount').value, box=$('#teamNames'), old=[...box.querySelectorAll('input')].map(i=>i.value);
+  box.innerHTML='';
+  for(let i=0;i<n;i++) box.insertAdjacentHTML('beforeend',`<div><label style="color:${TEAM_COLORS[i]}">Team ${i+1}</label><input value="${esc(old[i]||DEFAULT_NAMES[i])}" maxlength="24"></div>`);
+  const years=[...new Set(allCards().map(c=>c.year))].sort(), yf=$('#yearFrom'), cur=yf.value||String(years[0]);
+  yf.innerHTML=years.map(y=>`<option ${String(y)===cur?'selected':''}>${y}</option>`).join('');
+  updateDeckInfo();
+}
+function updateDeckInfo(){
+  const all=allCards(), d=all.filter(c=>eligible(c));
+  const web=all.filter(c=>c.fmt==='Web'&&!c.bonus);
+  const ok=web.filter(c=>viewsOf(c)>=20000).length, low=web.filter(c=>viewsOf(c)!=null&&viewsOf(c)<20000).length, na=web.length-ok-low;
+  $('#deckInfo').textContent=`${d.length} Karten aus ${new Set(d.map(c=>c.video+c.company)).size} Videos im Stapel · ${d.filter(c=>c.yt||c.vimeo).length} davon mit Originalton aus dem Video.`;
+  $('#viewStatus').innerHTML=`Webvideos: <b>${ok}</b> mit ≥ 20.000 Aufrufen bestätigt · <b>${low}</b> darunter (aussortiert) · <b>${na}</b> nicht prüfbar`+
+    (na&&!$('#strict').checked?' (bleiben im Spiel – Haken oben setzen, um sie rauszuwerfen).':'.');
+}
+let LIST=[], EDIT=null;
+function soundPill(c){
+  const pv=PV[songKey(c)], pvTxt=pv?(pv.ok?'Vorschau ✓':'keine Vorschau'):'Vorschau ?';
+  if(!c.yt&&!c.vimeo) return `<span class="pill ${pv?(pv.ok?'p-ok':'p-low'):'p-na'}">${pvTxt}</span>`;
+  const s=scOf(c), src=c.yt?'YouTube':'Vimeo';
+  if(!s||s.ok===null) return `<span class="pill p-na">${src} ?</span>`;
+  return s.ok?`<span class="pill p-ok">${src} ✓</span>`:`<span class="pill p-low" title="${esc(s.code||'')}">${src} ✗</span>`;
+}
+function renderCardList(){
+  if($('#cardList').classList.contains('hidden')) return;
+  LIST=allCards().slice().sort((a,b)=>a.year-b.year||a.video.localeCompare(b.video));
+  const rows=LIST.map((c,i)=>{
+    let r=`<tr style="${eligible(c)?'':'opacity:.4'}">
+      <td>${c.year}</td><td>${esc(c.video)}<br><span class="hint">${esc(c.company||'')}</span></td><td>${esc(c.riders.join(', '))}</td>
+      <td>${esc(c.song)} – ${esc(c.artist)}</td><td>${viewPill(c)}</td><td>${soundPill(c)}${c.start?`<br><span class="hint">ab ${fmtTime(c.start)}</span>`:''}${c.ovr?'<br><span class="hint">geändert</span>':''}</td>
+      <td><button class="sec mini" data-edit="${i}" title="Video-Link / Startzeit nachtragen">✎</button></td></tr>`;
+    if(EDIT===i){
+      const link=c.yt?`https://www.youtube.com/watch?v=${c.yt}`:c.vimeo?`https://vimeo.com/${c.vimeo}`:'';
+      r+=`<tr class="edit"><td colspan="7">
+        <div class="row"><input id="eLink" style="flex:1;min-width:240px" placeholder="YouTube- oder Vimeo-Link des Parts (leer = ohne Video)" value="${esc(link)}">
+        <input id="eStart" style="width:110px" placeholder="Start m:ss" value="${c.start?fmtTime(c.start):''}">
+        <button class="mini" id="eSave">Speichern</button><button class="sec mini" id="eReset">Original</button><button class="sec mini" id="eClose">✕</button></div>
+        <div class="hint" style="margin-top:4px">Tipp: Bei einem kompletten DVD-Upload die Startzeit des Parts eintragen (z. B. 12:40).</div>
+        <div class="hint" id="eMsg"></div></td></tr>`;
+    }
+    return r;
+  }).join('');
+  $('#cardTable').innerHTML=`<table><tr><th>Jahr</th><th>Video</th><th>Fahrer</th><th>Song</th><th>Aufrufe</th><th>Ton</th><th></th></tr>${rows}</table>`;
+  document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{ EDIT=EDIT===+b.dataset.edit?null:+b.dataset.edit; renderCardList(); });
+  if(EDIT!=null&&$('#eSave')){
+    const c=LIST[EDIT], k=cardKey(c);
+    $('#eClose').onclick=()=>{EDIT=null;renderCardList();};
+    $('#eReset').onclick=()=>{ delete OVR[k]; LS.set('bmxHitsterOverrides',OVR); EDIT=null; afterEdit(); };
+    $('#eSave').onclick=()=>{
+      const l=$('#eLink').value.trim(), st=parseTime($('#eStart').value);
+      const o={...(OVR[k]||{})};
+      if(!l) o.video='none'; else { const p=parseVideoUrl(l); if(!p){ $('#eMsg').textContent='Das ist kein YouTube- oder Vimeo-Link.'; return; } o.video=p; }
+      if(st!=null) o.start=st; else delete o.start;
+      OVR[k]=o; LS.set('bmxHitsterOverrides',OVR); EDIT=null; afterEdit();
+    };
+  }
+}
+function afterEdit(){ renderSetup(); renderCardList(); checkViews(false); if(!isFile) runSoundCheck(false); }
+['#teamCount'].forEach(s=>$(s).onchange=renderSetup);
+['#yearFrom','#fmt','#min20k','#strict','#bonus'].forEach(s=>$(s).onchange=()=>{updateDeckInfo();renderCardList();});
+$('#btnCheck').onclick=()=>checkViews(true);
+$('#btnList').onclick=()=>{ $('#cardList').classList.toggle('hidden'); renderCardList(); };
+$('#btnRestart').onclick=()=>{ stopAll(); G=null; show('setup'); };
+function show(id){ ['setup','game','winner'].forEach(s=>$('#'+s).classList.toggle('hidden',s!==id)); }
+
+/* ===================== SONG-DETEKTIV ===================== */
+function parseVideoUrl(u){
+  let m=String(u).match(/(?:youtu\.be\/|[?&]v=|shorts\/|embed\/)([\w-]{11})/); if(m) return {yt:m[1]};
+  m=String(u).match(/vimeo\.com\/(?:video\/|.*\/)?(\d{5,})/); if(m) return {vimeo:m[1]};
+  return null;
+}
+const SONG_RX=/(music|musik|song|track|soundtrack|audio|tune|lied)\b/i;
+let DET={};
+$('#btnDet').onclick=async()=>{
+  const p=parseVideoUrl($('#detUrl').value.trim()); DET=p||{};
+  const st=$('#detStatus'), hb=$('#detHints'); hb.innerHTML='';
+  if(!p){ st.textContent='Das ist kein YouTube- oder Vimeo-Link.'; return; }
+  st.textContent='Hole Daten …';
+  let desc='', comments=[], title='', year='', author='', views=null;
+  try{
+    if(p.yt){
+      const d=await inv('/api/v1/videos/'+p.yt+'?fields=title,author,published,viewCount,description');
+      title=d.title; author=d.author; views=d.viewCount; desc=d.description||''; if(d.published) year=new Date(d.published*1000).getFullYear();
+      try{ const c=await inv('/api/v1/comments/'+p.yt+'?sort_by=top'); comments=(c.comments||[]).map(x=>({text:x.content,likes:x.likeCount||0})); }catch(e){}
+      if(views==null) views=await ytViews(p.yt);
+    }else{
+      const v=await vimeoInfo(p.vimeo);
+      title=v.title; author=v.user_name; desc=(v.description||'').replace(/<br\s*\/?>/gi,'\n').replace(/<[^>]+>/g,'');
+      views=v.stats_number_of_plays??null; year=(v.upload_date||'').slice(0,4);
+    }
+    $('#fVideo').value=title||''; $('#fCompany').value=author||''; $('#fYear').value=year||'';
+    DET.views=views;
+    const dl=desc.split(/\n+/).map(s=>s.trim()).filter(s=>s&&SONG_RX.test(s));
+    const cl=comments.filter(c=>SONG_RX.test(c.text)||/ [-–] /.test(c.text)&&c.text.length<90).sort((a,b)=>b.likes-a.likes).slice(0,12);
+    st.innerHTML=`<b>${esc(title)}</b> · ${esc(author)} · ${esc(year)} · Aufrufe: <b>${fmtNum(views)}</b>${views!=null&&views<20000?' <span class="pill p-low">unter 20.000</span>':''}`;
+    let h='';
+    if(dl.length) h+=`<h3 style="font-size:18px;margin-top:10px">Aus der Beschreibung</h3><ul class="hints">${dl.map(s=>`<li data-h="${esc(s)}">${esc(s)}</li>`).join('')}</ul>`;
+    if(cl.length) h+=`<h3 style="font-size:18px;margin-top:10px">Aus den Kommentaren</h3><ul class="hints">${cl.map(c=>`<li data-h="${esc(c.text)}">${esc(c.text)} <span class="hint">(${c.likes} Likes)</span></li>`).join('')}</ul>`;
+    if(!h) h='<p class="hint">Kein Song-Hinweis in Beschreibung oder Kommentaren gefunden. Tipp: Shazam/SoundHound beim Abspielen.</p>';
+    hb.innerHTML=h;
+    hb.querySelectorAll('[data-h]').forEach(li=>li.onclick=()=>fillSong(li.dataset.h));
+  }catch(e){
+    st.textContent='Konnte keine Daten laden ('+e+'). Bitte von Hand ausfüllen – die Video-ID wird trotzdem gespeichert.';
+  }
+};
+function fillSong(t){
+  t=t.replace(/^.*?(music|musik|song|track|soundtrack|audio)\s*(credits?|by)?\s*[:\-–]\s*/i,'').replace(/[“”"]/g,'').trim();
+  let m=t.match(/^(.+?)\s+by\s+(.+)$/i);
+  if(m){ $('#fSong').value=m[1].trim(); $('#fArtist').value=m[2].trim(); return; }
+  m=t.match(/^(.+?)\s+[-–]\s+(.+)$/);
+  if(m){ $('#fArtist').value=m[1].trim(); $('#fSong').value=m[2].trim(); return; }
+  $('#fSong').value=t;
+}
+$('#btnAdd').onclick=()=>{
+  const c={song:$('#fSong').value.trim(),artist:$('#fArtist').value.trim(),riders:$('#fRiders').value.split(',').map(s=>s.trim()).filter(Boolean),
+    video:$('#fVideo').value.trim(),year:+$('#fYear').value,company:$('#fCompany').value.trim(),fmt:$('#fFmt').value,start:+$('#fStart').value||0,src:$('#detUrl').value.trim()};
+  if(DET.yt) c.yt=DET.yt; if(DET.vimeo) c.vimeo=DET.vimeo; if(DET.views!=null) c.views=DET.views;
+  if(!c.song||!c.artist||!c.riders.length||!c.video||!c.year){ $('#addMsg').textContent='Bitte Song, Künstler, Fahrer, Video und Jahr ausfüllen.'; return; }
+  const list=custom(); list.push(c); LS.set('bmxHitsterCustom_v2',list);
+  $('#addMsg').textContent=`✓ Gespeichert (${list.length} eigene Karten).`; $('#customText').value=JSON.stringify(list,null,1);
+  ['#fSong','#fArtist','#fRiders'].forEach(s=>$(s).value=''); renderSetup(); renderCardList();
+};
+$('#customText').value=JSON.stringify(custom(),null,1);
+$('#btnCustomSave').onclick=()=>{
+  try{ const d=JSON.parse($('#customText').value||'[]'); if(!Array.isArray(d)) throw 'kein Array';
+    d.forEach((c,i)=>{ if(!c.song||!c.artist||!c.video||!c.year||!Array.isArray(c.riders)) throw `Karte ${i+1}: song, artist, video, year, riders[] nötig`; });
+    LS.set('bmxHitsterCustom_v2',d); $('#customMsg').textContent=`✓ ${d.length} eigene Karten`; renderSetup(); renderCardList();
+  }catch(e){ $('#customMsg').textContent='Fehler: '+e; }
+};
+$('#btnCustomCopy').onclick=()=>{ navigator.clipboard.writeText($('#customText').value).then(()=>$('#customMsg').textContent='Kopiert.',()=>$('#customMsg').textContent='Kopieren nicht erlaubt – bitte markieren und kopieren.'); };
+
+/* ===================== SPIEL ===================== */
+let G=null;
+$('#btnStart').onclick=()=>{
+  const all=allCards().filter(c=>eligible(c));
+  const names=[...$('#teamNames').querySelectorAll('input')].map((i,k)=>i.value.trim()||DEFAULT_NAMES[k]);
+  if(all.length<names.length+5){ $('#deckInfo').textContent='Zu wenige Karten für diese Auswahl – Filter lockern.'; return; }
+  SC_ABORT=true;
+  const pool=shuffle(all);
+  G={mode:$('#mode').value,target:+$('#target').value,pool,all,turn:0,
+     teams:names.map((n,i)=>({name:n,color:TEAM_COLORS[i],score:0,timeline:[pool.pop()]}))};
+  show('game'); nextCard();
+};
+function cur(){ return G.teams[G.turn]; }
+function nextCard(){
+  if(!G.pool.length) G.pool=shuffle(G.all.filter(c=>!G.teams.some(t=>t.timeline.includes(c))));
+  if(!G.pool.length) return endGame();
+  G.card=G.pool.pop();
+  G.r={phase:'guess',slot:null,rider:null,video:null,riderOk:false,videoOk:false,yearOk:false,steals:{}};
+  G.r.riderOpts=buildOptions('rider'); G.r.videoOpts=buildOptions('video');
+  renderTeams(); renderScreen(); renderGuess(); prepareSource(G.card);
+}
+function buildOptions(kind){
+  const c=G.card;
+  if(kind==='video'){
+    const lbl=x=>x.video+(x.company?` (${x.company})`:'');
+    const others=shuffle([...new Set(G.all.map(lbl))].filter(v=>v!==lbl(c))).slice(0,3);
+    return shuffle([lbl(c),...others]);
+  }
+  const others=shuffle([...new Set(G.all.flatMap(x=>x.riders))].filter(r=>!c.riders.includes(r))).slice(0,3);
+  return shuffle([c.riders[0],...others]);
+}
+const videoLabel=c=>c.video+(c.company?` (${c.company})`:'');
+
+function renderTeams(){
+  $('#teams').innerHTML=G.teams.map((t,i)=>{
+    const tl=t.timeline.slice().sort((a,b)=>a.year-b.year), active=i===G.turn, guessing=active&&G.r.phase==='guess';
+    let h='';
+    tl.forEach((c,k)=>{ if(guessing) h+=`<button class="slot ${G.r.slot===k?'pick':''}" data-slot="${k}">${G.r.slot===k?'▼':'+'}</button>`;
+      h+=`<span class="yr" title="${esc(c.video)}">${c.year}</span>`; });
+    if(guessing) h+=`<button class="slot ${G.r.slot===tl.length?'pick':''}" data-slot="${tl.length}">${G.r.slot===tl.length?'▼':'+'}</button>`;
+    return `<div class="team ${active?'active':''}">
+      <div class="row" style="justify-content:space-between"><h3 style="color:${t.color}">${esc(t.name)}</h3><div class="score">${t.score}</div></div>
+      <div class="bar" style="background:linear-gradient(90deg,${t.color} ${Math.min(100,t.score/G.target*100)}%,#333 0)"></div>
+      <div class="timeline">${h}</div>${active?'<div class="hint" style="margin-top:6px">ist dran</div>':''}</div>`;
+  }).join('');
+  document.querySelectorAll('[data-slot]').forEach(b=>b.onclick=()=>{G.r.slot=+b.dataset.slot;renderTeams();renderGuess();});
+}
+function renderScreen(){
+  const c=G.card, reveal=G.r.phase==='reveal', visual=SRC&&['yt','vimeo','ytsong'].includes(SRC.kind);
+  $('#cover').classList.toggle('hidden', !!(reveal&&visual&&G.showVideo));
+  $('#screen').classList.toggle('playing', PLAYING);
+  const info=$('#info'); info.classList.toggle('hidden',!reveal);
+  if(!reveal) return;
+  const ext=c.yt?`https://www.youtube.com/watch?v=${c.yt}`:c.vimeo?`https://vimeo.com/${c.vimeo}`:
+    `https://www.youtube.com/results?search_query=${encodeURIComponent(c.riders[0]+' '+c.video+' bmx')}`;
+  info.innerHTML=`<div class="big">${c.year}</div><div class="vid">${esc(c.video)}</div>
+    <div class="meta">${esc(c.company||'')}${c.company?' · ':''}${c.fmt==='DVD'?'DVD-Part':'Webvideo'}${c.fmt==='Web'&&viewsOf(c)!=null?' · '+fmtNum(viewsOf(c))+' Aufrufe':''}</div>
+    <div class="rid">${esc(c.riders.join(', '))}</div>${c.section?`<div class="meta">Abschnitt: ${esc(c.section)}</div>`:''}
+    <div class="song">♪ ${esc(c.song)} – ${esc(c.artist)}${c.song2?`<br>danach: ${esc(c.song2)}`:''}</div>
+    <div class="meta">${c.src?`<a href="${esc(c.src)}" target="_blank" rel="noopener">Quelle</a> · `:''}<a href="${ext}" target="_blank" rel="noopener">${c.yt||c.vimeo?'Video öffnen':'Part auf YouTube suchen'}</a>${c.bonus?' · Heimspiel-Bonus':''}</div>
+    ${visual?`<div style="margin-top:10px"><button class="sec small" id="btnShowVid">${G.showVideo?'🎵 Wieder nur Ton':'🎬 Video zeigen'}</button></div>`:''}`;
+  if($('#btnShowVid')) $('#btnShowVid').onclick=()=>{ G.showVideo=!G.showVideo; renderScreen(); };
+}
+function renderGuess(){
+  const p=$('#guessPanel'), t=cur(), c=G.card, r=G.r;
+  if(r.phase==='guess'){
+    let h=`<h3 style="color:${t.color}">${esc(t.name)} ist dran</h3>`;
+    if(G.mode==='mc'){
+      h+=`<h3>① Wer fährt?</h3><div class="mc">${r.riderOpts.map(o=>`<button data-r="${esc(o)}" class="${r.rider===o?'sel':''}">${esc(o)}</button>`).join('')}</div>
+          <h3>② Welches Video?</h3><div class="mc">${r.videoOpts.map(o=>`<button data-v="${esc(o)}" class="${r.video===o?'sel':''}">${esc(o)}</button>`).join('')}</div>`;
+    } else h+=`<h3>① Fahrer & ② Video</h3><p style="font-size:15px">Laut sagen! Die Spielleitung wertet nach dem Aufdecken.</p>`;
+    h+=`<h3>③ Jahr</h3><p style="font-size:15px">${r.slot==null?'In der eigenen Zeitleiste auf das <b>+</b> klicken, wo der Song hingehört.':'✓ Position gewählt.'}</p>
+        <div class="row" style="margin-top:14px"><button class="red" id="btnReveal" ${r.slot==null?'disabled':''}>Aufdecken</button></div>`;
+    p.innerHTML=h;
+    p.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{r.rider=b.dataset.r;renderGuess();});
+    p.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{r.video=b.dataset.v;renderGuess();});
+    $('#btnReveal').onclick=reveal; return;
+  }
+  let h=`<h3 style="color:${t.color}">Auflösung für ${esc(t.name)}</h3>`;
+  if(G.mode==='mc'){
+    h+=`<h3>① Fahrer</h3><div class="mc">${r.riderOpts.map(o=>`<button disabled class="${c.riders.includes(o)?'ok':(o===r.rider?'bad':'')}">${esc(o)}</button>`).join('')}</div>
+        <h3>② Video</h3><div class="mc">${r.videoOpts.map(o=>`<button disabled class="${o===videoLabel(c)?'ok':(o===r.video?'bad':'')}">${esc(o)}</button>`).join('')}</div>`;
+  } else {
+    h+=`<h3>Spielleitung wertet</h3><div class="judge"><button class="small ${r.riderOk?'on':''}" id="jR">${r.riderOk?'✓':'✗'} Fahrer richtig</button>
+        <button class="small ${r.videoOk?'on':''}" id="jV">${r.videoOk?'✓':'✗'} Video richtig</button></div>
+        <p class="hint">Bei Crew-Videos zählt jeder genannte Fahrer aus dem Abschnitt.</p>`;
+  }
+  h+=`<h3>③ Jahr</h3><p style="margin:0;font-weight:700">${r.yearOk?'✓ Richtig einsortiert – die Karte bleibt liegen.':'✗ Falsch einsortiert – die Karte fliegt raus.'}</p>`;
+  const missing=[]; if(!r.riderOk) missing.push('rider'); if(!r.videoOk) missing.push('video');
+  const others=G.teams.map((x,i)=>({x,i})).filter(o=>o.i!==G.turn);
+  if(missing.length){
+    h+=`<h3>Klauen!</h3><p class="hint" style="font-size:14px">Welches Team hat zuerst richtig reingerufen?</p>`;
+    missing.forEach(m=>{ h+=`<div class="judge"><span style="min-width:60px;font-weight:700">${m==='rider'?'Fahrer':'Video'}:</span>`+
+      others.map(o=>`<button class="small ${r.steals[m]===o.i?'on':''}" data-steal="${m}" data-team="${o.i}" style="border-color:${o.x.color}">${esc(o.x.name)}</button>`).join('')+`</div>`; });
+  }
+  const pts=(r.riderOk?1:0)+(r.videoOk?1:0)+(r.yearOk?1:0);
+  h+=`<div class="res">${esc(t.name)}: +${pts} Punkt${pts===1?'':'e'}</div><div class="row" style="margin-top:14px"><button id="btnNext">Nächste Karte →</button></div>`;
+  p.innerHTML=h;
+  if($('#jR')){ $('#jR').onclick=()=>{r.riderOk=!r.riderOk;renderGuess();}; $('#jV').onclick=()=>{r.videoOk=!r.videoOk;renderGuess();}; }
+  p.querySelectorAll('[data-steal]').forEach(b=>b.onclick=()=>{const m=b.dataset.steal,ti=+b.dataset.team; r.steals[m]=r.steals[m]===ti?undefined:ti; renderGuess();});
+  $('#btnNext').onclick=commitRound;
+}
+function reveal(){
+  const r=G.r,c=G.card,t=cur(), tl=t.timeline.slice().sort((a,b)=>a.year-b.year);
+  const before=tl[r.slot-1], after=tl[r.slot];
+  r.yearOk=(!before||before.year<=c.year)&&(!after||c.year<=after.year);
+  if(G.mode==='mc'){ r.riderOk=c.riders.includes(r.rider); r.videoOk=r.video===videoLabel(c); }
+  r.phase='reveal'; renderTeams(); renderScreen(); renderGuess();
+}
+function commitRound(){
+  const r=G.r,t=cur();
+  t.score+=(r.riderOk?1:0)+(r.videoOk?1:0)+(r.yearOk?1:0);
+  if(r.yearOk) t.timeline.push(G.card);
+  Object.values(r.steals).forEach(i=>{ if(i!=null) G.teams[i].score++; });
+  stopAll();
+  if(G.teams.some(x=>x.score>=G.target)) return endGame();
+  G.turn=(G.turn+1)%G.teams.length; nextCard();
+}
+function endGame(){
+  stopAll();
+  const rk=G.teams.slice().sort((a,b)=>b.score-a.score);
+  $('#winner').innerHTML=`<h2>${esc(rk[0].name)}</h2><p class="disp" style="font-size:26px">gewinnt mit ${rk[0].score} Punkten!</p>
+    <p>${rk.slice(1).map(t=>`${esc(t.name)}: ${t.score}`).join(' · ')}</p><button id="btnAgain">Nochmal</button>`;
+  show('winner'); $('#btnAgain').onclick=()=>show('setup');
+}
+
+/* =====================================================================
+   TON – Reihenfolge pro Karte:
+   1. Originalvideo (YouTube/Vimeo) verdeckt abspielen = nur Audio
+   2. Audio-Umweg: Tonspur des YouTube-Videos über Invidious (<audio>)
+   3. 30-s-Vorschau des Songs (iTunes, Deezer)
+   4. Song per YouTube-Suche
+   Der Ton-Check merkt sich vorab, welche Originalvideos im Browser laufen.
+   ===================================================================== */
+const audio=$('#audio');
+let SRC=null, PLAYING=false, ytPlayer=null, ytReadyP=null, vmPlayer=null, vmLibP=null, ytApiP=null;
+
+const fmtTime=s=>{ s=Math.max(0,Math.round(s||0)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
+const withTimeout=(p,ms)=>Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej('timeout'),ms))]);
+function setStatus(t){ $('#audioStatus').innerHTML=t; }
+function setPlaying(p){ PLAYING=p; $('#screen').classList.toggle('playing',p); }
+function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=()=>rej(src); document.head.appendChild(s); }); }
+
+function loadYTApi(){
+  if(ytApiP) return ytApiP;
+  ytApiP=new Promise((res,rej)=>{
+    if(window.YT&&YT.Player) return res();
+    window.onYouTubeIframeAPIReady=()=>res();
+    loadScript('https://www.youtube.com/iframe_api').catch(rej);
+    setTimeout(()=>rej('YouTube lädt nicht'),12000);
+  });
+  ytApiP.catch(()=>{ytApiP=null;});
+  return ytApiP;
+}
+function getYT(){
+  if(ytReadyP) return ytReadyP;
+  ytReadyP=loadYTApi().then(()=>new Promise(res=>{
+    ytPlayer=new YT.Player('ytHost',{width:'100%',height:'100%',
+      playerVars:{controls:0,disablekb:1,modestbranding:1,rel:0,playsinline:1,iv_load_policy:3,fs:0},
+      events:{onReady:()=>res(ytPlayer),
+              onError:e=>sourceFailed('YouTube-Fehler '+e.data),
+              onStateChange:e=>{ if(e.data===1){ setPlaying(true); $('#fallback').innerHTML=''; } else if(e.data===2||e.data===0) setPlaying(false); }}});
+  }));
+  ytReadyP.catch(()=>{ytReadyP=null;});
+  return ytReadyP;
+}
+function getVimeoLib(){ if(!vmLibP){ vmLibP=window.Vimeo?Promise.resolve():loadScript('https://player.vimeo.com/api/player.js'); vmLibP.catch(()=>{vmLibP=null;}); } return vmLibP; }
+function showHost(kind){ $('#ytWrap').style.display=(kind==='yt'||kind==='ytsong')?'block':'none'; $('#vmHost').style.display=kind==='vimeo'?'block':'none'; }
+
+/* ---------- Audio-Element (Vorschau + Audio-Umweg) ---------- */
+function loadAudio(url,ms=9000){
+  return new Promise(res=>{
+    let done=false;
+    const fin=ok=>{ if(done) return; done=true; clearTimeout(t); audio.oncanplay=null; audio.onerror=audioErr; res(ok); };
+    const t=setTimeout(()=>fin(false),ms);
+    audio.oncanplay=()=>fin(true); audio.onerror=()=>fin(false);
+    audio.src=url; audio.load();
+  });
+}
+function audioErr(){ if(SRC&&(SRC.kind==='preview'||SRC.kind==='ytaudio')) sourceFailed('Audio bricht ab'); }
+audio.onerror=audioErr;
+let INV_DEAD=false;   // wenn kein Server liefert, den Umweg für den Rest der Sitzung überspringen
+async function invAudio(id){
+  if(INV_DEAD) return false;
+  // alle Server gleichzeitig anfragen, der erste mit spielbarer Tonspur gewinnt (max. 7 s)
+  const url=await new Promise(res=>{
+    let left=INVIDIOUS.length, done=false; const probes=[];
+    const finish=u=>{ if(done) return; done=true; clearTimeout(t); probes.forEach(a=>{ a.oncanplay=a.onerror=null; a.removeAttribute('src'); try{a.load();}catch(e){} }); res(u); };
+    const t=setTimeout(()=>finish(null),7000);
+    INVIDIOUS.forEach(b=>{ const u=`${b}/latest_version?id=${id}&itag=140&local=true`; const a=new Audio(); probes.push(a);
+      a.preload='auto'; a.oncanplay=()=>finish(u); a.onerror=()=>{ if(--left===0) finish(null); }; a.src=u; });
+  });
+  if(!url){ INV_DEAD=true; return false; }
+  return await loadAudio(url,8000);
+}
+
+/* ---------- Quellen vorbereiten ---------- */
+async function prepareSource(c){
+  stopAll(); SRC=null; G.showVideo=false; G.wantPlay=false; $('#fallback').innerHTML='';
+  if(vmPlayer){ try{ vmPlayer.destroy(); }catch(e){} vmPlayer=null; } $('#vmHost').innerHTML='';
+  $('#btnPlay').disabled=true; $('#btnMark').classList.add('hidden'); showHost(null); setStatus('Ton wird vorbereitet …');
+  const sc=scOf(c), chain=[];
+  if(c.yt&&!isFile&&!(sc&&sc.ok===false)) chain.push('yt');
+  if(c.yt) chain.push('ytaudio');
+  if(c.vimeo&&!(sc&&sc.ok===false)) chain.push('vimeo');
+  chain.push('preview','ytsong');
+  G.chain=chain; await trySources(c);
+}
+async function trySources(c){
+  while(G&&G.card===c&&G.chain.length){
+    const k=G.chain.shift();
+    try{
+      if(k==='yt'){ const p=await getYT(); if(!G||G.card!==c) return; showHost('yt');
+        p.cueVideoById({videoId:c.yt,startSeconds:c.start||0}); SRC={kind:'yt',start:c.start||0};
+        return ready('Originalton aus dem Video'); }
+      if(k==='ytaudio'){ setStatus('Hole die Tonspur des Videos …'); const ok=await invAudio(c.yt); if(!G||G.card!==c) return; if(!ok) continue;
+        showHost(null); SRC={kind:'ytaudio',start:c.start||0}; return ready('Originalton aus dem Video (nur Tonspur)'); }
+      if(k==='vimeo'){ await withTimeout(getVimeoLib(),10000); if(!G||G.card!==c) return; showHost('vimeo');
+        $('#vmHost').innerHTML=`<iframe src="https://player.vimeo.com/video/${c.vimeo}?controls=0&title=0&byline=0&portrait=0&dnt=1&playsinline=1" allow="autoplay; fullscreen"></iframe>`;
+        vmPlayer=new Vimeo.Player($('#vmHost iframe'));
+        await withTimeout(vmPlayer.ready(),10000);
+        vmPlayer.on('play',()=>{ setPlaying(true); $('#fallback').innerHTML=''; }); vmPlayer.on('pause',()=>setPlaying(false)); vmPlayer.on('ended',()=>setPlaying(false));
+        vmPlayer.on('error',()=>sourceFailed('Vimeo-Fehler'));
+        SRC={kind:'vimeo',start:c.start||0}; return ready('Originalton aus dem Video'); }
+      if(k==='preview'){ const url=await findPreview(c); if(!G||G.card!==c) return; if(!url) continue;
+        if(!await loadAudio(url)) continue; showHost(null); SRC={kind:'preview',start:0}; return ready('30-Sekunden-Vorschau des Songs (nicht aus dem Video)'); }
+      if(k==='ytsong'){ if(isFile) continue; const d=await inv('/api/v1/search?type=video&q='+encodeURIComponent(c.artist+' '+c.song));
+        const v=(d||[]).find(x=>x.videoId); if(!v||!G||G.card!==c) continue; const p=await getYT(); showHost('ytsong');
+        p.cueVideoById({videoId:v.videoId,startSeconds:30}); SRC={kind:'ytsong',start:30};
+        return ready('Song über YouTube-Suche (nicht aus dem BMX-Video)'); }
+    }catch(e){ /* nächste Quelle */ }
+  }
+  if(!G||G.card!==c) return;
+  G.skips=(G.skips||0)+1;
+  if(G.skips>6){
+    setStatus('Gerade liefert keine Tonquelle etwas – bitte Internetverbindung prüfen.');
+    $('#fallback').innerHTML='<button class="small" id="retry">Nochmal versuchen</button>';
+    $('#retry').onclick=()=>{ G.skips=0; INV_DEAD=false; nextCard(); };
+    return;
+  }
+  setStatus('Für diese Karte gibt es gerade keinen Ton – die nächste Karte kommt automatisch …');
+  setTimeout(()=>{ if(G&&G.card===c&&G.r.phase==='guess') nextCard(); },1500);
+}
+function ready(msg){
+  $('#btnPlay').disabled=false; G.skips=0;
+  const isVid=['yt','vimeo','ytaudio'].includes(SRC.kind);
+  $('#btnMark').classList.toggle('hidden',!isVid);
+  setStatus(`Bereit: ${msg}${isVid&&SRC.start?' · ab '+fmtTime(SRC.start):''}.`);
+  renderScreen();
+}
+function sourceFailed(why){
+  if(!G||!G.card||!SRC) return;
+  const k=vKey(G.card);
+  if(k&&(SRC.kind==='yt'||SRC.kind==='vimeo')){ SC[k]={ok:false,code:why,t:Date.now()}; LS.set('bmxHitsterSoundCheck',SC); }
+  const want=G.wantPlay;
+  stopAll(); SRC=null; $('#btnPlay').disabled=true; $('#btnMark').classList.add('hidden');
+  setStatus(`${esc(why)} – nehme Ersatzquelle …`);
+  trySources(G.card).then(()=>{ if(SRC&&want){ G.wantPlay=true; playNow(true); } });
+}
+
+/* ---------- Song-Vorschau (iTunes, Deezer) ---------- */
+const norm=s=>String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/^the /,'').replace(/[^a-z0-9]/g,'');
+function bestMatch(list,c,ga,gt){ const a=norm(c.artist).slice(0,6), t=norm(c.song).slice(0,8);
+  return list.find(x=>norm(ga(x)).includes(a)&&norm(gt(x)).includes(t)) || list.find(x=>norm(ga(x)).includes(a)&&norm(gt(x)).includes(t.slice(0,4))); }
+const songKey=c=>norm(c.artist)+'|'+norm(c.song);
+let PV=LS.get('bmxHitsterPreview',{});      // songKey -> {ok:true|false, t}
+let ITUNES_LAST=0;
+async function searchPreview(c){
+  const q=encodeURIComponent(`${c.artist} ${c.song}`); let err=false;
+  try{ const d=await jsonp(`https://api.deezer.com/search?q=${q}&output=jsonp`);
+       if(d&&d.error) err=true; else { const m=bestMatch(d.data||[],c,x=>x.artist&&x.artist.name,x=>x.title); if(m&&m.preview) return {url:m.preview}; } }catch(e){ err=true; }
+  // iTunes erlaubt nur ca. 20 Anfragen pro Minute → Abstand halten
+  const wait=ITUNES_LAST+3200-Date.now(); if(wait>0) await new Promise(r=>setTimeout(r,wait)); ITUNES_LAST=Date.now();
+  try{ const d=await jsonp(`https://itunes.apple.com/search?term=${q}&entity=song&limit=15`); const m=bestMatch(d.results||[],c,x=>x.artistName,x=>x.trackName); if(m&&m.previewUrl) return {url:m.previewUrl}; }catch(e){ err=true; }
+  return err?{err:true}:{none:true};
+}
+function notePV(c,r){ if(r.url) PV[songKey(c)]={ok:true,t:Date.now()}; else if(r.none) PV[songKey(c)]={ok:false,t:Date.now()}; else return; LS.set('bmxHitsterPreview',PV); }
+async function findPreview(c){ const r=await searchPreview(c); notePV(c,r); return r.url||null; }
+
+/* ---------- Steuerung ---------- */
+function playNow(fromStart=true){
+  if(!SRC) return;
+  G.wantPlay=true;
+  $('#fallback').innerHTML='';
+  if(SRC.kind==='yt'||SRC.kind==='ytsong'){
+    try{ ytPlayer.unMute(); ytPlayer.setVolume(100); }catch(e){}
+    if(fromStart) ytPlayer.seekTo(SRC.start,true);
+    ytPlayer.playVideo();
+    setTimeout(()=>{ if(!PLAYING&&SRC&&(SRC.kind==='yt'||SRC.kind==='ytsong'))
+      $('#fallback').innerHTML='Läuft nichts? <b>Einmal direkt auf die Schallplatte tippen</b> – das startet den Player auch auf dem Handy. Das Bild bleibt verdeckt.'; },2500);
+  } else if(SRC.kind==='vimeo'){
+    vmPlayer.setVolume(1).catch(()=>{});
+    (fromStart?vmPlayer.setCurrentTime(SRC.start):Promise.resolve()).then(()=>vmPlayer.play()).catch(e=>{
+      if(e&&e.name==='NotAllowedError') $('#fallback').innerHTML='Der Browser blockiert den Start – <b>einmal direkt auf die Schallplatte tippen</b>.';
+      else sourceFailed('Vimeo spielt nicht'); });
+  } else {
+    if(fromStart) audio.currentTime=SRC.start||0;
+    audio.play().then(()=>setPlaying(true)).catch(()=>setStatus('Der Browser blockiert den Start – bitte ▶ drücken.'));
+  }
+}
+$('#btnPlay').onclick=()=>playNow(true);
+// Tipp auf die Platte: bei Video-Quellen geht der Tipp durch das Cover direkt an den Player (wichtig fürs Handy);
+// bei reinen Audio-Quellen schaltet er Play/Pause.
+$('#screen').addEventListener('click',()=>{
+  if(!SRC||!['preview','ytaudio'].includes(SRC.kind)) return;
+  if(audio.paused) playNow(audio.currentTime<0.5); else { G.wantPlay=false; stopAll(); }
+});
+$('#btnFwd').onclick=async()=>{
+  if(!SRC) return;
+  if(SRC.kind==='yt'||SRC.kind==='ytsong') ytPlayer.seekTo(ytPlayer.getCurrentTime()+15,true);
+  else if(SRC.kind==='vimeo'){ const t=await vmPlayer.getCurrentTime(); vmPlayer.setCurrentTime(t+15); }
+  else audio.currentTime=Math.min((audio.duration||30)-1,audio.currentTime+15);
+};
+$('#btnStop').onclick=()=>{ if(G) G.wantPlay=false; stopAll(); };
+$('#btnMark').onclick=async()=>{
+  if(!SRC||!G||!G.card) return;
+  let t=SRC.kind==='yt'?ytPlayer.getCurrentTime():SRC.kind==='vimeo'?await vmPlayer.getCurrentTime():audio.currentTime;
+  t=Math.max(0,Math.round(t)); const k=cardKey(G.card);
+  OVR[k]={...(OVR[k]||{}),start:t}; LS.set('bmxHitsterOverrides',OVR);
+  G.card.start=t; SRC.start=t;
+  setStatus(`✓ Startzeit für diese Karte auf <b>${fmtTime(t)}</b> gesetzt – gilt ab jetzt immer.`);
+};
+function stopAll(){
+  try{ audio.pause(); }catch(e){}
+  try{ if(ytPlayer&&ytPlayer.pauseVideo) ytPlayer.pauseVideo(); }catch(e){}
+  try{ if(vmPlayer) vmPlayer.pause().catch(()=>{}); }catch(e){}
+  setPlaying(false);
+}
+audio.onended=()=>setPlaying(false); audio.onpause=()=>setPlaying(false); audio.onplaying=()=>setPlaying(true);
+
+/* =====================================================================
+   TON-CHECK: jedes Originalvideo stumm kurz anspielen
+   ===================================================================== */
+let SC=LS.get('bmxHitsterSoundCheck',{});   // 'yt:ID' / 'vm:ID' -> {ok:true|false|null, code, t}
+const scOf=c=>{ const k=vKey(c); return k&&SC[k]?SC[k]:null; };
+let testYT=null, testYTP=null, testCb=null, SC_RUN=false, SC_ABORT=false;
+function getTestYT(){
+  if(testYTP) return testYTP;
+  testYTP=loadYTApi().then(()=>new Promise(res=>{
+    testYT=new YT.Player('testHost',{width:'100%',height:'100%',playerVars:{controls:0,playsinline:1,mute:1,fs:0},
+      events:{onReady:()=>res(testYT),onStateChange:e=>testCb&&testCb('state',e.data),onError:e=>testCb&&testCb('error',e.data)}});
+  }));
+  testYTP.catch(()=>{testYTP=null;});
+  return testYTP;
+}
+async function testYTVideo(id,start){
+  const p=await withTimeout(getTestYT(),15000);
+  return new Promise(res=>{
+    let done=false;
+    const fin=(ok,code)=>{ if(done) return; done=true; testCb=null; clearTimeout(t); try{ p.stopVideo(); }catch(e){} res({ok,code}); };
+    const t=setTimeout(()=>fin(null,'keine Antwort'),9000);
+    testCb=(type,v)=>{ if(type==='error') fin(false,'YouTube-Fehler '+v); else if(v===1) fin(true); };
+    p.mute(); p.loadVideoById({videoId:id,startSeconds:start||0});
+  });
+}
+async function testVimeo(id){
+  await withTimeout(getVimeoLib(),10000);
+  const host=$('#testVm');
+  host.innerHTML=`<iframe src="https://player.vimeo.com/video/${id}?muted=1&dnt=1&playsinline=1" allow="autoplay"></iframe>`;
+  const pl=new Vimeo.Player(host.querySelector('iframe'));
+  try{ await withTimeout(pl.ready(),9000); await pl.setVolume(0); await withTimeout(pl.play(),9000); try{ await pl.pause(); }catch(e){} return {ok:true}; }
+  catch(e){ const n=(e&&e.name)||String(e); return {ok:(n==='timeout'||n==='NotAllowedError')?null:false, code:n}; }
+  finally{ try{ pl.destroy(); }catch(e){} host.innerHTML=''; }
+}
+function renderSC(){
+  const vids=[...new Map(allCards().filter(c=>vKey(c)).map(c=>[vKey(c),c])).values()];
+  const ok=vids.filter(c=>scOf(c)&&scOf(c).ok===true).length, bad=vids.filter(c=>scOf(c)&&scOf(c).ok===false).length;
+  const open=vids.length-ok-bad;
+  const silent=allCards().filter(noSound).length;
+  if(!SC_RUN) $('#scStatus').innerHTML=`Originalton: <b>${ok}</b> laufen ✓ · <b>${bad}</b> gesperrt ✗ (bekommen Ersatzton) · <b>${open}</b> ungeprüft/unklar`+
+    (silent?` · <b>${silent}</b> Karten ohne jeden Ton werden weggelassen`:'')+
+    (isFile?' – lokal geöffnet kann der Check YouTube nicht testen.':'');
+}
+async function runSoundCheck(force=false){
+  if(SC_RUN) return;
+  const vids=[...new Map(allCards().filter(c=>vKey(c)).map(c=>[vKey(c),c])).values()]
+    .filter(c=>!(isFile&&c.yt))
+    .filter(c=>force||!SC[vKey(c)]||SC[vKey(c)].ok===null||Date.now()-SC[vKey(c)].t>3*864e5);
+  SC_RUN=true; SC_ABORT=false; $('#btnSC').disabled=true;
+  let i=0, ytDead=false, vmDead=false;   // Player-Bibliothek nicht erreichbar → restliche Videos nicht einzeln abwarten
+  for(const c of vids){
+    if(SC_ABORT) break;
+    i++; $('#scStatus').textContent=`Ton-Check läuft … ${i}/${vids.length}`;
+    let r;
+    if(c.yt?ytDead:vmDead) r={ok:null,code:(c.yt?'YouTube':'Vimeo')+' nicht erreichbar'};
+    else try{ r=c.yt?await testYTVideo(c.yt,c.start):await testVimeo(c.vimeo); }
+         catch(e){ r={ok:null,code:String(e)}; if(c.yt) ytDead=true; else vmDead=true; }
+    SC[vKey(c)]={...r,t:Date.now()}; LS.set('bmxHitsterSoundCheck',SC);
+  }
+  try{ if(testYT) testYT.stopVideo(); }catch(e){}
+  // Karten, die auf die Song-Vorschau angewiesen sind: prüfen, ob es eine gibt
+  const need=[...new Map(allCards().filter(c=>{ const s=scOf(c); return !((c.yt&&!isFile&&!(s&&s.ok===false))||(c.vimeo&&!(s&&s.ok===false))); })
+      .map(c=>[songKey(c),c])).values()].filter(c=>force||!PV[songKey(c)]||Date.now()-PV[songKey(c)].t>7*864e5);
+  let j=0;
+  for(const c of need){
+    if(SC_ABORT) break;
+    j++; $('#scStatus').textContent=`Prüfe Song-Vorschauen … ${j}/${need.length}`;
+    notePV(c,await searchPreview(c));
+  }
+  SC_RUN=false; $('#btnSC').disabled=false; renderSC(); renderCardList(); updateDeckInfo();
+}
+$('#btnSC').onclick=()=>runSoundCheck(true);
+
+/* ===================== Start ===================== */
+renderSetup();
+renderSC();
+checkViews(false).then(()=>runSoundCheck(false));
+
+</script>
+</body>
+</html>
