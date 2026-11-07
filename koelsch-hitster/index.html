@@ -142,6 +142,14 @@ td input[type=number]{padding:5px 7px; width:82px; border-width:1.5px}
 .st{font-size:12px; color:var(--muted); max-width:220px}
 .toast{position:fixed; left:50%; bottom:20px; transform:translateX(-50%); background:var(--ink); color:#fff; padding:10px 16px; border-radius:10px; display:none; z-index:40}
 </style>
+/* YouTube-Player liegt unsichtbar unter der Karte */
+#ytHost{position:absolute; left:-9999px; top:0; width:320px; height:320px; z-index:1; border-radius:20px; overflow:hidden; background:#000}
+#ytHost iframe{width:100%; height:100%; border:0; display:block}
+.cardwrap{position:relative; z-index:2}
+.card.tap{pointer-events:none}
+.card .tapnote{position:absolute; left:12px; right:12px; bottom:12px; background:#fff; color:var(--ink); border-radius:12px; padding:8px 10px; font-weight:700; font-size:14px}
+td input.yt{width:150px}
+</style>
 </head>
 <body>
 <header><div class="bar">
@@ -154,6 +162,7 @@ td input[type=number]{padding:5px 7px; width:82px; border-width:1.5px}
 </div></header>
 
 <main id="app"></main>
+<div id="ytHost"><div id="ytFrame"></div></div>
 
 <!-- Songliste -->
 <div class="modal" id="mSongs"><div class="panel">
@@ -162,9 +171,9 @@ td input[type=number]{padding:5px 7px; width:82px; border-width:1.5px}
     <button class="btn sm" data-close>Schließen</button>
   </div>
   <p class="hint">Jahre mit <span class="tag ok">geprüft</span> habe ich mit einer Quelle abgeglichen, bei <span class="tag">bitte prüfen</span> war die Quellenlage unklar oder widersprüchlich. Du kannst alles ändern, Songs ergänzen oder löschen. Änderungen werden in diesem Browser gespeichert.</p>
-  <p class="hint"><b>Audio:</b> Das Spiel sucht zu jedem Song automatisch einen 30-Sekunden-Ausschnitt bei Apple (iTunes), notfalls bei Deezer. „Alle Songs testen“ prüft vorab, ob überall etwas gefunden wird (dauert gut 2 Minuten, weil Apple nur ca. 20 Anfragen pro Minute erlaubt). Mit ▶ hörst du rein, mit ↻ nimmst du den nächsten Treffer.</p>
+  <p class="hint"><b>Musik:</b> Jeder Song läuft über YouTube, ab Sekunde 0, 90 Sekunden lang. Ist ein Video gesperrt, nimmt das Spiel automatisch das nächste; als letzte Notlösung einen 30-Sekunden-Ausschnitt von Apple. „Alle Songs testen“ spielt jedes Video kurz stumm an und merkt sich, welches funktioniert (dauert ca. 2–3 Minuten). Eigene Videos: YouTube-Link in die Spalte „Eigenes Video“ kopieren.</p>
   <div style="overflow:auto;max-height:55vh">
-  <table><thead><tr><th>Interpret</th><th>Titel</th><th>Jahr</th><th></th><th>Audio</th><th></th></tr></thead><tbody id="songRows"></tbody></table>
+  <table><thead><tr><th>Interpret</th><th>Titel</th><th>Jahr</th><th></th><th>Eigenes Video</th><th>Test</th><th></th></tr></thead><tbody id="songRows"></tbody></table>
   </div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
     <button class="btn sm primary" id="testAll">🔊 Alle Songs testen</button>
@@ -184,7 +193,7 @@ td input[type=number]{padding:5px 7px; width:82px; border-width:1.5px}
   <h2>So wird jespillt</h2>
   <ol class="hint" style="color:var(--ink);font-size:15px;line-height:1.6;padding-left:20px">
     <li>Jedes Team startet mit einer aufgedeckten Karte auf seinem Zeitstrahl.</li>
-    <li>Wer dran ist, bekommt eine verdeckte Karte und der Song läuft automatisch an (30 Sekunden). Falls das Handy nicht von selbst startet: einmal auf ▶ tippen. Im <b>Quiz-Modus</b> stehen Interpret und Titel zusätzlich auf der Karte.</li>
+    <li>Wer dran ist, bekommt eine verdeckte Karte, und der Song läuft von Anfang an (90 Sekunden). Falls das Handy nicht von selbst startet: einmal auf die Karte tippen. Im <b>Quiz-Modus</b> stehen Interpret und Titel zusätzlich auf der Karte.</li>
     <li>Das Team tippt auf die Lücke im eigenen Zeitstrahl, wo der Song hingehört. Richtig: Karte bleibt liegen. Falsch: Karte ist weg.</li>
     <li>Im Hör-Modus gibt es eine <b>Kamelle</b> 🍬, wenn Interpret <i>und</i> Titel richtig genannt wurden. 1 Kamelle = Song überspringen, 3 Kamelle = eine Karte geschenkt.</li>
     <li>Wer zuerst die Zielzahl an Karten hat, gewinnt. Gleiche Jahre dürfen nebeneinander liegen.</li>
@@ -196,92 +205,120 @@ td input[type=number]{padding:5px 7px; width:82px; border-width:1.5px}
 
 <script>
 /* ---------- Standard-Songliste ----------
-   c:1 = Jahr mit einer Quelle abgeglichen, c:0 = bitte prüfen */
+   c:1 = Jahr mit einer Quelle abgeglichen, c:0 = bitte prüfen
+   yt  = YouTube-Videos in Wunschreihenfolge (Studioaufnahme zuerst) */
 const DEFAULT_SONGS = [
- {a:"Karl Berbuer", t:"Heidewitzka, Herr Kapitän", y:1936, c:1},
- {a:"Karl Berbuer", t:"Trizonesien-Song", y:1948, c:1},
- {a:"Jupp Schmitz", t:"Wer soll das bezahlen?", y:1949, c:1},
- {a:"Jupp Schmitz", t:"Wir kommen alle in den Himmel", y:1952, c:1},
- {a:"Bläck Fööss", t:"Rievkooche Walzer", y:1970, c:1},
- {a:"Bläck Fööss", t:"Drink doch eine met", y:1971, c:1},
- {a:"Bläck Fööss", t:"Mer losse d'r Dom en Kölle", y:1973, c:1},
- {a:"Bläck Fööss", t:"En unserem Veedel", y:1973, c:1},
- {a:"Höhner", t:"Höhnerhoff-Rock", y:1973, c:1},
- {a:"Höhner", t:"Scheiß ejal, ob do Hohn bes oder Hahn", y:1974, c:1},
- {a:"Bläck Fööss", t:"Leev Linda Lou", y:1974, c:1},
- {a:"BAP", t:"Verdamp lang her", y:1981, c:1},
- {a:"BAP", t:"Do kanns zaubere", y:1981, c:0},
- {a:"BAP", t:"Kristallnaach", y:1982, c:1},
- {a:"Trude Herr, Wolfgang Niedecken & Tommy Engel", t:"Niemals geht man so ganz", y:1987, c:0},
- {a:"Räuber", t:"Köbes", y:1991, c:1},
- {a:"Höhner", t:"Kumm loss mer fiere", y:1991, c:0},
- {a:"Räuber", t:"Ich han mie Hätz verschenk", y:1992, c:1},
- {a:"Räuber", t:"Denn wenn et Trömmelche jeiht", y:1993, c:0},
- {a:"Wicky Junggeburth", t:"Eimol Prinz zo sin", y:1993, c:0},
- {a:"Höhner", t:"Die Karawane zieht weiter", y:1998, c:0},
- {a:"Brings", t:"Superjeilezick", y:2000, c:1},
- {a:"Bläck Fööss", t:"Unsere Stammbaum", y:2000, c:1},
- {a:"Höhner", t:"Dicke Mädchen haben schöne Namen", y:2001, c:1},
- {a:"Höhner", t:"Viva Colonia", y:2003, c:1},
- {a:"Paveier", t:"Schön ist das Leben", y:2007, c:1},
- {a:"Höhner", t:"Schenk mir dein Herz", y:2009, c:1},
- {a:"Brings", t:"Halleluja", y:2010, c:1},
- {a:"Querbeat", t:"Colonia Tropical", y:2010, c:1},
- {a:"Querbeat", t:"Allez Olé Alaaf", y:2011, c:1},
- {a:"Kasalla", t:"Pirate", y:2011, c:0},
- {a:"Querbeat", t:"Stonn op un danz", y:2012, c:1},
- {a:"Brings", t:"Kölsche Jung", y:2013, c:1},
- {a:"Brings feat. Carolin Kebekus", t:"Funkemarieche", y:2013, c:1},
- {a:"Cat Ballou", t:"Et jitt kei Wood", y:2013, c:1},
- {a:"Querbeat", t:"Hück oder nie", y:2013, c:1},
- {a:"Querbeat", t:"Nie mehr Fastelovend", y:2014, c:1},
- {a:"Brings", t:"Polka, Polka, Polka", y:2015, c:1},
- {a:"Querbeat", t:"Tschingderassabum", y:2015, c:1},
- {a:"Kasalla", t:"Alle Jläser huh", y:2015, c:0},
- {a:"Paveier", t:"Leev Marie", y:2015, c:0},
- {a:"Brings", t:"Jeck Yeah!", y:2016, c:1},
- {a:"Querbeat", t:"Guten Morgen Barbarossaplatz", y:2017, c:1},
- {a:"Querbeat", t:"Randale & Hurra", y:2018, c:1}
+ {a:"Karl Berbuer", t:"Heidewitzka, Herr Kapitän", y:1936, c:1, yt:["BRyPDklKRws","Pmdy_AuLiv8","16Q8Sla7Zlw"]},
+ {a:"Jupp Schmitz", t:"Wer soll das bezahlen?", y:1949, c:1, yt:["sMuOkYLfJtc","uQQm7bKJskM","dliBIdAzH44"]},
+ {a:"Bläck Fööss", t:"Drink doch eine met", y:1971, c:1, yt:["hJtO5GqIAFk","CWIvUOkFong","VzkG81kp4MQ"]},
+ {a:"Bläck Fööss", t:"Mer losse d'r Dom en Kölle", y:1973, c:1, yt:["QhDAVUtXXCI","Oup46fDhUvI","m9Ph0AHYgQE"]},
+ {a:"Bläck Fööss", t:"En unserem Veedel", y:1973, c:1, yt:["Ahv_9yWmI60","v8TLcFvhOy4","Pesp51dh-zA"]},
+ {a:"BAP", t:"Verdamp lang her", y:1981, c:1, yt:["JTO77kruFt0","SppzYb6zJkk","80xZVgwbT14"]},
+ {a:"Höhner", t:"Echte Fründe", y:1984, c:1, yt:["pRNoZZKeaT0","dPqG2DkXVB4","h31mmnZCI1s"]},
+ {a:"Trude Herr, Wolfgang Niedecken & Tommy Engel", t:"Niemals geht man so ganz", y:1987, c:0, yt:["mN52BzdLh_M","yOzqsMFKsMo","fg2TBq-KP8M"]},
+ {a:"Höhner", t:"Hey Kölle – du bes e Jeföhl", y:1992, c:1, yt:["Af2kgD0k3Ns","xGDn88PkBGw","3rHzSifhxRQ"]},
+ {a:"Räuber", t:"Denn wenn et Trömmelche jeht", y:1993, c:1, yt:["FFkBpxMf-0w","qo87-72iIGk","cxDJaHypFvI"]},
+ {a:"Wicky Junggeburth", t:"Eimol Prinz zo sin", y:1993, c:0, yt:["E13H8_93NvE","ieu7g5bTyt0","A4bEgsb_06c"]},
+ {a:"Höhner", t:"Die Karawane zieht weiter", y:1997, c:0, yt:["KntwMZ0sBcQ","xM4nWpbhZ_4","ixp3Wtixi_0"]},
+ {a:"Höhner", t:"Jetzt geht's los", y:1998, c:0, yt:["etPy-h3FBsA","PfXq6dmtsok","Ntr0r2tRDgE"]},
+ {a:"Brings", t:"Superjeilezick", y:2000, c:1, yt:["jB8CgXOP0Oo","OP2QTdh0J6s","vDlw_lVe_34"]},
+ {a:"Bläck Fööss", t:"Unsere Stammbaum", y:2000, c:1, yt:["8hVfVNRE62o","nWrqHQbHGrE","GWN2JNCO2Zo"]},
+ {a:"Höhner", t:"Viva Colonia", y:2003, c:1, yt:["DD9oG1kIC2I","IMJ94ybAhxk"]},
+ {a:"Brings", t:"Poppe, Kaate, Danze", y:2003, c:1, yt:["t74MF6M6zZo","bmRZW2YuSjg","gm1rFZttbhY"]},
+ {a:"Brings", t:"Su lang mer noch am Lääve sin", y:2004, c:1, yt:["UodXjyklGoc","bqdEkZe2Eoo","lcheGB_NUck"]},
+ {a:"Höhner", t:"Wenn nicht jetzt, wann dann?", y:2007, c:1, yt:["ndURsyy0cyM","PBKdnWqbNOg","jR3fvpJfzaA"]},
+ {a:"Höhner", t:"Schenk mir dein Herz", y:2009, c:1, yt:["UijSViWIbGw","wwBGZ93weto","zSnxEl3aP-I"]},
+ {a:"Brings", t:"Halleluja", y:2010, c:1, yt:["AN0zb6dUD3o","sD6S_QFhnQM","cVLZmCJ9oyU"]},
+ {a:"Kasalla", t:"Pirate", y:2011, c:1, yt:["wvDH7f7GcuY","kkiUUyIvZOo"]},
+ {a:"Cat Ballou", t:"Et jitt kei Wood", y:2012, c:0, yt:["BlOGqpVzYug","PTA8pXi8tnA"]},
+ {a:"Brings", t:"Kölsche Jung", y:2013, c:1, yt:["GElkOStokMY","JlpOTGQRMT4","DcNPqsWPbD8"]},
+ {a:"Cat Ballou", t:"Hück steiht de Welt still", y:2013, c:1, yt:["D8kikfi46Ro","Qrp3ZvrLGmI"]},
+ {a:"Querbeat", t:"Nie mehr Fastelovend", y:2014, c:1, yt:["lkusVFdx_ng","TNAbHIXziyw"]},
+ {a:"Kasalla", t:"Alle Jläser huh", y:2014, c:0, yt:["njYCoHphRvU","-S2QB1emWZo","Ik5JhoLsjoc"]},
+ {a:"Kasalla", t:"Stadt met K", y:2014, c:0, yt:["ZYKGUUWRmuI","LrudFMBPCIs"]},
+ {a:"Brings", t:"Polka, Polka, Polka", y:2014, c:0, yt:["00W44I0ti-Q","_izPLOURZz4","gxO2mV6UEwc"]},
+ {a:"Paveier", t:"Leev Marie", y:2015, c:1, yt:["RtVZH_kF8yk","vC-R_olORhU"]},
+ {a:"Miljö", t:"Su lang die Leechter noch brenne", y:2015, c:1, yt:["v_ZhOqrPlNg","O3iHqR4n9sU","h31ksztZee4"]},
+ {a:"Querbeat", t:"Tschingderassabum", y:2015, c:1, yt:["kVcIvUU4dZc","5v44Y1wM2R4"]},
+ {a:"Mo-Torres, Cat Ballou & Lukas Podolski", t:"Liebe deine Stadt", y:2016, c:1, yt:["YiWOuw57_dg","x65_s8T1SGQ"]},
+ {a:"Miljö", t:"Wolkeplatz", y:2016, c:1, yt:["aZjuGPMTWWQ","3Dr5eYft8ZA","Mp6wndgWO-g"]},
+ {a:"Querbeat", t:"Guten Morgen Barbarossaplatz", y:2017, c:1, yt:["rX_boXaztmE","yyJUvDs7bY8"]},
+ {a:"Kasalla", t:"Alle su yeah!", y:2018, c:1, yt:["ua644M0k7MQ","K8GNNjpxDrk"]},
+ {a:"Querbeat", t:"Randale & Hurra", y:2018, c:1, yt:["KhVkAx8A9aQ","L5_DoBtzwWo"]},
+ {a:"Kasalla", t:"Pommes un Champagner", y:2019, c:1, yt:["3vkMHhu6U2c","fcEp8U-XqUk"]},
+ {a:"Querbeat", t:"Früher wird alles besser", y:2020, c:1, yt:["4KTvkOnNfLU","T0luP-yNPGY"]},
+ {a:"Miljö", t:"För 1 Naach", y:2022, c:1, yt:["5SrNOOPsoXo","Xl16N0VZEPQ"]},
+ {a:"Höhner", t:"Prinzessin", y:2022, c:1, yt:["gWAZx6dB8xU","4AIFUBytmLo"]},
+ {a:"Räuber", t:"Oben Unten", y:2023, c:1, yt:["oaSLwxo6VhM","M8IDFBW30R4"]},
+ {a:"Höhner", t:"Au revoir", y:2024, c:1, yt:["WXs1Ub2FR7E","5tBI1ru4ZnA"]},
+ {a:"Druckluft", t:"Karnevalsmaus", y:2025, c:1, yt:["2uH0qFZu_JE","6LlXRtfzf-A","KOaDdsqkU84"]},
+ {a:"Kasalla", t:"¡Adios Amigos!", y:2025, c:1, yt:["u3MOd2nS7Ss","-VqGKrnMj3U"]}
 ];
+const PLAY_SECONDS = 90;
 
 /* ---------- Speicher (falls verfügbar) ---------- */
 const store = {
   get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } },
   set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 };
-let songs = store.get("kh_songs") || DEFAULT_SONGS.map(s=>({...s}));
-const saveSongs = ()=> store.set("kh_songs", songs);
-
-/* ---------- Zustand ---------- */
+let songs = store.get("kh_songs_v2") || DEFAULT_SONGS.map(s=>({...s, yt:[...s.yt]}));
+const saveSongs = ()=> store.set("kh_songs_v2", songs);
 let setup = store.get("kh_setup") || { players:["Team Rut","Team Wiess"], mode:"hoer", target:10 };
-let game = null; // {players:[{name,cards,kamelle}], deck, turn, current, phase, lastSlot, lastOk}
+let game = null;
 
 const $ = s => document.querySelector(s);
 const app = $("#app");
-const esc = s => String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const shuffle = a => { for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
 const sortCards = c => c.sort((x,y)=>x.y-y.y);
-function toast(msg){ const t=$("#toast"); t.textContent=msg; t.style.display="block"; clearTimeout(t._h); t._h=setTimeout(()=>t.style.display="none",2200); }
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.style.display="block"; clearTimeout(t._h); t._h=setTimeout(()=>t.style.display="none",2400); }
 const ytLink = s => "https://www.youtube.com/results?search_query=" + encodeURIComponent(s.a + " " + s.t);
+const norm = s => String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+const artistFirst = a => String(a).split(/,|\sfeat\.?\s|\s&\s|\sund\s/i)[0].trim();
+const artistKey = a => norm(artistFirst(a));
+const songKey = s => norm(s.a) + "|" + norm(s.t);
+function parseYt(v){
+  v = String(v||"").trim(); if(!v) return "";
+  const m = v.match(/(?:v=|youtu\.be\/|shorts\/|embed\/|live\/)([\w-]{11})/); if(m) return m[1];
+  return /^[\w-]{11}$/.test(v) ? v : "";
+}
 
 /* =========================================================
-   AUDIO: 30-Sek.-Ausschnitte über iTunes-Suche (JSONP),
-   Ersatz: Deezer. Läuft nur, wenn die Seite normal im Web
-   liegt (z. B. GitHub Pages), nicht in einer Sandbox.
+   YOUTUBE-PLAYER (versteckt unter der Karte)
    ========================================================= */
+const ytHost = $("#ytHost");
+let ytPlayer = null, ytReady = false, ytFailed = false, testHook = null;
+const ytOk = store.get("kh_ytok") || {};      // songKey -> Video-ID, die nachweislich lief
+const ytBad = new Set(store.get("kh_ytbad") || []);
+function saveYt(){ store.set("kh_ytok", ytOk); store.set("kh_ytbad", [...ytBad]); }
+
+(function loadYT(){
+  const s = document.createElement("script");
+  s.src = "https://www.youtube.com/iframe_api";
+  s.onerror = () => { ytFailed = true; if(P.waitingYT){ P.waitingYT=false; P.idx++; tryCand(); } };
+  document.head.appendChild(s);
+  setTimeout(()=>{ if(!ytReady){ ytFailed = true; if(P.waitingYT){ P.waitingYT=false; P.idx++; tryCand(); } } }, 15000);
+})();
+window.onYouTubeIframeAPIReady = function(){
+  ytPlayer = new YT.Player("ytFrame", {
+    width:"100%", height:"100%",
+    playerVars:{ playsinline:1, controls:0, disablekb:1, fs:0, rel:0, iv_load_policy:3, modestbranding:1 },
+    events:{
+      onReady:()=>{ ytReady = true; ytFailed = false; if(P.waitingYT){ P.waitingYT=false; tryCand(); } },
+      onStateChange:e=>{ if(testHook) return testHook.state(e.data); onYTState(e.data); },
+      onError:e=>{ if(testHook) return testHook.error(e.data); onYTError(e.data); }
+    }
+  });
+};
+
+/* Ersatz: 30-Sek.-Ausschnitt über iTunes-Suche */
+const audio = new Audio(); audio.preload = "auto";
 const SILENT = "data:audio/wav;base64,UklGRkQDAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YSADAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==";
-const audio = new Audio();
-audio.preload = "auto";
 let audioUnlocked = false;
 function unlockAudio(){
   if(audioUnlocked) return; audioUnlocked = true;
-  try{
-    audio.src = SILENT;
-    const p = audio.play();
-    if(p) p.then(()=>{ if(audio.src.startsWith("data:")) audio.pause(); }).catch(()=>{});
-  }catch(e){}
+  try{ audio.src = SILENT; const p = audio.play(); if(p) p.then(()=>{ if(audio.src.startsWith("data:")) audio.pause(); }).catch(()=>{}); }catch(e){}
 }
-
 let jsonpN = 0;
 function jsonp(url, timeout=9000){
   return new Promise((res,rej)=>{
@@ -295,128 +332,173 @@ function jsonp(url, timeout=9000){
     document.head.appendChild(s);
   });
 }
-const norm = s => String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
-const artistFirst = a => String(a).split(/,|\sfeat\.?\s|\s&\s|\sund\s/i)[0].trim();
-const artistKey = a => norm(artistFirst(a));
-const songKey = s => norm(s.a) + "|" + norm(s.t);
-
-function score(song, cand){
-  const ak = artistKey(song.a), ca = norm(cand.artist), ct = norm(cand.name);
-  let sc = 0;
-  if(ak && (ca.includes(ak) || ak.includes(ca))) sc += 3;
-  const words = norm(song.t).split(" ").filter(w=>w.length>2);
-  if(words.length){ sc += 3 * words.filter(w=>ct.includes(w)).length / words.length; }
-  const extra = norm(cand.name + " " + (cand.album||""));
-  if(/karaoke|instrumental|cover|tribute/.test(extra)) sc -= 4;
-  if(/\blive\b/.test(extra)) sc -= 1;
-  if(/remix|mix\b|edit\b/.test(extra)) sc -= 0.7;
-  return sc;
+async function itunesPreview(song){
+  if(song._it !== undefined) return song._it;
+  let found = null;
+  try{
+    const d = await jsonp("https://itunes.apple.com/search?entity=song&country=de&limit=15&term=" + encodeURIComponent(artistFirst(song.a)+" "+song.t));
+    const ak = artistKey(song.a), words = norm(song.t).split(" ").filter(w=>w.length>2);
+    const c = (d.results||[]).filter(r=>r.previewUrl).map(r=>{
+      let sc = 0; const ca = norm(r.artistName), ct = norm(r.trackName);
+      if(ak && (ca.includes(ak)||ak.includes(ca))) sc += 3;
+      if(words.length) sc += 3*words.filter(w=>ct.includes(w)).length/words.length;
+      if(/karaoke|instrumental|cover/.test(norm(r.trackName+" "+r.collectionName))) sc -= 4;
+      return {r, sc};
+    }).filter(x=>x.sc>=2.5).sort((a,b)=>b.sc-a.sc)[0];
+    if(c) found = {url:c.r.previewUrl, title:c.r.artistName+" – "+c.r.trackName, link:c.r.trackViewUrl};
+  }catch(e){}
+  song._it = found; return found;
 }
 
-async function searchItunes(term){
-  const d = await jsonp("https://itunes.apple.com/search?entity=song&country=de&limit=15&term=" + encodeURIComponent(term));
-  return (d.results||[]).filter(r=>r.previewUrl).map(r=>({url:r.previewUrl, name:r.trackName, artist:r.artistName, album:r.collectionName, link:r.trackViewUrl, src:"Apple Music"}));
+/* ---------- Abspiel-Steuerung ---------- */
+const P = { song:null, cands:[], idx:0, mode:null, state:"idle", autoplay:true, title:"", link:"", tapTimer:null, watch:null, waitingYT:false };
+function candidatesFor(song){
+  const list = [];
+  if(song.u) list.push(song.u);
+  const ok = ytOk[songKey(song)]; if(ok) list.push(ok);
+  (song.yt||[]).forEach(id=>list.push(id));
+  const ids = [...new Set(list)].filter(id=>!ytBad.has(id) || id===song.u || id===ok);
+  return ids.map(id=>({type:"yt", id})).concat([{type:"itunes"}]);
 }
-async function searchDeezer(term){
-  const d = await jsonp("https://api.deezer.com/search?output=jsonp&limit=15&q=" + encodeURIComponent(term));
-  return (d.data||[]).filter(r=>r.preview).map(r=>({url:r.preview, name:r.title, artist:r.artist&&r.artist.name, album:r.album&&r.album.title, link:r.link, src:"Deezer"}));
+function setState(st){ P.state = st; updatePlayerUI(); }
+function stopAll(){
+  clearTimeout(P.tapTimer); clearInterval(P.watch);
+  try{ if(ytPlayer && ytReady) ytPlayer.stopVideo(); }catch(e){}
+  try{ audio.pause(); }catch(e){}
 }
-
-const audioCache = store.get("kh_audio") || {};     // dauerhafte Wahl pro Song (nur iTunes-URLs)
-const pending = new Map();                          // laufende/fertige Suchen in dieser Sitzung
-function rank(song, list){ return list.map(c=>({...c, sc:score(song,c)})).filter(c=>c.sc>=2.5).sort((a,b)=>b.sc-a.sc); }
-
-function resolvePreview(song){
-  const key = songKey(song);
-  if(pending.has(key)) return pending.get(key);
-  const p = (async ()=>{
-    let cands = [];
-    const first = artistFirst(song.a) + " " + song.t;
-    try{ cands = rank(song, await searchItunes(first)); }catch(e){}
-    if(!cands.length){ try{ cands = rank(song, await searchItunes(song.t)); }catch(e){} }
-    if(!cands.length){ try{ cands = rank(song, await searchDeezer(first)); }catch(e){} }
-    let idx = 0;
-    const saved = audioCache[key];
-    if(saved){ const j = cands.findIndex(c=>c.url===saved.url); if(j>=0) idx=j; else if(saved.src==="Apple Music") { cands.unshift(saved); } }
-    return { cands, idx };
-  })();
-  pending.set(key, p);
-  p.catch(()=>pending.delete(key));
-  return p;
+function startSong(song, autoplay){
+  stopAll();
+  P.song = song; P.cands = candidatesFor(song); P.idx = 0; P.autoplay = autoplay; P.title = ""; P.link = "";
+  tryCand();
 }
-function currentCand(r){ return r && r.cands.length ? r.cands[r.idx % r.cands.length] : null; }
-function rememberChoice(song, r){
-  const c = currentCand(r); if(!c) return;
-  if(c.src==="Apple Music"){ audioCache[songKey(song)] = {url:c.url,name:c.name,artist:c.artist,album:c.album,link:c.link,src:c.src}; store.set("kh_audio", audioCache); }
+function tryCand(){
+  const c = P.cands[P.idx];
+  clearTimeout(P.tapTimer); clearInterval(P.watch);
+  P.title = ""; P.link = "";
+  if(!c){ P.mode = null; setState("none"); return; }
+  if(c.type === "yt"){
+    if(!ytReady){
+      if(ytFailed){ P.idx++; return tryCand(); }
+      P.waitingYT = true; P.mode = "yt"; setState("loading"); return;
+    }
+    P.mode = "yt"; P.title = ""; P.link = "https://www.youtube.com/watch?v=" + c.id;
+    setState("loading");
+    try{ ytPlayer.unMute(); ytPlayer.setVolume(100); }catch(e){}
+    const opts = { videoId:c.id, startSeconds:0, endSeconds:PLAY_SECONDS };
+    if(P.autoplay) ytPlayer.loadVideoById(opts); else ytPlayer.cueVideoById(opts);
+    armTapTimer(3000);
+  } else {
+    P.mode = "audio"; setState("loading");
+    const song = P.song;
+    itunesPreview(song).then(f=>{
+      if(P.song !== song || P.mode !== "audio") return;
+      if(!f){ P.idx++; return tryCand(); }
+      P.title = f.title + " (30-Sek.-Ausschnitt)"; P.link = f.link;
+      if(P.autoplay) playAudio(f.url); else { audio.src = f.url; setState("paused"); }
+    });
+  }
 }
-
-/* Player-Zustand fürs aktuelle Spiel */
-const player = { song:null, res:null, state:"idle" }; // idle | loading | playing | paused | none | blocked
-function setPlayerState(st){ player.state = st; updatePlayerUI(); }
-function stopAudio(){ try{ audio.pause(); }catch(e){} }
-
-function playUrl(url){
+function armTapTimer(ms){
+  clearTimeout(P.tapTimer);
+  P.tapTimer = setTimeout(()=>{ if(P.mode==="yt" && P.state==="loading") setState("blocked"); }, ms);
+}
+function onYTState(s){
+  if(P.mode !== "yt") return;
+  if(s === 1){ // läuft
+    clearTimeout(P.tapTimer);
+    try{ const d = ytPlayer.getVideoData(); if(d && d.title) P.title = d.title; }catch(e){}
+    const c = P.cands[P.idx]; if(c && c.type==="yt" && P.song){ ytOk[songKey(P.song)] = c.id; saveYt(); }
+    setState("playing");
+    clearInterval(P.watch);
+    P.watch = setInterval(()=>{ try{ if(ytPlayer.getCurrentTime() >= PLAY_SECONDS){ ytPlayer.pauseVideo(); setState("ended"); clearInterval(P.watch); } }catch(e){} }, 500);
+  } else if(s === 2){ if(P.state === "playing") setState("paused"); }
+  else if(s === 0){ clearInterval(P.watch); setState("ended"); }
+  else if(s === 3){ if(P.state === "loading") armTapTimer(7000); }
+  else if(s === 5){ if(P.state === "loading") setState(P.autoplay ? "blocked" : "paused"); }
+}
+function onYTError(code){
+  if(P.mode !== "yt") return;
+  const c = P.cands[P.idx]; if(c && c.type==="yt"){ ytBad.add(c.id); if(P.song && ytOk[songKey(P.song)]===c.id) delete ytOk[songKey(P.song)]; saveYt(); }
+  P.idx++; P.autoplay = true; tryCand();
+}
+function playAudio(url){
   audio.src = url;
-  try{ audio.currentTime = 0; }catch(e){}
   const p = audio.play();
-  if(p && p.then){ p.then(()=>setPlayerState("playing")).catch(()=>setPlayerState("blocked")); }
-  else setPlayerState("playing");
+  if(p && p.then) p.then(()=>setState("playing")).catch(()=>setState("blocked")); else setState("playing");
 }
-
-/* Song laden; wenn das Ergebnis schon da ist, sofort (noch im Klick) abspielen */
-function loadSong(song, autoplay){
-  player.song = song; player.res = null; stopAudio();
-  const key = songKey(song);
-  const finish = r => {
-    if(player.song !== song) return;
-    player.res = r;
-    const c = currentCand(r);
-    if(!c){ setPlayerState("none"); return; }
-    if(autoplay) playUrl(c.url); else setPlayerState("paused");
-  };
-  const p = resolvePreview(song);
-  if(p._done){ finish(p._done); return; }
-  setPlayerState("loading");
-  p.then(r=>{ p._done = r; finish(r); }).catch(()=>{ if(player.song===song) setPlayerState("none"); });
-}
-function prefetch(song){ if(!song) return; const p = resolvePreview(song); p.then(r=>{ p._done = r; }).catch(()=>{}); }
+audio.addEventListener("ended", ()=>{ if(P.mode==="audio" && !audio.src.startsWith("data:")) setState("ended"); });
 
 function togglePlay(){
   unlockAudio();
-  const c = currentCand(player.res);
-  if(!c) return;
-  if(player.state==="playing"){ audio.pause(); setPlayerState("paused"); return; }
-  if(!audio.src || audio.src!==c.url){ playUrl(c.url); return; }
-  const p = audio.play();
-  if(p && p.then) p.then(()=>setPlayerState("playing")).catch(()=>setPlayerState("blocked")); else setPlayerState("playing");
+  if(P.mode === "yt" && ytReady){
+    if(P.state === "playing"){ ytPlayer.pauseVideo(); setState("paused"); return; }
+    if(P.state === "ended"){ ytPlayer.seekTo(0, true); }
+    P.autoplay = true; ytPlayer.playVideo(); armTapTimer(2500); if(P.state!=="blocked") setState("loading");
+  } else if(P.mode === "audio"){
+    if(P.state === "playing"){ audio.pause(); setState("paused"); return; }
+    if(P.state === "ended") audio.currentTime = 0;
+    const p = audio.play(); if(p && p.then) p.then(()=>setState("playing")).catch(()=>setState("blocked"));
+  } else if(P.song){ P.autoplay = true; P.idx = 0; tryCand(); }
 }
-function restart(){ const c=currentCand(player.res); if(c) playUrl(c.url); }
+function restart(){
+  unlockAudio();
+  if(P.mode === "yt" && ytReady){ ytPlayer.seekTo(0, true); ytPlayer.playVideo(); armTapTimer(2500); }
+  else if(P.mode === "audio"){ audio.currentTime = 0; audio.play().then(()=>setState("playing")).catch(()=>{}); }
+}
 function nextMatch(){
-  const r = player.res; if(!r || r.cands.length<2){ toast("Kein weiterer Treffer gefunden."); return; }
-  r.idx = (r.idx+1) % r.cands.length; rememberChoice(player.song, r); playUrl(currentCand(r).url);
-  toast(`Treffer ${r.idx+1} von ${r.cands.length}`);
+  unlockAudio();
+  if(!P.song) return;
+  if(P.idx >= P.cands.length-1){ toast("Kein weiteres Video vorhanden."); return; }
+  const c = P.cands[P.idx]; if(c && c.type==="yt" && ytOk[songKey(P.song)]===c.id){ delete ytOk[songKey(P.song)]; saveYt(); }
+  stopAll(); P.idx++; P.autoplay = true; tryCand();
+  toast(P.cands[P.idx].type==="yt" ? `Video ${P.idx+1} von ${P.cands.length-1}` : "Ersatz: 30-Sek.-Ausschnitt");
 }
-audio.addEventListener("ended", ()=>{ if(!audio.src.startsWith("data:")) setPlayerState("paused"); });
 
 function updatePlayerUI(){
-  const st = player.state;
-  const btn = document.getElementById("pPlay"), lab = document.getElementById("pStatus"), eq = document.getElementById("pEq");
+  const st = P.state;
+  const btn = $("#pPlay"), lab = $("#pStatus"), eq = $("#pEq"), card = $("#theCard");
   if(eq) eq.classList.toggle("on", st==="playing");
-  if(!btn || !lab) return;
-  btn.textContent = st==="playing" ? "⏸" : "▶";
-  btn.disabled = (st==="loading" || st==="none");
-  btn.classList.toggle("pulse", st==="blocked");
-  lab.innerHTML = {
-    idle:"", loading:"Song wird gesucht …", playing:"Läuft (30 Sek.)", paused:"Pausiert",
-    blocked:"Tippen zum Abspielen", none:"Kein Ausschnitt gefunden."
-  }[st] || "";
-  const yt = document.getElementById("pYt"); if(yt) yt.style.display = st==="none" ? "" : "none";
+  if(card){
+    const tap = (st==="blocked" && P.mode==="yt");
+    card.classList.toggle("tap", tap);
+    let note = card.querySelector(".tapnote");
+    if(tap && !note){ note = document.createElement("div"); note.className="tapnote"; note.textContent="👆 Einmal auf die Karte tippen, dann läuft der Song"; card.appendChild(note); }
+    if(!tap && note) note.remove();
+  }
+  if(btn){
+    btn.textContent = st==="playing" ? "⏸" : "▶";
+    btn.disabled = (st==="none");
+    btn.classList.toggle("pulse", st==="blocked");
+  }
+  if(lab){
+    lab.innerHTML = ({
+      idle:"", loading:"Song wird geladen …", playing:"Läuft – 90 Sekunden ab Anfang", paused:"Pausiert", ended:"Zu Ende – ▶ für nochmal",
+      blocked: P.mode==="yt" ? "Tippe einmal auf die Karte" : "Tippe auf ▶", none:"Kein Video gefunden."
+    })[st] || "";
+    if(P.mode==="audio" && st==="playing") lab.innerHTML = "Läuft (nur 30-Sek.-Ausschnitt)";
+  }
+  const yt = $("#pYt"); if(yt) yt.style.display = st==="none" ? "" : "none";
 }
 
-/* ---------- Setup-Ansicht ---------- */
+/* YouTube-Fenster genau unter die Karte legen */
+function placeYT(){
+  const slot = $("#cardSlot");
+  if(!slot || !game){ ytHost.style.left = "-9999px"; ytHost.style.top = "0px"; ytHost.style.width = "320px"; ytHost.style.height = "320px"; return; }
+  const r = slot.getBoundingClientRect();
+  ytHost.style.left = (r.left + window.scrollX) + "px";
+  ytHost.style.top = (r.top + window.scrollY) + "px";
+  ytHost.style.width = Math.max(200, r.width) + "px";
+  ytHost.style.height = Math.max(200, r.height) + "px";
+}
+window.addEventListener("resize", ()=>requestAnimationFrame(placeYT));
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>placeYT());
+
+/* =========================================================
+   SETUP
+   ========================================================= */
 function renderSetup(){
-  stopAudio(); player.song=null;
-  $("#btnNew").style.display="none";
+  stopAll(); P.song = null; P.mode = null;
+  $("#btnNew").style.display = "none";
   const valid = songs.filter(s=>s.a && s.t && Number.isFinite(+s.y));
   app.innerHTML = `
   <div class="grid2">
@@ -428,15 +510,15 @@ function renderSetup(){
     <div class="panel">
       <h2>Spielart</h2>
       <div class="seg" id="modeSeg">
-        <button data-m="quiz" class="${setup.mode==="quiz"?"on":""}">Quiz-Modus</button>
         <button data-m="hoer" class="${setup.mode==="hoer"?"on":""}">Hör-Modus</button>
+        <button data-m="quiz" class="${setup.mode==="quiz"?"on":""}">Quiz-Modus</button>
       </div>
       <p class="hint" style="margin-top:8px">${setup.mode==="quiz"
-        ? "Interpret und Titel stehen auf der Karte, der Song läuft nebenbei. Ihr ratet nur das Jahr."
+        ? "Interpret und Titel stehen auf der Karte, der Song läuft dazu. Ihr ratet nur das Jahr."
         : "Karte bleibt verdeckt, nur der Song läuft. Erkennt ihn und ordnet ihn ein. Mit Kamelle-Bonus."}</p>
       <label style="margin-top:14px">Karten zum Sieg</label>
       <input type="number" id="target" min="3" max="30" value="${setup.target}">
-      <p class="hint" style="margin-top:14px">${valid.length} Songs in der Liste.</p>
+      <p class="hint" style="margin-top:14px">${valid.length} Songs in der Liste. Jeder Song läuft von Anfang an, 90 Sekunden.</p>
       <button class="btn primary" id="start" style="width:100%;margin-top:6px">Loss jonn! 🎺</button>
     </div>
   </div>`;
@@ -452,6 +534,7 @@ function renderSetup(){
   $("#modeSeg").querySelectorAll("button").forEach(b=> b.onclick=()=>{ setup.mode=b.dataset.m; store.set("kh_setup",setup); renderSetup(); });
   $("#target").oninput = e=>{ setup.target=Math.max(3,Math.min(30,+e.target.value||10)); store.set("kh_setup",setup); };
   $("#start").onclick = startGame;
+  placeYT();
 }
 
 function startGame(){
@@ -460,51 +543,48 @@ function startGame(){
   const pool = shuffle(songs.filter(s=>s.a && s.t && Number.isFinite(+s.y)).map(s=>({...s, y:+s.y})));
   if(!names.length){ toast("Mindestens ein Team, bitte."); return; }
   if(pool.length < names.length + 3){ toast("Zu wenige Songs in der Liste."); return; }
-  game = { players: names.map(n=>({name:n, cards:[pool.pop()], kamelle:0})), deck:pool, turn:0, current:null, phase:"draw", lastSlot:null, lastOk:null, newCard:null, revealed:false };
-  game.players.forEach(p=>p.cards[0].start=true);
-  $("#btnNew").style.display="";
+  game = { players: names.map(n=>({name:n, cards:[pool.pop()], kamelle:0})), deck:pool, turn:0, current:null, phase:"draw", lastSlot:null, lastOk:null, newCard:null };
+  $("#btnNew").style.display = "";
   draw();
 }
 
 function draw(){
-  if(!game.deck.length){ return endGame(true); }
+  if(!game.deck.length) return endGame(true);
   game.current = game.deck.pop();
-  game.phase = "place"; game.lastSlot=null; game.lastOk=null; game.revealed=false;
+  game.phase = "place"; game.lastSlot = null; game.lastOk = null; game.bonusAsked = false;
   renderGame();
-  loadSong(game.current, true);
-  prefetch(game.deck[game.deck.length-1]);   // nächsten Song schon mal suchen
+  startSong(game.current, true);   // noch innerhalb des Klicks → Autoplay erlaubt
 }
 
-/* ---------- Spiel-Ansicht ---------- */
+/* =========================================================
+   SPIEL-ANSICHT
+   ========================================================= */
 function renderGame(){
-  const g = game, P = g.players[g.turn], s = g.current, hoer = setup.mode==="hoer";
-  let cardHtml;
+  const g = game, Pl = g.players[g.turn], s = g.current, hoer = setup.mode==="hoer";
+  let face;
   if(g.phase==="place"){
-    cardHtml = hoer && !g.revealed
-      ? `<div class="card mystery"><div class="q">?</div><div style="font-weight:700;margin-top:8px">Hör ens jot hin!</div><div class="eq" id="pEq"><i></i><i></i><i></i><i></i><i></i></div></div>`
-      : `<div class="card shown"><div class="artist">${esc(s.a)}</div><div class="title">${esc(s.t)}</div><div class="year">????</div></div>`;
+    face = hoer
+      ? `<div class="card mystery" id="theCard"><div class="q">?</div><div style="font-weight:700;margin-top:8px">Hör ens jot hin!</div><div class="eq" id="pEq"><i></i><i></i><i></i><i></i><i></i></div></div>`
+      : `<div class="card shown" id="theCard"><div class="artist">${esc(s.a)}</div><div class="title">${esc(s.t)}</div><div class="year">????</div></div>`;
   } else {
-    const fc = currentCand(player.res);
-    cardHtml = `<div class="card shown ${g.lastOk?"ok":"bad"}">
+    face = `<div class="card shown ${g.lastOk?"ok":"bad"}" id="theCard">
       <div class="artist">${esc(s.a)}</div><div class="title">${esc(s.t)}</div><div class="year">${s.y}</div>
-      ${s.c?"":`<div class="flag">⚠︎ Jahr nicht abschließend geprüft</div>`}</div>
-      ${fc?`<div class="found">Ausschnitt: ${esc(fc.artist)} – ${esc(fc.name)} · <a href="${esc(fc.link||"#")}" target="_blank" rel="noopener">bei ${fc.src}</a></div>`:""}`;
+      ${s.c?"":`<div class="flag">⚠︎ Jahr nicht abschließend geprüft</div>`}</div>`;
   }
+  const found = (g.phase!=="place" && P.title) ? `<div class="found">Gespielt: ${esc(P.title)}${P.link?` · <a href="${esc(P.link)}" target="_blank" rel="noopener">ansehen</a>`:""}</div>` : "";
 
-  const playerHtml = `<div class="player">
+  let actions = `<div class="player">
       <button class="btn primary play" id="pPlay">▶</button>
       <div><div class="status" id="pStatus"></div>
         <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
-          <button class="btn sm" id="pRestart" title="Von vorn">↺</button>
-          <button class="btn sm" id="pNext" title="Klingt nach dem falschen Lied? Nächsten Treffer nehmen">↻ anderer Treffer</button>
+          <button class="btn sm" id="pRestart" title="Von vorn">↺ von vorn</button>
+          <button class="btn sm" id="pNext" title="Falsches Lied oder geht nicht? Nächstes Video nehmen">↻ anderes Video</button>
         </div></div></div>
       <a class="btn sm" id="pYt" style="display:none" href="${ytLink(s)}" target="_blank" rel="noopener">Bei YouTube suchen</a>`;
-
-  let actions = playerHtml;
   if(g.phase==="place"){
     actions += `<div class="hint" style="text-align:center">Tippt auf die Lücke im Zeitstrahl, wo der Song hingehört.</div>`;
-    actions += `<button class="btn sm" id="skip" ${P.kamelle<1?"disabled":""}>Überspringen (1 🍬)</button>`;
-    actions += `<button class="btn sm" id="trade" ${P.kamelle<3?"disabled":""}>3 🍬 gegen eine Karte</button>`;
+    actions += `<button class="btn sm" id="skip" ${Pl.kamelle<1?"disabled":""}>Überspringen (1 🍬)</button>`;
+    actions += `<button class="btn sm" id="trade" ${Pl.kamelle<3?"disabled":""}>3 🍬 gegen eine Karte</button>`;
   } else {
     actions += `<div class="verdict" style="color:${g.lastOk?"var(--ok)":"var(--bad)"}">${g.lastOk?"Richtig, jot jemaht! 🎉":"Daneben, schad! 😬"}</div>`;
     if(hoer && !g.bonusAsked){
@@ -514,20 +594,16 @@ function renderGame(){
     actions += `<button class="btn primary" id="next">Nächstes Team ➜</button>`;
   }
 
-  const cards = P.cards;
+  const cards = Pl.cards;
   let tl = "";
   for(let i=0;i<=cards.length;i++){
-    if(g.phase==="place"){
-      tl += `<button class="slot" data-i="${i}" title="Hier einordnen">+</button>`;
-    } else if(i===g.lastSlot && !g.lastOk){
-      tl += `<div class="slot miss">✕</div>`;
-    }
+    if(g.phase==="place") tl += `<button class="slot" data-i="${i}" title="Hier einordnen">+</button>`;
+    else if(i===g.lastSlot && !g.lastOk) tl += `<div class="slot miss">✕</div>`;
     if(i<cards.length){
       const c = cards[i];
       tl += `<div class="tcard ${c===g.newCard?"new":""}"><div class="y">${c.y}</div><div class="t">${esc(c.t)}</div><div class="a">${esc(c.a)}</div></div>`;
     }
   }
-
   const others = g.players.map((p,i)=> i===g.turn ? "" : `
     <details><summary>${esc(p.name)}: ${p.cards.length} Karten, ${p.kamelle} 🍬</summary>
       <div class="mini">${p.cards.map(c=>`<span><b>${c.y}</b> ${esc(c.t)}</span>`).join("")}</div></details>`).join("");
@@ -536,9 +612,9 @@ function renderGame(){
     <div class="score">${g.players.map((p,i)=>`<div class="chip ${i===g.turn?"active":""}">${esc(p.name)} <span>${p.cards.length}/${setup.target}</span>${hoer?`<span class="k">${p.kamelle} 🍬</span>`:""}</div>`).join("")}
       <div class="chip" style="border-style:dashed">Stapel: ${g.deck.length}</div></div>
     <div class="stage">
-      <div>${cardHtml}<div class="actions">${actions}</div></div>
+      <div><div class="cardwrap" id="cardSlot">${face}</div>${found}<div class="actions">${actions}</div></div>
       <div class="panel">
-        <div class="tl-head"><h2 style="margin:0">${esc(P.name)} ist dran</h2><span class="hint">Zeitstrahl, alt → neu</span></div>
+        <div class="tl-head"><h2 style="margin:0">${esc(Pl.name)} ist dran</h2><span class="hint">Zeitstrahl, alt → neu</span></div>
         <div class="timeline">${tl}</div>
         ${others?`<div class="others">${others}</div>`:""}
       </div>
@@ -546,51 +622,48 @@ function renderGame(){
 
   app.querySelectorAll(".slot[data-i]").forEach(b=> b.onclick = ()=> place(+b.dataset.i));
   const on = (id,fn)=>{ const el=$(id); if(el) el.onclick=fn; };
-  on("#skip", ()=>{ P.kamelle--; game.deck.unshift(game.current); draw(); toast("Übersprungen."); });
+  on("#skip", ()=>{ Pl.kamelle--; game.deck.unshift(game.current); draw(); toast("Übersprungen."); });
   on("#trade", tradeCard);
   on("#next", nextTurn);
-  on("#bonusYes", ()=>{ P.kamelle++; g.bonusAsked=true; renderGame(); });
+  on("#bonusYes", ()=>{ Pl.kamelle++; g.bonusAsked=true; renderGame(); });
   on("#bonusNo", ()=>{ g.bonusAsked=true; renderGame(); });
   on("#pPlay", togglePlay);
-  on("#pRestart", ()=>{ unlockAudio(); restart(); });
-  on("#pNext", ()=>{ unlockAudio(); nextMatch(); });
+  on("#pRestart", restart);
+  on("#pNext", nextMatch);
   updatePlayerUI();
+  placeYT(); requestAnimationFrame(placeYT);
 }
 
 function place(i){
-  const g=game, P=g.players[g.turn], c=P.cards, y=g.current.y;
+  const g=game, Pl=g.players[g.turn], c=Pl.cards, y=g.current.y;
   const ok = (i===0 || c[i-1].y<=y) && (i===c.length || c[i].y>=y);
   g.lastSlot=i; g.lastOk=ok; g.phase="result"; g.bonusAsked=false; g.newCard=null;
   if(ok){ c.splice(i,0,g.current); g.newCard=g.current; burst(30); }
   renderGame();
 }
-
 function tradeCard(){
-  const g=game, P=g.players[g.turn];
-  if(P.kamelle<3 || !g.deck.length) return;
-  P.kamelle-=3;
+  const g=game, Pl=g.players[g.turn];
+  if(Pl.kamelle<3 || !g.deck.length) return;
+  Pl.kamelle-=3;
   const free = g.deck.shift();
-  P.cards.push(free); sortCards(P.cards); g.newCard=free;
+  Pl.cards.push(free); sortCards(Pl.cards); g.newCard=free;
   toast(`Geschenkt: ${free.t} (${free.y})`);
-  if(P.cards.length>=setup.target) return endGame(false, P);
+  if(Pl.cards.length>=setup.target) return endGame(false, Pl);
   renderGame();
 }
-
 function nextTurn(){
-  const g=game, P=g.players[g.turn];
-  if(P.cards.length>=setup.target) return endGame(false, P);
+  const g=game, Pl=g.players[g.turn];
+  if(Pl.cards.length>=setup.target) return endGame(false, Pl);
   g.newCard=null;
   g.turn=(g.turn+1)%g.players.length;
   draw();
 }
-
 function endGame(deckEmpty, winner){
-  stopAudio(); player.song=null;
+  stopAll(); P.song=null; P.mode=null;
   const g=game;
-  if(!winner){
-    const max=Math.max(...g.players.map(p=>p.cards.length));
-    winner = g.players.filter(p=>p.cards.length===max);
-  } else winner=[winner];
+  if(!winner){ const max=Math.max(...g.players.map(p=>p.cards.length)); winner=g.players.filter(p=>p.cards.length===max); }
+  else winner=[winner];
+  game = null; placeYT(); game = g; // Player wegschieben
   burst(120);
   app.innerHTML = `<div class="panel end">
     <div class="hint">${deckEmpty?"Der Stapel ist leer.":"Zielzahl erreicht!"}</div>
@@ -602,19 +675,21 @@ function endGame(deckEmpty, winner){
   $("#again").onclick=startGame;
   $("#toSetup").onclick=()=>{ game=null; renderSetup(); };
 }
-
 function burst(n){
   const cols=["#c8102e","#fff","#f2b705","#1f8a4c","#3b6fd1"];
   for(let i=0;i<n;i++){
     const d=document.createElement("div"); d.className="confetti";
-    d.style.left=Math.random()*100+"vw"; d.style.background=cols[i%cols.length];
-    d.style.border="1px solid #0002";
+    d.style.left=Math.random()*100+"vw"; d.style.background=cols[i%cols.length]; d.style.border="1px solid #0002";
     d.style.animationDuration=(1.6+Math.random()*1.8)+"s"; d.style.animationDelay=(Math.random()*.4)+"s";
     document.body.appendChild(d); setTimeout(()=>d.remove(),4200);
   }
 }
 
-/* ---------- Songliste bearbeiten ---------- */
+/* =========================================================
+   SONGLISTE
+   ========================================================= */
+const testStatus = {};
+let listPlaying = null;
 function renderSongs(){
   $("#songCount").textContent = songs.length;
   const tb=$("#songRows"); tb.innerHTML="";
@@ -624,64 +699,86 @@ function renderSongs(){
       <td><input type="text" data-k="t" value="${esc(s.t)}"></td>
       <td><input type="number" data-k="y" value="${esc(s.y)}"></td>
       <td><span class="tag ${s.c?"ok":""}">${s.c?"geprüft":"bitte prüfen"}</span></td>
-      <td><div style="display:flex;gap:4px;align-items:center"><button class="btn sm" data-act="play" title="Reinhören">▶</button><button class="btn sm" data-act="alt" title="Nächster Treffer">↻</button><span class="st">${testStatus[songKey(s)]||""}</span></div></td>
+      <td><input type="text" class="yt" data-k="u" placeholder="YouTube-Link (optional)" value="${s.u?esc("https://youtu.be/"+s.u):""}"></td>
+      <td><div style="display:flex;gap:4px;align-items:center"><button class="btn sm" data-act="play" title="Anhören">▶</button><button class="btn sm" data-act="alt" title="Nächstes Video">↻</button><span class="st">${testStatus[songKey(s)]||""}</span></div></td>
       <td><button class="btn sm" data-act="del" title="Löschen">✕</button></td>`;
-    tr.querySelectorAll("input").forEach(inp=> inp.oninput=e=>{
-      const k=e.target.dataset.k; s[k]= k==="y" ? +e.target.value : e.target.value;
-      if(k==="y"){ s.c=1; tr.querySelector(".tag").className="tag ok"; tr.querySelector(".tag").textContent="geprüft"; }
+    tr.querySelectorAll("input").forEach(inp=> inp.onchange=inp.oninput=e=>{
+      const k=e.target.dataset.k;
+      if(k==="y"){ s.y=+e.target.value; s.c=1; const tg=tr.querySelector(".tag"); tg.className="tag ok"; tg.textContent="geprüft"; }
+      else if(k==="u"){ const id=parseYt(e.target.value); if(id || !e.target.value.trim()){ s.u=id||undefined; e.target.style.borderColor=""; } else e.target.style.borderColor="var(--bad)"; }
+      else s[k]=e.target.value;
       saveSongs();
     });
     tr.querySelector('[data-act="del"]').onclick=()=>{ songs.splice(i,1); saveSongs(); renderSongs(); };
-    tr.querySelector('[data-act="play"]').onclick=async e=>{
+    tr.querySelector('[data-act="play"]').onclick=e=>{
       unlockAudio();
-      const btn=e.currentTarget, st=tr.querySelector(".st");
-      if(listPlaying===s){ stopAudio(); listPlaying=null; btn.textContent="▶"; return; }
-      st.textContent="sucht …";
-      const r = await checkSong(s);
-      const c = currentCand(r);
-      if(!c){ return; }
+      if(listPlaying===s){ stopAll(); listPlaying=null; e.currentTarget.textContent="▶"; return; }
       document.querySelectorAll('#songRows [data-act="play"]').forEach(b=>b.textContent="▶");
-      listPlaying=s; btn.textContent="⏸"; playUrl(c.url);
+      listPlaying=s; e.currentTarget.textContent="⏸"; startSong(s, true); watchListTitle(s);
     };
-    tr.querySelector('[data-act="alt"]').onclick=async ()=>{
-      unlockAudio();
-      const r = await checkSong(s);
-      if(!r || r.cands.length<2){ toast("Kein weiterer Treffer."); return; }
-      r.idx=(r.idx+1)%r.cands.length; rememberChoice(s,r); setStatus(s,r); listPlaying=s; playUrl(currentCand(r).url);
-    };
+    tr.querySelector('[data-act="alt"]').onclick=()=>{ if(listPlaying!==s){ listPlaying=s; startSong(s,true); } else nextMatch(); watchListTitle(s); };
     tb.appendChild(tr);
   });
 }
-const testStatus = {};
-let listPlaying = null;
-function setStatus(s, r){
-  const c = currentCand(r);
-  testStatus[songKey(s)] = c ? `✓ ${esc(c.artist)} – ${esc(c.name)}${r.cands.length>1?` (${r.idx+1}/${r.cands.length})`:""}` : "✗ nichts gefunden";
+function setStatus(s, html){
+  testStatus[songKey(s)] = html;
   const i = songs.indexOf(s); const row = document.querySelectorAll("#songRows tr")[i];
-  if(row) row.querySelector(".st").innerHTML = testStatus[songKey(s)];
+  if(row) row.querySelector(".st").innerHTML = html;
 }
-async function checkSong(s){
-  try{ const r = await resolvePreview(s); setStatus(s, r); return r; }
-  catch(e){ testStatus[songKey(s)]="✗ Suche fehlgeschlagen"; renderSongs(); return null; }
+function watchListTitle(s){
+  let n=0; const iv=setInterval(()=>{
+    n++;
+    if(P.song!==s || n>40){ clearInterval(iv); return; }
+    if(P.state==="playing" && P.title){ setStatus(s, "✓ "+esc(P.title)); clearInterval(iv); }
+    else if(P.state==="none"){ setStatus(s, "✗ nichts gefunden"); clearInterval(iv); }
+    else if(P.state==="blocked"){ setStatus(s, "Tippe ▶ in der Spielansicht"); clearInterval(iv); }
+  }, 300);
+}
+
+/* Stumm-Test: spielt jedes Video kurz ohne Ton an */
+function ytTestId(id){
+  return new Promise(res=>{
+    let done=false;
+    const fin = r => { if(done) return; done=true; clearTimeout(t); testHook=null; try{ ytPlayer.stopVideo(); }catch(e){} res(r); };
+    testHook = { state: s=>{ if(s===1){ let title=""; try{ title=ytPlayer.getVideoData().title||""; }catch(e){} fin({ok:true,title}); } }, error: ()=>fin({ok:false}) };
+    const t = setTimeout(()=>fin({ok:null}), 9000);
+    try{ ytPlayer.mute(); ytPlayer.loadVideoById({videoId:id, startSeconds:0, endSeconds:3}); }catch(e){ fin({ok:false}); }
+  });
+}
+async function testSong(s){
+  if(ytReady){
+    const cands = candidatesFor(s).filter(c=>c.type==="yt");
+    let unclear = false;
+    for(let k=0;k<cands.length;k++){
+      setStatus(s, `teste Video ${k+1}/${cands.length} …`);
+      const r = await ytTestId(cands[k].id);
+      if(r.ok){ ytOk[songKey(s)] = cands[k].id; saveYt(); setStatus(s, "✓ "+esc(r.title||"Video läuft")); return true; }
+      if(r.ok===false){ ytBad.add(cands[k].id); saveYt(); } else unclear = true;
+    }
+    if(unclear){ setStatus(s, "? keine Antwort von YouTube – später nochmal testen"); return false; }
+  }
+  const f = await itunesPreview(s);
+  setStatus(s, f ? "⚠︎ nur 30-Sek.-Ausschnitt: "+esc(f.title) : "✗ nichts gefunden – eigenes Video eintragen");
+  return !!f;
 }
 let testing=false;
 $("#testAll").onclick=async ()=>{
-  if(testing) return; testing=true;
+  if(testing) return;
+  if(!ytReady && !ytFailed){ toast("YouTube lädt noch – gleich nochmal."); return; }
+  testing=true; stopAll(); listPlaying=null;
   const btn=$("#testAll"); let ok=0, n=0;
   const list = songs.filter(s=>s.a && s.t);
   for(const s of list){
     n++; btn.textContent=`Teste ${n}/${list.length} …`;
-    const fresh = !pending.has(songKey(s));
-    const r = await checkSong(s);
-    if(currentCand(r)) ok++;
-    if(fresh) await new Promise(res=>setTimeout(res, 3500)); // Apple: ca. 20 Anfragen/Min.
+    if(await testSong(s)) ok++;
   }
-  btn.textContent=`🔊 Fertig: ${ok}/${list.length} gefunden`; testing=false;
+  try{ ytPlayer && ytPlayer.unMute(); }catch(e){}
+  btn.textContent=`🔊 Fertig: ${ok}/${list.length} spielbar`; testing=false;
 };
-$("#addSong").onclick=()=>{ songs.push({a:"",t:"",y:2026,c:0}); saveSongs(); renderSongs(); const rows=$("#songRows").querySelectorAll("tr"); rows[rows.length-1].querySelector("input").focus(); };
-$("#resetSongs").onclick=()=>{ songs=DEFAULT_SONGS.map(s=>({...s})); saveSongs(); renderSongs(); toast("Standardliste wiederhergestellt."); };
+$("#addSong").onclick=()=>{ songs.push({a:"",t:"",y:2026,c:0,yt:[]}); saveSongs(); renderSongs(); const rows=$("#songRows").querySelectorAll("tr"); rows[rows.length-1].querySelector("input").focus(); };
+$("#resetSongs").onclick=()=>{ songs=DEFAULT_SONGS.map(s=>({...s, yt:[...s.yt]})); saveSongs(); renderSongs(); toast("Standardliste wiederhergestellt."); };
 $("#exportSongs").onclick=async()=>{
-  const txt=JSON.stringify(songs);
+  const txt=JSON.stringify(songs.map(({_it,...s})=>s));
   try{ await navigator.clipboard.writeText(txt); toast("Liste kopiert."); }
   catch(e){ $("#importBox").style.display="block"; $("#importText").value=txt; $("#importText").select(); toast("Bitte manuell kopieren."); }
 };
@@ -690,15 +787,24 @@ $("#doImport").onclick=()=>{
   try{
     const arr=JSON.parse($("#importText").value);
     if(!Array.isArray(arr)) throw 0;
-    songs=arr.filter(s=>s && s.a && s.t && Number.isFinite(+s.y)).map(s=>({a:String(s.a),t:String(s.t),y:+s.y,c:s.c?1:0}));
+    songs=arr.filter(s=>s && s.a && s.t && Number.isFinite(+s.y)).map(s=>({a:String(s.a),t:String(s.t),y:+s.y,c:s.c?1:0,yt:Array.isArray(s.yt)?s.yt.filter(x=>/^[\w-]{11}$/.test(x)):[],u:parseYt(s.u)||undefined}));
     saveSongs(); renderSongs(); toast(songs.length+" Songs übernommen.");
   }catch(e){ toast("Das war kein gültiges Listenformat."); }
 };
 
-/* ---------- Modals ---------- */
+/* ---------- Fenster ---------- */
 function openM(id){ $(id).classList.add("open"); }
 document.querySelectorAll(".modal").forEach(m=>{
-  m.addEventListener("click", e=>{ if(e.target===m || e.target.hasAttribute("data-close")){ m.classList.remove("open"); if(m.id==="mSongs" && listPlaying){ stopAudio(); listPlaying=null; } if(m.id==="mSongs" && !game) renderSetup(); } });
+  m.addEventListener("click", e=>{
+    if(e.target===m || e.target.hasAttribute("data-close")){
+      m.classList.remove("open");
+      if(m.id==="mSongs"){
+        if(listPlaying){ listPlaying=null; stopAll(); }
+        if(game && game.current && $("#theCard")){ startSong(game.current, false); renderGame(); }
+        else if(!game) renderSetup();
+      }
+    }
+  });
 });
 $("#btnSongs").onclick=()=>{ renderSongs(); openM("#mSongs"); };
 $("#btnRules").onclick=()=>openM("#mRules");
