@@ -5,208 +5,232 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kölsch-Hitster</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --rut:#c8102e; --rut-d:#8f0b20; --wiess:#fffaf3; --ink:#1d1416; --muted:#6b5a5d;
-  --gold:#f2b705; --ok:#1f8a4c; --bad:#c8102e; --line:#ead9cf;
+  --rot:#d0112b; --rot-d:#a30c21; --paper:#f7f4ef; --ink:#17120f; --mut:#80766f; --line:#e7e0d7;
+  --card:#fff; --ok:#1d8a51; --gold:#f2b51c; --r:18px;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
-body{
-  font-family:Rubik,system-ui,sans-serif; color:var(--ink); background:var(--wiess);
-  min-height:100vh;
-  background-image:
-    radial-gradient(circle at 8% 12%, #f2b70533 0 6px, transparent 7px),
-    radial-gradient(circle at 92% 20%, #c8102e22 0 5px, transparent 6px),
-    radial-gradient(circle at 70% 85%, #1f8a4c22 0 6px, transparent 7px),
-    radial-gradient(circle at 20% 75%, #3b6fd122 0 5px, transparent 6px);
-  background-size:340px 340px;
-}
-header{
-  background:repeating-linear-gradient(90deg,var(--rut) 0 48px,#fff 48px 96px);
-  padding:10px 0;
-}
-header .bar{
-  background:var(--rut); color:#fff; max-width:1100px; margin:0 auto; padding:14px 20px;
-  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
-  box-shadow:0 6px 0 var(--rut-d);
-}
-h1{font-family:Bungee,sans-serif; font-weight:400; margin:0; font-size:clamp(22px,4vw,34px); letter-spacing:.5px}
-h1 small{display:block; font-family:Rubik; font-size:13px; font-weight:500; opacity:.85; letter-spacing:0}
-main{max-width:1100px; margin:0 auto; padding:22px 16px 60px}
-button{font:inherit; cursor:pointer}
-.btn{
-  border:2px solid var(--ink); background:#fff; color:var(--ink); padding:10px 16px; border-radius:12px;
-  font-weight:700; box-shadow:0 3px 0 var(--ink); transition:transform .08s, box-shadow .08s;
-}
-.btn:active{transform:translateY(3px); box-shadow:0 0 0 var(--ink)}
-.btn.primary{background:var(--rut); color:#fff}
-.btn.gold{background:var(--gold)}
-.btn.ghost{background:transparent; border-color:#fff; color:#fff; box-shadow:0 3px 0 var(--rut-d)}
-.btn:disabled{opacity:.4; cursor:not-allowed}
-.btn.sm{padding:6px 10px; font-size:14px; border-radius:9px}
-.panel{background:#fff; border:2px solid var(--ink); border-radius:18px; padding:20px; box-shadow:0 5px 0 var(--ink)}
-.grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
-@media (max-width:760px){.grid2{grid-template-columns:1fr}}
-label{font-weight:700; font-size:14px; display:block; margin-bottom:6px}
-input[type=text],input[type=number],textarea{
-  font:inherit; border:2px solid var(--line); border-radius:10px; padding:9px 11px; width:100%; background:#fff;
-}
-input:focus,textarea:focus{outline:none; border-color:var(--rut)}
-.row{display:flex; gap:8px; align-items:center; margin-bottom:8px}
-.seg{display:flex; border:2px solid var(--ink); border-radius:12px; overflow:hidden}
-.seg button{flex:1; border:0; background:#fff; padding:10px; font-weight:700}
-.seg button.on{background:var(--ink); color:#fff}
-.hint{color:var(--muted); font-size:14px; line-height:1.45}
-h2{font-family:Bungee; font-weight:400; font-size:20px; margin:0 0 12px}
-/* scoreboard */
-.score{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px}
-.chip{border:2px solid var(--ink); border-radius:999px; padding:6px 14px; background:#fff; font-weight:700; display:flex; gap:10px; align-items:center}
-.chip.active{background:var(--rut); color:#fff}
-.chip .k{font-size:13px; font-weight:500}
-/* stage */
-.stage{display:grid; grid-template-columns:280px 1fr; gap:20px; align-items:start}
-@media (max-width:820px){.stage{grid-template-columns:1fr}}
-.card{
-  width:100%; aspect-ratio:1/1.05; border-radius:20px; border:3px solid var(--ink);
-  display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:18px;
-  box-shadow:0 6px 0 var(--ink); position:relative; overflow:hidden;
-}
-.card.mystery{background:conic-gradient(from 0deg,var(--rut),#e8475f,var(--gold),var(--rut)); color:#fff}
-.card.mystery .q{font-family:Bungee; font-size:92px; line-height:1; text-shadow:0 4px 0 var(--rut-d)}
-.card.shown{background:#fff}
-.card .artist{font-weight:700; font-size:17px}
-.card .title{font-family:Bungee; font-size:22px; margin:6px 0; line-height:1.15}
-.card .year{font-family:Bungee; font-size:56px; color:var(--rut); line-height:1}
-.card .flag{position:absolute; bottom:10px; left:10px; right:10px; font-size:12px; color:var(--muted)}
-.card.ok{background:#e8f6ee; border-color:var(--ok); box-shadow:0 6px 0 var(--ok)}
-.card.bad{background:#fde9ec; border-color:var(--bad); box-shadow:0 6px 0 var(--bad)}
-.actions{display:flex; flex-direction:column; gap:8px; margin-top:16px}
-.actions a.btn{text-decoration:none; text-align:center}
-.verdict{font-family:Bungee; font-size:22px; margin:6px 0 2px}
-/* timeline */
-.tl-head{display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap}
-.timeline{display:flex; flex-wrap:wrap; align-items:stretch; gap:6px; padding:14px 0}
-.tcard{
-  min-width:118px; max-width:150px; flex:0 0 auto; background:#fff; border:2px solid var(--ink); border-radius:14px;
-  padding:10px; text-align:center; box-shadow:0 3px 0 var(--ink);
-}
-.tcard .y{font-family:Bungee; font-size:26px; color:var(--rut)}
-.tcard .t{font-weight:700; font-size:13px; line-height:1.2}
-.tcard .a{font-size:12px; color:var(--muted)}
-.tcard.new{animation:pop .5s ease}
-@keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.08)}100%{transform:scale(1)}}
-.slot{
-  width:44px; flex:0 0 auto; border:2px dashed var(--rut); border-radius:12px; background:#fff0f2;
-  color:var(--rut); font-family:Bungee; font-size:22px; display:flex; align-items:center; justify-content:center;
-}
-.slot:hover{background:var(--rut); color:#fff}
-.slot.hit{background:var(--ok); color:#fff; border-color:var(--ok); border-style:solid}
-.slot.miss{background:var(--bad); color:#fff; border-style:solid}
-.others{margin-top:22px}
-.others details{border-top:2px solid var(--line); padding:8px 0}
-.others summary{cursor:pointer; font-weight:700}
-.mini{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px}
-.mini span{border:1.5px solid var(--line); border-radius:8px; padding:3px 8px; font-size:13px; background:#fff}
-.mini b{color:var(--rut)}
-/* modal */
-.modal{position:fixed; inset:0; background:#1d1416aa; display:none; align-items:flex-start; justify-content:center; padding:24px 12px; overflow:auto; z-index:20}
-.modal.open{display:flex}
-.modal .panel{max-width:900px; width:100%}
-table{width:100%; border-collapse:collapse; font-size:14px}
-th{text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); padding:6px 4px}
-td{padding:3px 4px; border-top:1px solid var(--line)}
-td input[type=text]{padding:5px 7px; border-width:1.5px}
-td input[type=number]{padding:5px 7px; width:82px; border-width:1.5px}
-.tag{font-size:11px; padding:2px 6px; border-radius:6px; background:#fff3cf; border:1px solid #e6c463; white-space:nowrap}
-.tag.ok{background:#e8f6ee; border-color:#9fd2b3}
-.end{text-align:center; padding:40px 20px}
-.end .big{font-family:Bungee; font-size:clamp(32px,7vw,64px); color:var(--rut); margin:10px 0}
-.confetti{position:fixed; top:-20px; width:10px; height:14px; z-index:30; pointer-events:none; animation:fall linear forwards}
-@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
-@media (max-width:820px){.card{aspect-ratio:auto; min-height:210px}.card.mystery .q{font-size:64px}.card .year{font-size:44px}}
-.player{display:flex; gap:8px; align-items:center; margin-top:14px}
-.player .play{width:64px; height:64px; border-radius:50%; font-size:26px; padding:0; flex:0 0 auto}
-.player .status{font-size:14px; color:var(--muted); line-height:1.3}
-.eq{display:flex; gap:5px; align-items:flex-end; height:34px; margin-top:12px}
-.eq i{display:block; width:7px; background:#fff; border-radius:3px; height:6px}
-.eq.on i{animation:eq .9s ease-in-out infinite}
-.eq.on i:nth-child(2){animation-delay:.15s}.eq.on i:nth-child(3){animation-delay:.3s}
-.eq.on i:nth-child(4){animation-delay:.45s}.eq.on i:nth-child(5){animation-delay:.6s}
-@keyframes eq{0%,100%{height:6px}50%{height:32px}}
-.pulse{animation:pulse 1.2s ease-in-out infinite}
-@keyframes pulse{50%{transform:scale(1.08)}}
-.found{font-size:13px; color:var(--muted); margin-top:6px; text-align:center}
-.found a{color:var(--rut)}
-.st{font-size:12px; color:var(--muted); max-width:220px}
-.toast{position:fixed; left:50%; bottom:20px; transform:translateX(-50%); background:var(--ink); color:#fff; padding:10px 16px; border-radius:10px; display:none; z-index:40}
-</style>
-/* YouTube-Player liegt unsichtbar unter der Karte */
-#ytHost{position:absolute; left:-9999px; top:0; width:320px; height:320px; z-index:1; border-radius:20px; overflow:hidden; background:#000}
-#ytHost iframe{width:100%; height:100%; border:0; display:block}
+body{font-family:"Bricolage Grotesque",system-ui,sans-serif; background:var(--paper); color:var(--ink); -webkit-font-smoothing:antialiased; min-height:100vh}
+button{font:inherit; color:inherit; cursor:pointer}
+a{color:inherit}
+
+/* Kopf */
+header{max-width:1000px; margin:0 auto; padding:16px 18px 6px; display:flex; align-items:center; justify-content:space-between; gap:10px}
+.logo{display:flex; align-items:center; gap:10px; font-weight:800; font-size:19px; letter-spacing:-.02em}
+.logo .mark{width:26px; height:26px; border-radius:8px; background:repeating-linear-gradient(135deg,var(--rot) 0 6px,#fff 6px 12px); box-shadow:inset 0 0 0 2px var(--rot)}
+.nav{display:flex; gap:2px}
+.ib{border:0; background:transparent; padding:8px 11px; border-radius:10px; font-weight:600; font-size:15px; color:var(--ink)}
+.ib:hover{background:#00000009}
+main{max-width:1000px; margin:0 auto; padding:6px 18px 30px}
+
+/* Bausteine */
+.btn{border:0; border-radius:999px; padding:12px 20px; font-weight:700; background:var(--ink); color:#fff; transition:transform .08s}
+.btn:active{transform:scale(.97)}
+.btn.red{background:var(--rot)}
+.btn.ghost{background:transparent; color:var(--ink); box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn.sm{padding:7px 13px; font-size:14px}
+.btn.big{width:100%; padding:16px; font-size:18px}
+.btn:disabled{opacity:.35; cursor:not-allowed}
+.box{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:16px 18px}
+.stack>*+*{margin-top:12px}
+details.box>summary{list-style:none; cursor:pointer; font-weight:700; display:flex; justify-content:space-between; align-items:center; gap:10px}
+details.box>summary::-webkit-details-marker{display:none}
+details.box>summary::after{content:"+"; font-weight:400; color:var(--mut); font-size:22px; line-height:1}
+details.box[open]>summary::after{content:"–"}
+details.box>summary small{font-weight:500; color:var(--mut); font-size:13px; margin-left:auto}
+details.box[open]>summary{margin-bottom:12px}
+.mut{color:var(--mut)}
+.hint{color:var(--mut); font-size:14px; line-height:1.5}
+label.l{display:block; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--mut); margin:0 0 8px}
+input[type=text],input[type=number],textarea{font:inherit; width:100%; border:1.5px solid var(--line); border-radius:12px; padding:10px 12px; background:#fff; color:var(--ink)}
+input:focus,textarea:focus{outline:none; border-color:var(--ink)}
+.seg{display:flex; background:#efe9e1; border-radius:999px; padding:4px}
+.seg button{flex:1; border:0; background:transparent; padding:9px 10px; border-radius:999px; font-weight:700; color:var(--mut)}
+.seg button.on{background:#fff; color:var(--ink); box-shadow:0 1px 3px #0001}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chip{border:1.5px solid var(--line); background:#fff; border-radius:999px; padding:6px 12px; font-weight:600; font-size:14px}
+.chip.on{background:var(--ink); border-color:var(--ink); color:#fff}
+.stepper{display:flex; align-items:center; gap:14px}
+.stepper>button{width:40px; height:40px; border-radius:50%; border:1.5px solid var(--line); background:#fff; font-size:22px; line-height:1}
+.stepper b{font-size:26px; min-width:24px; text-align:center}
+.names{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+@media (max-width:480px){.names{grid-template-columns:1fr}}
+.names input{padding:9px 12px}
+
+/* Start */
+.hero{text-align:center; padding:20px 0 18px}
+.hero h1{font-size:clamp(34px,7vw,56px); line-height:.98; letter-spacing:-.035em; margin:0; font-weight:800}
+.hero h1 em{font-style:normal; color:var(--rot)}
+.hero p{margin:10px 0 0; color:var(--mut)}
+.setup{max-width:560px; margin:0 auto}
+.foot{max-width:560px; margin:26px auto 0; text-align:center; padding-top:18px; border-top:1px solid var(--line)}
+.foot .hint{margin-bottom:10px}
+
+/* Spiel */
+.teams{display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:14px; scrollbar-width:none}
+.teams::-webkit-scrollbar{display:none}
+.tchip{flex:0 0 auto; border-radius:999px; padding:7px 13px; background:#fff; border:1px solid var(--line); font-weight:700; font-size:14px; display:flex; gap:8px; align-items:center}
+.tchip span{color:var(--mut); font-weight:600}
+.tchip.on{background:var(--ink); color:#fff; border-color:var(--ink)}
+.tchip.on span{color:#ffffffb0}
+.stage{display:grid; grid-template-columns:300px 1fr; gap:26px; align-items:start}
+@media (max-width:820px){.stage{grid-template-columns:1fr; gap:18px}}
+.cardcol{max-width:340px; width:100%; margin:0 auto}
 .cardwrap{position:relative; z-index:2}
+.card{width:100%; aspect-ratio:1/1.08; border-radius:24px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px; position:relative; overflow:hidden; box-shadow:0 18px 40px -22px #00000059}
+@media (max-width:820px){.card{aspect-ratio:auto; min-height:230px}}
+.card.mystery{background:var(--rot); color:#fff}
+.card.mystery::before{content:""; position:absolute; inset:0; background:repeating-linear-gradient(135deg,#ffffff14 0 22px,transparent 22px 44px)}
+.card.mystery .q{font-size:110px; font-weight:800; line-height:.9; position:relative}
+.card.shown{background:#fff; border:1px solid var(--line)}
+.card .artist{font-weight:600; color:var(--mut); font-size:15px}
+.card .title{font-weight:800; font-size:24px; line-height:1.1; letter-spacing:-.02em; margin:6px 0 10px}
+.card .year{font-weight:800; font-size:64px; letter-spacing:-.04em; color:var(--rot); line-height:1}
+.card .flag{position:absolute; bottom:12px; left:12px; right:12px; font-size:12px; color:var(--mut)}
+.card.ok{box-shadow:0 0 0 3px var(--ok), 0 18px 40px -22px #00000059}
+.card.bad{box-shadow:0 0 0 3px var(--rot), 0 18px 40px -22px #00000059}
 .card.tap{pointer-events:none}
-.card .tapnote{position:absolute; left:12px; right:12px; bottom:12px; background:#fff; color:var(--ink); border-radius:12px; padding:8px 10px; font-weight:700; font-size:14px}
-td input.yt{width:150px}
+.card .tapnote{position:absolute; left:14px; right:14px; bottom:14px; background:#fff; color:var(--ink); border-radius:14px; padding:9px 10px; font-weight:700; font-size:14px}
+.eq{display:flex; gap:5px; align-items:flex-end; height:30px; margin-top:16px; position:relative}
+.eq i{display:block; width:6px; background:#fff; border-radius:3px; height:5px; opacity:.9}
+.eq.on i{animation:eq .9s ease-in-out infinite}
+.eq.on i:nth-child(2){animation-delay:.15s}.eq.on i:nth-child(3){animation-delay:.3s}.eq.on i:nth-child(4){animation-delay:.45s}.eq.on i:nth-child(5){animation-delay:.6s}
+@keyframes eq{0%,100%{height:5px}50%{height:28px}}
+.controls{display:flex; align-items:center; justify-content:center; gap:10px; margin-top:16px}
+.play{width:62px; height:62px; border-radius:50%; border:0; background:var(--ink); color:#fff; font-size:22px}
+.play.pulse{animation:pulse 1.1s ease-in-out infinite; background:var(--rot)}
+@keyframes pulse{50%{transform:scale(1.08)}}
+.cbtn{width:44px; height:44px; border-radius:50%; border:1.5px solid var(--line); background:#fff; font-size:18px}
+.status{text-align:center; font-size:13px; color:var(--mut); margin-top:8px; min-height:18px}
+.found{text-align:center; font-size:13px; color:var(--mut); margin-top:10px}
+.verdict{font-weight:800; font-size:22px; text-align:center; margin:14px 0 8px}
+.row{display:flex; gap:8px}
+.row>*{flex:1}
+
+.tl-head{display:flex; justify-content:space-between; align-items:baseline; gap:10px}
+.tl-head h2{margin:0; font-size:22px; letter-spacing:-.02em}
+.timeline{display:flex; flex-wrap:wrap; align-items:stretch; gap:6px; padding:14px 0 4px}
+.tcard{min-width:104px; max-width:140px; flex:0 0 auto; background:#fff; border:1px solid var(--line); border-radius:14px; padding:9px 10px; text-align:center}
+.tcard .y{font-weight:800; font-size:24px; color:var(--rot); letter-spacing:-.03em}
+.tcard .t{font-weight:700; font-size:12.5px; line-height:1.2}
+.tcard .a{font-size:11.5px; color:var(--mut)}
+.tcard.new{animation:pop .5s ease}
+@keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.06)}100%{transform:scale(1)}}
+.slot{width:38px; flex:0 0 auto; border:1.5px dashed #d0112b80; border-radius:12px; background:#d0112b0d; color:var(--rot); font-size:20px; font-weight:800; display:flex; align-items:center; justify-content:center}
+.slot:hover{background:var(--rot); color:#fff; border-style:solid}
+.slot.miss{background:var(--rot); color:#fff; border-style:solid}
+.mini{display:flex; flex-wrap:wrap; gap:5px; margin-top:6px}
+.mini span{border:1px solid var(--line); border-radius:8px; padding:3px 7px; font-size:12.5px; background:#fff}
+.mini b{color:var(--rot)}
+.more .item{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:8px 0; border-top:1px solid var(--line)}
+.more .item:first-of-type{border-top:0}
+
+/* Ende */
+.end{text-align:center; padding:30px 10px}
+.end .big{font-size:clamp(38px,8vw,72px); font-weight:800; letter-spacing:-.04em; color:var(--rot); margin:8px 0}
+
+/* Fenster */
+.modal{position:fixed; inset:0; background:#17120f99; display:none; align-items:flex-start; justify-content:center; padding:20px 10px; overflow:auto; z-index:20}
+.modal.open{display:flex}
+.modal .box{max-width:920px; width:100%}
+.mhead{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:8px}
+.mhead h2{margin:0; font-size:22px}
+table{width:100%; border-collapse:collapse; font-size:14px}
+th{text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--mut); padding:6px 4px; font-weight:700}
+td{padding:4px; border-top:1px solid var(--line); vertical-align:middle}
+td input[type=text],td input[type=number]{padding:6px 8px; border-width:1px; border-radius:8px}
+td input[type=number]{width:76px}
+td input.lnk{width:150px}
+.tag{font-size:11px; padding:2px 7px; border-radius:6px; background:#fff3cf; white-space:nowrap}
+.tag.ok{background:#e4f4ea}
+.st{font-size:12px; color:var(--mut); max-width:230px}
+ol.rules{padding-left:18px; margin:0; line-height:1.55}
+ol.rules li+li{margin-top:6px}
+.steps{padding-left:18px; margin:6px 0 10px; line-height:1.5; font-size:14px}
+code.uri{display:block; background:#f3eee7; border-radius:8px; padding:8px 10px; font-size:13px; word-break:break-all; margin:6px 0}
+
+#ytHost{position:absolute; left:-9999px; top:0; width:320px; height:320px; z-index:1; border-radius:24px; overflow:hidden; background:#000}
+#ytHost iframe{width:100%; height:100%; border:0; display:block}
+.confetti{position:fixed; top:-20px; width:9px; height:13px; z-index:30; pointer-events:none; animation:fall linear forwards; border-radius:2px}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.toast{position:fixed; left:50%; bottom:22px; transform:translateX(-50%); background:var(--ink); color:#fff; padding:10px 16px; border-radius:12px; display:none; z-index:40; font-weight:600; font-size:14px; max-width:90vw; text-align:center}
 </style>
 </head>
 <body>
-<header><div class="bar">
-  <h1>Kölsch-Hitster<small>Wann kom dat Leed eruss? Sortier et en!</small></h1>
-  <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <button class="btn ghost sm" id="btnSongs">🎵 Songliste</button>
-    <button class="btn ghost sm" id="btnRules">❓ Regeln</button>
-    <button class="btn ghost sm" id="btnNew" style="display:none">↺ Neues Spiel</button>
+<header>
+  <div class="logo"><span class="mark"></span><span id="gameName"></span></div>
+  <div class="nav">
+    <button class="ib" id="btnNew" style="display:none">↺ Neu</button>
+    <button class="ib" id="btnSongs">Songs</button>
+    <button class="ib" id="btnRules" aria-label="Regeln">?</button>
   </div>
-</div></header>
+</header>
 
 <main id="app"></main>
 <div id="ytHost"><div id="ytFrame"></div></div>
 
 <!-- Songliste -->
-<div class="modal" id="mSongs"><div class="panel">
-  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-    <h2 style="margin:0">Songliste (<span id="songCount"></span>)</h2>
-    <button class="btn sm" data-close>Schließen</button>
+<div class="modal" id="mSongs"><div class="box">
+  <div class="mhead"><h2>Songs (<span id="songCount"></span>)</h2><button class="btn sm ghost" data-close>Schließen</button></div>
+  <div class="row" style="flex-wrap:wrap;margin:6px 0 12px">
+    <button class="btn sm red" id="testAll" style="flex:0 0 auto">Alle Songs testen</button>
+    <button class="btn sm ghost" id="addSong" style="flex:0 0 auto">+ Song</button>
   </div>
-  <p class="hint">Jahre mit <span class="tag ok">geprüft</span> habe ich mit einer Quelle abgeglichen, bei <span class="tag">bitte prüfen</span> war die Quellenlage unklar oder widersprüchlich. Du kannst alles ändern, Songs ergänzen oder löschen. Änderungen werden in diesem Browser gespeichert.</p>
-  <p class="hint"><b>Musik:</b> Jeder Song läuft über YouTube, ab Sekunde 0, 90 Sekunden lang. Ist ein Video gesperrt, nimmt das Spiel automatisch das nächste; als letzte Notlösung einen 30-Sekunden-Ausschnitt von Apple. „Alle Songs testen“ spielt jedes Video kurz stumm an und merkt sich, welches funktioniert (dauert ca. 2–3 Minuten). Eigene Videos: YouTube-Link in die Spalte „Eigenes Video“ kopieren.</p>
-  <div style="overflow:auto;max-height:55vh">
-  <table><thead><tr><th>Interpret</th><th>Titel</th><th>Jahr</th><th></th><th>Eigenes Video</th><th>Test</th><th></th></tr></thead><tbody id="songRows"></tbody></table>
+  <div style="overflow:auto;max-height:58vh">
+    <table><thead><tr><th>Interpret</th><th>Titel</th><th>Jahr</th><th></th><th>Eigener Link</th><th>Test</th><th></th></tr></thead><tbody id="songRows"></tbody></table>
   </div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-    <button class="btn sm primary" id="testAll">🔊 Alle Songs testen</button>
-    <button class="btn sm gold" id="addSong">+ Song</button>
-    <button class="btn sm" id="resetSongs">Standardliste wiederherstellen</button>
-    <button class="btn sm" id="exportSongs">Liste kopieren</button>
-    <button class="btn sm" id="importToggle">Liste einfügen</button>
-  </div>
-  <div id="importBox" style="display:none;margin-top:10px">
-    <textarea id="importText" rows="5" placeholder="JSON hier einfügen, z. B. aus „Liste kopieren“ von einem anderen Gerät"></textarea>
-    <button class="btn sm primary" id="doImport" style="margin-top:6px">Übernehmen</button>
-  </div>
+  <details class="box" style="margin-top:12px">
+    <summary>Erklärung & Liste sichern</summary>
+    <p class="hint"><span class="tag ok">geprüft</span> = Jahr mit einer Quelle abgeglichen, <span class="tag">bitte prüfen</span> = Quellenlage unklar oder widersprüchlich. Änderungen werden in diesem Browser gespeichert.</p>
+    <p class="hint">Musik kommt über Spotify (wenn verbunden), sonst über YouTube – immer ab Sekunde 0, 90 Sekunden lang. Klappt ein Video nicht, nimmt das Spiel das nächste, als Notlösung einen 30-Sek.-Ausschnitt von Apple. „Alle Songs testen“ prüft das vorab (2–3 Minuten). In „Eigener Link“ kannst du einen YouTube- oder Spotify-Link einfügen, der dann zuerst gespielt wird.</p>
+    <div class="row" style="flex-wrap:wrap">
+      <button class="btn sm ghost" id="resetSongs" style="flex:0 0 auto">Standardliste wiederherstellen</button>
+      <button class="btn sm ghost" id="exportSongs" style="flex:0 0 auto">Liste kopieren</button>
+      <button class="btn sm ghost" id="importToggle" style="flex:0 0 auto">Liste einfügen</button>
+    </div>
+    <div id="importBox" style="display:none;margin-top:10px">
+      <textarea id="importText" rows="5" placeholder="JSON hier einfügen"></textarea>
+      <button class="btn sm" id="doImport" style="margin-top:6px">Übernehmen</button>
+    </div>
+  </details>
 </div></div>
 
 <!-- Regeln -->
-<div class="modal" id="mRules"><div class="panel" style="max-width:640px">
-  <h2>So wird jespillt</h2>
-  <ol class="hint" style="color:var(--ink);font-size:15px;line-height:1.6;padding-left:20px">
-    <li>Jedes Team startet mit einer aufgedeckten Karte auf seinem Zeitstrahl.</li>
-    <li>Wer dran ist, bekommt eine verdeckte Karte, und der Song läuft von Anfang an (90 Sekunden). Falls das Handy nicht von selbst startet: einmal auf die Karte tippen. Im <b>Quiz-Modus</b> stehen Interpret und Titel zusätzlich auf der Karte.</li>
-    <li>Das Team tippt auf die Lücke im eigenen Zeitstrahl, wo der Song hingehört. Richtig: Karte bleibt liegen. Falsch: Karte ist weg.</li>
-    <li>Im Hör-Modus gibt es eine <b>Kamelle</b> 🍬, wenn Interpret <i>und</i> Titel richtig genannt wurden. 1 Kamelle = Song überspringen, 3 Kamelle = eine Karte geschenkt.</li>
-    <li>Wer zuerst die Zielzahl an Karten hat, gewinnt. Gleiche Jahre dürfen nebeneinander liegen.</li>
-  </ol>
-  <button class="btn primary" data-close>Alles klar, loss jonn!</button>
+<div class="modal" id="mRules"><div class="box" style="max-width:560px">
+  <div class="mhead"><h2>Wie jeiht dat?</h2><button class="btn sm ghost" data-close>OK</button></div>
+  <ol class="rules" id="rulesList"></ol>
 </div></div>
 
 <div class="toast" id="toast"></div>
 
 <script>
+/* =========================================================
+   EINSTELLUNGEN ZUM ANPASSEN
+   ========================================================= */
+const GAME_NAME   = "Kölsch-Hitster";
+const DONATE_URL  = "";   // ← hier später den Spendenlink eintragen, z. B. "https://paypal.me/DEINNAME"
+const PLAY_SECONDS = 90;
+
+const RULES = [
+  "Jedes Team startet mit einer aufgedeckten Karte.",
+  "Wer dran ist, bekommt eine verdeckte Karte – der Song läuft von Anfang an, 90 Sekunden. Startet er nicht von selbst: einmal auf die Karte tippen.",
+  "Das Team tippt auf die Lücke im Zeitstrahl, wo der Song hingehört. Richtig: Karte bleibt. Falsch: Karte ist weg.",
+  "Hör-Modus: Interpret <i>und</i> Titel richtig = 1 Kamelle 🍬. 1 Kamelle = Song überspringen, 3 Kamelle = eine Karte geschenkt.",
+  "Wer zuerst die Zielzahl an Karten hat, gewinnt. Gleiche Jahre dürfen nebeneinander liegen."
+];
+
+const THEMES = {
+  koelsch:{ label:"Kölsch",      names:["Reissdorf","Früh","Gaffel","Sion","Peters","Mühlen"] },
+  veedel: { label:"Veedel",      names:["Ehrenfeld","Südstadt","Belgisches","Nippes","Sülz","Deutz"] },
+  fc:     { label:"FC",          names:["Hennes","Geißböcke","Südkurve","Müngersdorf","Effzeh","Rut-Wieß"] },
+  jeck:   { label:"Fastelovend", names:["Dreigestirn","Funkemariechen","Rote Funken","Stippeföttche","Kamelle","Strüßjer"] }
+};
+
 /* ---------- Standard-Songliste ----------
-   c:1 = Jahr mit einer Quelle abgeglichen, c:0 = bitte prüfen
-   yt  = YouTube-Videos in Wunschreihenfolge (Studioaufnahme zuerst) */
+   c:1 = Jahr mit Quelle abgeglichen, c:0 = bitte prüfen; yt = YouTube-Videos in Wunschreihenfolge */
 const DEFAULT_SONGS = [
  {a:"Karl Berbuer", t:"Heidewitzka, Herr Kapitän", y:1936, c:1, yt:["BRyPDklKRws","Pmdy_AuLiv8","16Q8Sla7Zlw"]},
  {a:"Jupp Schmitz", t:"Wer soll das bezahlen?", y:1949, c:1, yt:["sMuOkYLfJtc","uQQm7bKJskM","dliBIdAzH44"]},
@@ -254,64 +278,189 @@ const DEFAULT_SONGS = [
  {a:"Druckluft", t:"Karnevalsmaus", y:2025, c:1, yt:["2uH0qFZu_JE","6LlXRtfzf-A","KOaDdsqkU84"]},
  {a:"Kasalla", t:"¡Adios Amigos!", y:2025, c:1, yt:["u3MOd2nS7Ss","-VqGKrnMj3U"]}
 ];
-const PLAY_SECONDS = 90;
 
-/* ---------- Speicher (falls verfügbar) ---------- */
+/* =========================================================
+   GRUNDLAGEN
+   ========================================================= */
 const store = {
   get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } },
-  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} },
+  del(k){ try{ localStorage.removeItem(k); }catch(e){} }
 };
 let songs = store.get("kh_songs_v2") || DEFAULT_SONGS.map(s=>({...s, yt:[...s.yt]}));
 const saveSongs = ()=> store.set("kh_songs_v2", songs);
-let setup = store.get("kh_setup") || { players:["Team Rut","Team Wiess"], mode:"hoer", target:10 };
+
+let setup = store.get("kh_setup3");
+if(!setup){
+  const old = store.get("kh_setup");
+  setup = { count:2, theme:"koelsch", names:THEMES.koelsch.names.slice(), mode:(old&&old.mode)||"hoer", target:(old&&old.target)||10 };
+}
+const saveSetup = ()=> store.set("kh_setup3", setup);
 let game = null;
 
 const $ = s => document.querySelector(s);
 const app = $("#app");
 const esc = s => String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const shuffle = a => { for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
-const sortCards = c => c.sort((x,y)=>x.y-y.y);
-function toast(msg){ const t=$("#toast"); t.textContent=msg; t.style.display="block"; clearTimeout(t._h); t._h=setTimeout(()=>t.style.display="none",2400); }
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.style.display="block"; clearTimeout(t._h); t._h=setTimeout(()=>t.style.display="none",2600); }
 const ytLink = s => "https://www.youtube.com/results?search_query=" + encodeURIComponent(s.a + " " + s.t);
-const norm = s => String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+const norm = s => String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
 const artistFirst = a => String(a).split(/,|\sfeat\.?\s|\s&\s|\sund\s/i)[0].trim();
 const artistKey = a => norm(artistFirst(a));
 const songKey = s => norm(s.a) + "|" + norm(s.t);
-function parseYt(v){
-  v = String(v||"").trim(); if(!v) return "";
-  const m = v.match(/(?:v=|youtu\.be\/|shorts\/|embed\/|live\/)([\w-]{11})/); if(m) return m[1];
-  return /^[\w-]{11}$/.test(v) ? v : "";
+function matchScore(song, artist, name, album){
+  let sc = 0; const ak = artistKey(song.a), ca = norm(artist), ct = norm(name);
+  if(ak && ca && (ca.includes(ak) || ak.includes(ca))) sc += 3;
+  const words = norm(song.t).split(" ").filter(w=>w.length>2);
+  if(words.length) sc += 3 * words.filter(w=>ct.includes(w)).length / words.length;
+  const extra = norm(name + " " + (album||""));
+  if(/karaoke|instrumental|cover|tribute/.test(extra)) sc -= 4;
+  if(/\blive\b/.test(extra)) sc -= 1;
+  if(/remix|club mix|party mix|edit\b/.test(extra)) sc -= .7;
+  return sc;
+}
+function parseLink(v){
+  v = String(v||"").trim(); if(!v) return {};
+  let m = v.match(/spotify\.com\/(?:intl-[\w-]+\/)?track\/([A-Za-z0-9]{22})/) || v.match(/spotify:track:([A-Za-z0-9]{22})/);
+  if(m) return {sp:m[1]};
+  m = v.match(/(?:v=|youtu\.be\/|shorts\/|embed\/|live\/)([\w-]{11})/); if(m) return {u:m[1]};
+  if(/^[\w-]{11}$/.test(v)) return {u:v};
+  return {bad:true};
+}
+document.title = GAME_NAME; $("#gameName").textContent = GAME_NAME;
+$("#rulesList").innerHTML = RULES.map(r=>`<li>${r}</li>`).join("");
+
+/* =========================================================
+   SPOTIFY (optional)
+   ========================================================= */
+const SP = { clientId: store.get("kh_sp_client")||"", tok: store.get("kh_sp_tok")||null, player:null, device:null, ready:false, failed:false, err:"", user:"", sdk:false };
+const SP_SCOPES = "streaming user-read-email user-read-private user-modify-playback-state user-read-playback-state";
+const spCache = store.get("kh_sp_cache") || {};
+const redirectUri = () => location.origin + location.pathname;
+const spConnected = () => !!(SP.tok && SP.tok.refresh && SP.clientId);
+function b64url(buf){ return btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+function randomString(n){ const c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; const a=new Uint8Array(n); crypto.getRandomValues(a); return Array.from(a,x=>c[x%c.length]).join(""); }
+async function spLogin(){
+  if(!SP.clientId){ toast("Erst die Client-ID eintragen."); return; }
+  if(!window.crypto || !crypto.subtle){ toast("Spotify-Login geht nur über https."); return; }
+  const verifier = randomString(64);
+  const challenge = b64url(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier)));
+  store.set("kh_sp_verifier", verifier);
+  const p = new URLSearchParams({ client_id:SP.clientId, response_type:"code", redirect_uri:redirectUri(), code_challenge_method:"S256", code_challenge:challenge, scope:SP_SCOPES });
+  location.href = "https://accounts.spotify.com/authorize?" + p;
+}
+function spLogout(){ SP.tok=null; store.del("kh_sp_tok"); try{ SP.player && SP.player.disconnect(); }catch(e){} SP.player=null; SP.ready=false; SP.device=null; SP.user=""; }
+function spSaveTok(d){ SP.tok = { access:d.access_token, refresh:d.refresh_token || (SP.tok && SP.tok.refresh), exp: Date.now() + ((d.expires_in||3600) - 60)*1000 }; store.set("kh_sp_tok", SP.tok); }
+async function spTokenRequest(params){
+  const r = await fetch("https://accounts.spotify.com/api/token", { method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body:new URLSearchParams(params) });
+  const d = await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(d.error_description || d.error || ("HTTP "+r.status));
+  return d;
+}
+async function spHandleRedirect(){
+  const q = new URLSearchParams(location.search);
+  if(!q.has("code") && !q.has("error")) return;
+  history.replaceState(null, "", redirectUri());
+  if(q.get("error")){ toast("Spotify-Anmeldung abgebrochen."); return; }
+  try{
+    const d = await spTokenRequest({ grant_type:"authorization_code", code:q.get("code"), redirect_uri:redirectUri(), client_id:SP.clientId, code_verifier:store.get("kh_sp_verifier")||"" });
+    spSaveTok(d); toast("Spotify ist verbunden 🎉");
+  }catch(e){ toast("Spotify-Anmeldung fehlgeschlagen: " + e.message); }
+}
+async function spToken(){
+  if(!SP.tok) return null;
+  if(Date.now() < SP.tok.exp && SP.tok.access) return SP.tok.access;
+  try{ spSaveTok(await spTokenRequest({ grant_type:"refresh_token", refresh_token:SP.tok.refresh, client_id:SP.clientId })); return SP.tok.access; }
+  catch(e){ spLogout(); toast("Spotify-Anmeldung abgelaufen – bitte neu verbinden."); renderSetupIfOpen(); return null; }
+}
+async function spApi(path, opts={}, retry=true){
+  const t = await spToken(); if(!t) throw new Error("notoken");
+  const r = await fetch("https://api.spotify.com/v1" + path, { ...opts, headers:{ ...(opts.headers||{}), Authorization:"Bearer "+t, "Content-Type":"application/json" } });
+  if(r.status === 401 && retry){ SP.tok.exp = 0; return spApi(path, opts, false); }
+  return r;
+}
+function spBoot(){
+  if(!spConnected() || SP.sdk) return;
+  SP.sdk = true;
+  spApi("/me").then(r=>r.ok?r.json():null).then(d=>{ if(d){ SP.user = d.display_name || d.id; if(d.product && d.product!=="premium"){ SP.failed=true; SP.err="Kein Premium-Konto"; } renderSetupIfOpen(); } }).catch(()=>{});
+  window.onSpotifyWebPlaybackSDKReady = spInitPlayer;
+  const s = document.createElement("script"); s.src = "https://sdk.scdn.co/spotify-player.js";
+  s.onerror = ()=>{ SP.failed = true; SP.err = "Spotify-Player lädt nicht"; spRelease(); };
+  document.head.appendChild(s);
+}
+function spInitPlayer(){
+  SP.player = new Spotify.Player({ name: GAME_NAME, getOAuthToken: cb => { spToken().then(t=>{ if(t) cb(t); }); }, volume: 1 });
+  SP.player.addListener("ready", ({device_id}) => { SP.device = device_id; SP.ready = true; spRelease(); renderSetupIfOpen(); });
+  SP.player.addListener("not_ready", () => { SP.ready = false; });
+  ["initialization_error","authentication_error","account_error"].forEach(ev => SP.player.addListener(ev, ({message}) => {
+    SP.failed = true; SP.err = ev==="account_error" ? "Premium nötig" : message; spRelease(); renderSetupIfOpen();
+  }));
+  SP.player.addListener("playback_error", () => { if(P.mode==="sp"){ P.idx++; P.autoplay=true; tryCand(); } });
+  SP.player.addListener("player_state_changed", onSpState);
+  SP.player.connect();
+}
+function spRelease(){ if(P.waitingSP){ P.waitingSP = false; tryCand(); } }
+function spActivate(){ try{ SP.player && SP.player.activateElement && SP.player.activateElement(); }catch(e){} }
+async function spFindTrack(song){
+  if(song.sp) return { uri:"spotify:track:"+song.sp, title:"eigener Spotify-Link", link:"https://open.spotify.com/track/"+song.sp };
+  const key = songKey(song);
+  if(spCache[key] !== undefined) return spCache[key];
+  const tryQ = async q => {
+    const r = await spApi("/search?type=track&market=DE&limit=10&q=" + encodeURIComponent(q));
+    if(!r.ok) throw new Error("search " + r.status);
+    const d = await r.json();
+    const items = ((d.tracks||{}).items||[]).map(t=>({ t, sc: matchScore(song, (t.artists[0]||{}).name, t.name, (t.album||{}).name) })).filter(x=>x.sc>=2.5).sort((a,b)=>b.sc-a.sc);
+    return items[0] ? { uri:items[0].t.uri, title:(items[0].t.artists||[]).map(a=>a.name).join(", ")+" – "+items[0].t.name, link:(items[0].t.external_urls||{}).spotify||"" } : null;
+  };
+  let found = await tryQ(`track:${song.t} artist:${artistFirst(song.a)}`);
+  if(!found) found = await tryQ(artistFirst(song.a) + " " + song.t);
+  spCache[key] = found; store.set("kh_sp_cache", spCache);
+  return found;
+}
+async function spPlayUri(uri){
+  const song = P.song;
+  let r;
+  try{ r = await spApi(`/me/player/play?device_id=${encodeURIComponent(SP.device)}`, { method:"PUT", body: JSON.stringify({ uris:[uri], position_ms:0 }) }); }
+  catch(e){ if(P.song===song && P.mode==="sp"){ P.idx++; tryCand(); } return; }
+  if(P.song!==song || P.mode!=="sp") return;
+  if(r.status === 403){ SP.failed = true; SP.err = "Spotify erlaubt die Wiedergabe nicht (Premium?)"; toast(SP.err); P.idx++; return tryCand(); }
+  if(!r.ok){ P.idx++; return tryCand(); }
+  armBlocked(3500);
+}
+function onSpState(st){
+  if(!st || P.mode !== "sp") return;
+  const cur = st.track_window && st.track_window.current_track;
+  if(cur && P.spUri && cur.uri !== P.spUri && !(cur.linked_from && cur.linked_from.uri === P.spUri)) return;
+  if(!st.paused){
+    clearTimeout(P.tapTimer);
+    if(P.state !== "playing"){ P.spStarted = true; setState("playing"); startWatch(); }
+  } else if(P.state === "playing"){ setState("paused"); }
 }
 
 /* =========================================================
-   YOUTUBE-PLAYER (versteckt unter der Karte)
+   YOUTUBE (Standard) + APPLE-AUSSCHNITT (Notlösung)
    ========================================================= */
 const ytHost = $("#ytHost");
 let ytPlayer = null, ytReady = false, ytFailed = false, testHook = null;
-const ytOk = store.get("kh_ytok") || {};      // songKey -> Video-ID, die nachweislich lief
+const ytOk = store.get("kh_ytok") || {};
 const ytBad = new Set(store.get("kh_ytbad") || []);
 function saveYt(){ store.set("kh_ytok", ytOk); store.set("kh_ytbad", [...ytBad]); }
-
 (function loadYT(){
-  const s = document.createElement("script");
-  s.src = "https://www.youtube.com/iframe_api";
-  s.onerror = () => { ytFailed = true; if(P.waitingYT){ P.waitingYT=false; P.idx++; tryCand(); } };
-  document.head.appendChild(s);
-  setTimeout(()=>{ if(!ytReady){ ytFailed = true; if(P.waitingYT){ P.waitingYT=false; P.idx++; tryCand(); } } }, 15000);
+  const giveUp = () => { if(ytReady) return; ytFailed = true; if(P.waitingYT){ P.waitingYT=false; P.idx++; tryCand(); } };
+  const s = document.createElement("script"); s.src = "https://www.youtube.com/iframe_api"; s.onerror = giveUp;
+  document.head.appendChild(s); setTimeout(giveUp, 15000);
 })();
 window.onYouTubeIframeAPIReady = function(){
   ytPlayer = new YT.Player("ytFrame", {
     width:"100%", height:"100%",
     playerVars:{ playsinline:1, controls:0, disablekb:1, fs:0, rel:0, iv_load_policy:3, modestbranding:1 },
     events:{
-      onReady:()=>{ ytReady = true; ytFailed = false; if(P.waitingYT){ P.waitingYT=false; tryCand(); } },
-      onStateChange:e=>{ if(testHook) return testHook.state(e.data); onYTState(e.data); },
-      onError:e=>{ if(testHook) return testHook.error(e.data); onYTError(e.data); }
+      onReady: () => { ytReady = true; ytFailed = false; if(P.waitingYT){ P.waitingYT=false; tryCand(); } },
+      onStateChange: e => { if(testHook) return testHook.state(e.data); onYTState(e.data); },
+      onError: e => { if(testHook) return testHook.error(e.data); onYTError(e.data); }
     }
   });
 };
-
-/* Ersatz: 30-Sek.-Ausschnitt über iTunes-Suche */
 const audio = new Audio(); audio.preload = "auto";
 const SILENT = "data:audio/wav;base64,UklGRkQDAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YSADAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==";
 let audioUnlocked = false;
@@ -322,14 +471,11 @@ function unlockAudio(){
 let jsonpN = 0;
 function jsonp(url, timeout=9000){
   return new Promise((res,rej)=>{
-    const cb = "__kh" + (jsonpN++) + "_" + Date.now();
-    const s = document.createElement("script");
+    const cb = "__kh" + (jsonpN++) + "_" + Date.now(); const s = document.createElement("script");
     const t = setTimeout(()=>{ cleanup(); rej(new Error("timeout")); }, timeout);
     function cleanup(){ clearTimeout(t); try{ delete window[cb]; }catch(e){ window[cb]=undefined; } s.remove(); }
-    window[cb] = d => { cleanup(); res(d); };
-    s.onerror = () => { cleanup(); rej(new Error("net")); };
-    s.src = url + (url.includes("?")?"&":"?") + "callback=" + cb;
-    document.head.appendChild(s);
+    window[cb] = d => { cleanup(); res(d); }; s.onerror = () => { cleanup(); rej(new Error("net")); };
+    s.src = url + (url.includes("?")?"&":"?") + "callback=" + cb; document.head.appendChild(s);
   });
 }
 async function itunesPreview(song){
@@ -337,59 +483,68 @@ async function itunesPreview(song){
   let found = null;
   try{
     const d = await jsonp("https://itunes.apple.com/search?entity=song&country=de&limit=15&term=" + encodeURIComponent(artistFirst(song.a)+" "+song.t));
-    const ak = artistKey(song.a), words = norm(song.t).split(" ").filter(w=>w.length>2);
-    const c = (d.results||[]).filter(r=>r.previewUrl).map(r=>{
-      let sc = 0; const ca = norm(r.artistName), ct = norm(r.trackName);
-      if(ak && (ca.includes(ak)||ak.includes(ca))) sc += 3;
-      if(words.length) sc += 3*words.filter(w=>ct.includes(w)).length/words.length;
-      if(/karaoke|instrumental|cover/.test(norm(r.trackName+" "+r.collectionName))) sc -= 4;
-      return {r, sc};
-    }).filter(x=>x.sc>=2.5).sort((a,b)=>b.sc-a.sc)[0];
-    if(c) found = {url:c.r.previewUrl, title:c.r.artistName+" – "+c.r.trackName, link:c.r.trackViewUrl};
+    const c = (d.results||[]).filter(r=>r.previewUrl).map(r=>({r, sc:matchScore(song, r.artistName, r.trackName, r.collectionName)})).filter(x=>x.sc>=2.5).sort((a,b)=>b.sc-a.sc)[0];
+    if(c) found = { url:c.r.previewUrl, title:c.r.artistName+" – "+c.r.trackName, link:c.r.trackViewUrl };
   }catch(e){}
   song._it = found; return found;
 }
 
-/* ---------- Abspiel-Steuerung ---------- */
-const P = { song:null, cands:[], idx:0, mode:null, state:"idle", autoplay:true, title:"", link:"", tapTimer:null, watch:null, waitingYT:false };
+/* =========================================================
+   ABSPIEL-STEUERUNG (Spotify → YouTube → Apple)
+   ========================================================= */
+const P = { song:null, cands:[], idx:0, mode:null, state:"idle", autoplay:true, title:"", link:"", tapTimer:null, watch:null, waitingYT:false, waitingSP:false, spUri:"", spStarted:false };
 function candidatesFor(song){
-  const list = [];
-  if(song.u) list.push(song.u);
+  const out = [];
+  if(spConnected() && !SP.failed) out.push({type:"sp"});
+  const list = []; if(song.u) list.push(song.u);
   const ok = ytOk[songKey(song)]; if(ok) list.push(ok);
   (song.yt||[]).forEach(id=>list.push(id));
-  const ids = [...new Set(list)].filter(id=>!ytBad.has(id) || id===song.u || id===ok);
-  return ids.map(id=>({type:"yt", id})).concat([{type:"itunes"}]);
+  [...new Set(list)].filter(id => !ytBad.has(id) || id===song.u || id===ok).forEach(id=>out.push({type:"yt", id}));
+  out.push({type:"itunes"});
+  return out;
 }
-function setState(st){ P.state = st; updatePlayerUI(); }
+const setState = st => { P.state = st; updatePlayerUI(); };
 function stopAll(){
-  clearTimeout(P.tapTimer); clearInterval(P.watch);
+  clearTimeout(P.tapTimer); clearInterval(P.watch); P.waitingSP = false; P.waitingYT = false;
   try{ if(ytPlayer && ytReady) ytPlayer.stopVideo(); }catch(e){}
   try{ audio.pause(); }catch(e){}
+  try{ if(SP.player && SP.ready && P.mode==="sp") SP.player.pause(); }catch(e){}
 }
 function startSong(song, autoplay){
-  stopAll();
-  P.song = song; P.cands = candidatesFor(song); P.idx = 0; P.autoplay = autoplay; P.title = ""; P.link = "";
+  stopAll(); spActivate();
+  Object.assign(P, { song, cands:candidatesFor(song), idx:0, autoplay, title:"", link:"", spUri:"", spStarted:false });
   tryCand();
 }
+function armBlocked(ms){ clearTimeout(P.tapTimer); P.tapTimer = setTimeout(()=>{ if(P.state==="loading") setState("blocked"); }, ms); }
 function tryCand(){
   const c = P.cands[P.idx];
-  clearTimeout(P.tapTimer); clearInterval(P.watch);
-  P.title = ""; P.link = "";
+  clearTimeout(P.tapTimer); clearInterval(P.watch); P.title = ""; P.link = "";
   if(!c){ P.mode = null; setState("none"); return; }
-  if(c.type === "yt"){
-    if(!ytReady){
-      if(ytFailed){ P.idx++; return tryCand(); }
-      P.waitingYT = true; P.mode = "yt"; setState("loading"); return;
+  const song = P.song;
+  if(c.type === "sp"){
+    P.mode = "sp"; setState("loading");
+    if(!SP.ready){
+      if(SP.failed || !spConnected()){ P.idx++; return tryCand(); }
+      spBoot(); P.waitingSP = true;
+      setTimeout(()=>{ if(P.waitingSP && P.song===song){ P.waitingSP=false; P.idx++; tryCand(); } }, 9000);
+      return;
     }
-    P.mode = "yt"; P.title = ""; P.link = "https://www.youtube.com/watch?v=" + c.id;
-    setState("loading");
+    spFindTrack(song).then(tr=>{
+      if(P.song !== song || P.mode !== "sp") return;
+      if(!tr){ P.idx++; return tryCand(); }
+      P.title = tr.title; P.link = tr.link; P.spUri = tr.uri;
+      if(P.autoplay) spPlayUri(tr.uri); else setState("paused");
+    }).catch(()=>{ if(P.song===song && P.mode==="sp"){ P.idx++; tryCand(); } });
+  } else if(c.type === "yt"){
+    P.mode = "yt"; setState("loading");
+    if(!ytReady){ if(ytFailed){ P.idx++; return tryCand(); } P.waitingYT = true; return; }
+    P.link = "https://www.youtube.com/watch?v=" + c.id;
     try{ ytPlayer.unMute(); ytPlayer.setVolume(100); }catch(e){}
-    const opts = { videoId:c.id, startSeconds:0, endSeconds:PLAY_SECONDS };
-    if(P.autoplay) ytPlayer.loadVideoById(opts); else ytPlayer.cueVideoById(opts);
-    armTapTimer(3000);
+    const o = { videoId:c.id, startSeconds:0, endSeconds:PLAY_SECONDS };
+    if(P.autoplay) ytPlayer.loadVideoById(o); else ytPlayer.cueVideoById(o);
+    armBlocked(3000);
   } else {
     P.mode = "audio"; setState("loading");
-    const song = P.song;
     itunesPreview(song).then(f=>{
       if(P.song !== song || P.mode !== "audio") return;
       if(!f){ P.idx++; return tryCand(); }
@@ -398,42 +553,53 @@ function tryCand(){
     });
   }
 }
-function armTapTimer(ms){
-  clearTimeout(P.tapTimer);
-  P.tapTimer = setTimeout(()=>{ if(P.mode==="yt" && P.state==="loading") setState("blocked"); }, ms);
+function startWatch(){
+  clearInterval(P.watch);
+  P.watch = setInterval(async ()=>{
+    try{
+      let pos = 0;
+      if(P.mode==="yt") pos = ytPlayer.getCurrentTime();
+      else if(P.mode==="sp"){ const s = await SP.player.getCurrentState(); pos = s ? s.position/1000 : 0; }
+      else return;
+      if(pos >= PLAY_SECONDS){ clearInterval(P.watch); if(P.mode==="yt") ytPlayer.pauseVideo(); else SP.player.pause(); setState("ended"); }
+    }catch(e){}
+  }, 500);
 }
 function onYTState(s){
   if(P.mode !== "yt") return;
-  if(s === 1){ // läuft
+  if(s === 1){
     clearTimeout(P.tapTimer);
     try{ const d = ytPlayer.getVideoData(); if(d && d.title) P.title = d.title; }catch(e){}
     const c = P.cands[P.idx]; if(c && c.type==="yt" && P.song){ ytOk[songKey(P.song)] = c.id; saveYt(); }
-    setState("playing");
-    clearInterval(P.watch);
-    P.watch = setInterval(()=>{ try{ if(ytPlayer.getCurrentTime() >= PLAY_SECONDS){ ytPlayer.pauseVideo(); setState("ended"); clearInterval(P.watch); } }catch(e){} }, 500);
+    setState("playing"); startWatch();
   } else if(s === 2){ if(P.state === "playing") setState("paused"); }
   else if(s === 0){ clearInterval(P.watch); setState("ended"); }
-  else if(s === 3){ if(P.state === "loading") armTapTimer(7000); }
+  else if(s === 3){ if(P.state === "loading") armBlocked(7000); }
   else if(s === 5){ if(P.state === "loading") setState(P.autoplay ? "blocked" : "paused"); }
 }
-function onYTError(code){
+function onYTError(){
   if(P.mode !== "yt") return;
-  const c = P.cands[P.idx]; if(c && c.type==="yt"){ ytBad.add(c.id); if(P.song && ytOk[songKey(P.song)]===c.id) delete ytOk[songKey(P.song)]; saveYt(); }
+  const c = P.cands[P.idx];
+  if(c && c.type==="yt"){ ytBad.add(c.id); if(P.song && ytOk[songKey(P.song)]===c.id) delete ytOk[songKey(P.song)]; saveYt(); }
   P.idx++; P.autoplay = true; tryCand();
 }
 function playAudio(url){
-  audio.src = url;
-  const p = audio.play();
+  audio.src = url; const p = audio.play();
   if(p && p.then) p.then(()=>setState("playing")).catch(()=>setState("blocked")); else setState("playing");
 }
 audio.addEventListener("ended", ()=>{ if(P.mode==="audio" && !audio.src.startsWith("data:")) setState("ended"); });
 
 function togglePlay(){
-  unlockAudio();
-  if(P.mode === "yt" && ytReady){
+  unlockAudio(); spActivate();
+  if(P.mode === "sp" && SP.player){
+    if(P.state === "playing"){ SP.player.pause(); setState("paused"); return; }
+    if(!P.spStarted){ if(P.spUri){ setState("loading"); spPlayUri(P.spUri); } return; }
+    if(P.state === "ended") SP.player.seek(0);
+    SP.player.resume(); setState("loading"); armBlocked(3000);
+  } else if(P.mode === "yt" && ytReady){
     if(P.state === "playing"){ ytPlayer.pauseVideo(); setState("paused"); return; }
-    if(P.state === "ended"){ ytPlayer.seekTo(0, true); }
-    P.autoplay = true; ytPlayer.playVideo(); armTapTimer(2500); if(P.state!=="blocked") setState("loading");
+    if(P.state === "ended") ytPlayer.seekTo(0, true);
+    P.autoplay = true; ytPlayer.playVideo(); if(P.state!=="blocked") setState("loading"); armBlocked(2500);
   } else if(P.mode === "audio"){
     if(P.state === "playing"){ audio.pause(); setState("paused"); return; }
     if(P.state === "ended") audio.currentTime = 0;
@@ -441,247 +607,263 @@ function togglePlay(){
   } else if(P.song){ P.autoplay = true; P.idx = 0; tryCand(); }
 }
 function restart(){
-  unlockAudio();
-  if(P.mode === "yt" && ytReady){ ytPlayer.seekTo(0, true); ytPlayer.playVideo(); armTapTimer(2500); }
+  unlockAudio(); spActivate();
+  if(P.mode === "sp" && SP.player){ if(P.spStarted){ SP.player.seek(0).then(()=>SP.player.resume()); } else if(P.spUri) spPlayUri(P.spUri); }
+  else if(P.mode === "yt" && ytReady){ ytPlayer.seekTo(0, true); ytPlayer.playVideo(); armBlocked(2500); }
   else if(P.mode === "audio"){ audio.currentTime = 0; audio.play().then(()=>setState("playing")).catch(()=>{}); }
 }
 function nextMatch(){
-  unlockAudio();
+  unlockAudio(); spActivate();
   if(!P.song) return;
-  if(P.idx >= P.cands.length-1){ toast("Kein weiteres Video vorhanden."); return; }
-  const c = P.cands[P.idx]; if(c && c.type==="yt" && ytOk[songKey(P.song)]===c.id){ delete ytOk[songKey(P.song)]; saveYt(); }
-  stopAll(); P.idx++; P.autoplay = true; tryCand();
-  toast(P.cands[P.idx].type==="yt" ? `Video ${P.idx+1} von ${P.cands.length-1}` : "Ersatz: 30-Sek.-Ausschnitt");
+  if(P.idx >= P.cands.length-1){ toast("Keine weitere Quelle vorhanden."); return; }
+  const c = P.cands[P.idx];
+  if(c && c.type==="yt" && ytOk[songKey(P.song)]===c.id){ delete ytOk[songKey(P.song)]; saveYt(); }
+  stopAll(); P.idx++; P.autoplay = true; P.spStarted = false; tryCand();
+  const n = P.cands[P.idx];
+  toast(n.type==="yt" ? "Nächstes YouTube-Video" : n.type==="itunes" ? "Notlösung: 30-Sek.-Ausschnitt" : "Spotify");
 }
-
+const SRC = { sp:"Spotify", yt:"YouTube", audio:"Apple-Ausschnitt" };
 function updatePlayerUI(){
-  const st = P.state;
-  const btn = $("#pPlay"), lab = $("#pStatus"), eq = $("#pEq"), card = $("#theCard");
+  const st = P.state, btn = $("#pPlay"), lab = $("#pStatus"), eq = $("#pEq"), card = $("#theCard");
   if(eq) eq.classList.toggle("on", st==="playing");
   if(card){
     const tap = (st==="blocked" && P.mode==="yt");
     card.classList.toggle("tap", tap);
     let note = card.querySelector(".tapnote");
-    if(tap && !note){ note = document.createElement("div"); note.className="tapnote"; note.textContent="👆 Einmal auf die Karte tippen, dann läuft der Song"; card.appendChild(note); }
-    if(!tap && note) note.remove();
+    const want = st==="blocked";
+    if(want && !note){ note = document.createElement("div"); note.className = "tapnote"; card.appendChild(note); }
+    if(note) note.textContent = "👆 Einmal auf die Karte tippen";
+    if(!want && note) note.remove();
   }
-  if(btn){
-    btn.textContent = st==="playing" ? "⏸" : "▶";
-    btn.disabled = (st==="none");
-    btn.classList.toggle("pulse", st==="blocked");
-  }
+  if(btn){ btn.textContent = st==="playing" ? "❚❚" : "▶"; btn.disabled = st==="none"; btn.classList.toggle("pulse", st==="blocked"); }
   if(lab){
-    lab.innerHTML = ({
-      idle:"", loading:"Song wird geladen …", playing:"Läuft – 90 Sekunden ab Anfang", paused:"Pausiert", ended:"Zu Ende – ▶ für nochmal",
-      blocked: P.mode==="yt" ? "Tippe einmal auf die Karte" : "Tippe auf ▶", none:"Kein Video gefunden."
-    })[st] || "";
-    if(P.mode==="audio" && st==="playing") lab.innerHTML = "Läuft (nur 30-Sek.-Ausschnitt)";
+    const src = SRC[P.mode] ? " · " + SRC[P.mode] : "";
+    lab.textContent = ({ idle:"", loading:"lädt …", playing:"läuft"+src, paused:"Pause"+src, ended:"vorbei – ▶ für nochmal", blocked:"tippen zum Starten", none:"Kein Song gefunden" })[st] || "";
+    if(P.mode==="audio" && st==="playing") lab.textContent = "läuft · nur 30-Sek.-Ausschnitt";
   }
   const yt = $("#pYt"); if(yt) yt.style.display = st==="none" ? "" : "none";
 }
-
-/* YouTube-Fenster genau unter die Karte legen */
 function placeYT(){
   const slot = $("#cardSlot");
-  if(!slot || !game){ ytHost.style.left = "-9999px"; ytHost.style.top = "0px"; ytHost.style.width = "320px"; ytHost.style.height = "320px"; return; }
+  if(!slot || !game){ Object.assign(ytHost.style, { left:"-9999px", top:"0px", width:"320px", height:"320px" }); return; }
   const r = slot.getBoundingClientRect();
-  ytHost.style.left = (r.left + window.scrollX) + "px";
-  ytHost.style.top = (r.top + window.scrollY) + "px";
-  ytHost.style.width = Math.max(200, r.width) + "px";
-  ytHost.style.height = Math.max(200, r.height) + "px";
+  Object.assign(ytHost.style, { left:(r.left+scrollX)+"px", top:(r.top+scrollY)+"px", width:Math.max(200,r.width)+"px", height:Math.max(200,r.height)+"px" });
 }
-window.addEventListener("resize", ()=>requestAnimationFrame(placeYT));
-if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>placeYT());
+addEventListener("resize", ()=>requestAnimationFrame(placeYT));
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(placeYT);
 
 /* =========================================================
-   SETUP
+   STARTSEITE
    ========================================================= */
+let setupOpen = { opts:false, music:false };
+function namesFor(theme, n){ const base = (THEMES[theme]||{}).names || []; return Array.from({length:n}, (_,i)=> base[i] || ("Team " + (i+1))); }
+function renderSetupIfOpen(){ if(!game && $("#setupRoot")) renderSetup(); }
 function renderSetup(){
-  stopAll(); P.song = null; P.mode = null;
+  stopAll(); P.song = null; P.mode = null; game = null;
   $("#btnNew").style.display = "none";
-  const valid = songs.filter(s=>s.a && s.t && Number.isFinite(+s.y));
+  while(setup.names.length < setup.count) setup.names.push(namesFor(setup.theme, setup.count)[setup.names.length]);
+  const n = setup.count;
+  const valid = songs.filter(s=>s.a && s.t && Number.isFinite(+s.y)).length;
+  const spState = !SP.clientId ? "aus" : spConnected() ? (SP.failed ? "Problem" : SP.ready ? "verbunden" : "verbunden") : "nicht verbunden";
   app.innerHTML = `
-  <div class="grid2">
-    <div class="panel">
-      <h2>Teams</h2>
-      <div id="plist"></div>
-      <button class="btn sm gold" id="addP" ${setup.players.length>=8?"disabled":""}>+ Team</button>
-    </div>
-    <div class="panel">
-      <h2>Spielart</h2>
-      <div class="seg" id="modeSeg">
-        <button data-m="hoer" class="${setup.mode==="hoer"?"on":""}">Hör-Modus</button>
-        <button data-m="quiz" class="${setup.mode==="quiz"?"on":""}">Quiz-Modus</button>
+  <div class="setup" id="setupRoot">
+    <div class="hero"><h1>Wann kom dat<br><em>Leed</em> eruss?</h1><p>Karnevalshits hören – und auf dem Zeitstrahl einsortieren.</p></div>
+    <div class="stack">
+      <div class="box">
+        <label class="l">Teams</label>
+        <div class="stepper"><button id="minus" ${n<=1?"disabled":""}>−</button><b>${n}</b><button id="plus" ${n>=6?"disabled":""}>+</button><span class="hint" style="margin-left:auto">bis zu 6 Teams</span></div>
+        <div class="chips" style="margin-top:14px">${Object.entries(THEMES).map(([k,t])=>`<button class="chip ${setup.theme===k?"on":""}" data-th="${k}">${t.label}</button>`).join("")}</div>
+        <div class="names" style="margin-top:12px">${setup.names.slice(0,n).map((nm,i)=>`<input type="text" data-i="${i}" value="${esc(nm)}" maxlength="22">`).join("")}</div>
       </div>
-      <p class="hint" style="margin-top:8px">${setup.mode==="quiz"
-        ? "Interpret und Titel stehen auf der Karte, der Song läuft dazu. Ihr ratet nur das Jahr."
-        : "Karte bleibt verdeckt, nur der Song läuft. Erkennt ihn und ordnet ihn ein. Mit Kamelle-Bonus."}</p>
-      <label style="margin-top:14px">Karten zum Sieg</label>
-      <input type="number" id="target" min="3" max="30" value="${setup.target}">
-      <p class="hint" style="margin-top:14px">${valid.length} Songs in der Liste. Jeder Song läuft von Anfang an, 90 Sekunden.</p>
-      <button class="btn primary" id="start" style="width:100%;margin-top:6px">Loss jonn! 🎺</button>
+      <button class="btn red big" id="start">Loss jonn!</button>
+      <details class="box" id="dOpts" ${setupOpen.opts?"open":""}><summary>Spielart & Ziel <small>${setup.mode==="hoer"?"Hör-Modus":"Quiz-Modus"} · ${setup.target} Karten</small></summary>
+        <div class="seg" id="modeSeg"><button data-m="hoer" class="${setup.mode==="hoer"?"on":""}">Hör-Modus</button><button data-m="quiz" class="${setup.mode==="quiz"?"on":""}">Quiz-Modus</button></div>
+        <p class="hint">${setup.mode==="quiz" ? "Interpret und Titel stehen auf der Karte, ihr ratet nur das Jahr." : "Nur der Song läuft – erkennen, einordnen, Kamelle sammeln."}</p>
+        <label class="l" style="margin-top:12px">Karten zum Sieg</label>
+        <div class="stepper"><button id="tMinus">−</button><b>${setup.target}</b><button id="tPlus">+</button><span class="hint" style="margin-left:auto">${valid} Songs im Stapel</span></div>
+      </details>
+      <details class="box" id="dMusic" ${setupOpen.music?"open":""}><summary>Musik <small>${SP.clientId ? "Spotify: "+spState : "YouTube"}</small></summary>
+        ${renderSpotifyBox()}
+      </details>
+    </div>
+    <div class="foot">
+      <p class="hint">Spaß jehatt? Dann spendier en Kölsch.</p>
+      <button class="btn ghost" id="donate">🍺 Spenden</button>
     </div>
   </div>`;
-  const pl = $("#plist");
-  setup.players.forEach((p,i)=>{
-    const r = document.createElement("div"); r.className="row";
-    r.innerHTML = `<input type="text" value="${esc(p)}" maxlength="24"><button class="btn sm" ${setup.players.length<=1?"disabled":""}>✕</button>`;
-    r.querySelector("input").oninput = e=>{ setup.players[i]=e.target.value; store.set("kh_setup",setup); };
-    r.querySelector("button").onclick = ()=>{ setup.players.splice(i,1); store.set("kh_setup",setup); renderSetup(); };
-    pl.appendChild(r);
-  });
-  $("#addP").onclick = ()=>{ setup.players.push("Team "+(setup.players.length+1)); store.set("kh_setup",setup); renderSetup(); };
-  $("#modeSeg").querySelectorAll("button").forEach(b=> b.onclick=()=>{ setup.mode=b.dataset.m; store.set("kh_setup",setup); renderSetup(); });
-  $("#target").oninput = e=>{ setup.target=Math.max(3,Math.min(30,+e.target.value||10)); store.set("kh_setup",setup); };
+  const nm = app.querySelectorAll(".names input");
+  nm.forEach(inp => inp.oninput = e => { setup.names[+e.target.dataset.i] = e.target.value; setup.theme = "eigene"; saveSetup(); app.querySelectorAll(".chip").forEach(c=>c.classList.remove("on")); });
+  $("#minus").onclick = () => { setup.count = Math.max(1, n-1); saveSetup(); renderSetup(); };
+  $("#plus").onclick = () => { setup.count = Math.min(6, n+1); if(setup.names.length < setup.count) setup.names.push(namesFor(setup.theme==="eigene"?"koelsch":setup.theme, setup.count)[setup.count-1]); saveSetup(); renderSetup(); };
+  app.querySelectorAll("[data-th]").forEach(b => b.onclick = () => { setup.theme = b.dataset.th; setup.names = namesFor(setup.theme, 6); saveSetup(); renderSetup(); });
+  $("#modeSeg").querySelectorAll("button").forEach(b => b.onclick = () => { setup.mode = b.dataset.m; saveSetup(); renderSetup(); });
+  $("#tMinus").onclick = () => { setup.target = Math.max(3, setup.target-1); saveSetup(); renderSetup(); };
+  $("#tPlus").onclick = () => { setup.target = Math.min(30, setup.target+1); saveSetup(); renderSetup(); };
+  $("#dOpts").ontoggle = e => setupOpen.opts = e.target.open;
+  $("#dMusic").ontoggle = e => setupOpen.music = e.target.open;
   $("#start").onclick = startGame;
+  $("#donate").onclick = donate;
+  bindSpotifyBox();
   placeYT();
+}
+function renderSpotifyBox(){
+  const uri = redirectUri();
+  if(spConnected()){
+    const st = SP.failed ? `⚠︎ ${esc(SP.err||"Problem")} – es läuft YouTube.` : SP.ready ? "✓ bereit" : "lädt beim ersten Song …";
+    return `<p style="margin:0 0 10px"><b>Spotify verbunden</b>${SP.user?` als ${esc(SP.user)}`:""}. <span class="mut">${st}</span></p>
+      <p class="hint">Songs laufen über Spotify, ab Anfang, 90 Sekunden. Wird ein Song dort nicht gefunden, springt YouTube ein.</p>
+      <button class="btn sm ghost" id="spOut">Spotify trennen</button>`;
+  }
+  return `<p class="hint" style="margin-top:0">Standard ist YouTube. Mit <b>Spotify Premium</b> könnt ihr stattdessen über Spotify hören – einmalig einrichten:</p>
+    <details><summary class="hint" style="cursor:pointer"><b>Anleitung (5 Minuten, nur einmal)</b></summary>
+      <ol class="steps">
+        <li>Auf <a href="https://developer.spotify.com/dashboard" target="_blank" rel="noopener">developer.spotify.com/dashboard</a> mit deinem Spotify-Konto anmelden → <b>Create app</b>.</li>
+        <li>Name egal. Als <b>Redirect URI</b> genau diese Adresse eintragen:<code class="uri">${esc(uri)}</code></li>
+        <li>Bei den APIs <b>Web API</b> und <b>Web Playback SDK</b> anhaken, speichern.</li>
+        <li>Unter <b>Settings</b> die <b>Client ID</b> kopieren und hier einfügen.</li>
+        <li>Unter <b>User Management</b> die E-Mail-Adressen der Spotify-Konten eintragen, die sich verbinden dürfen (max. 5) – mindestens deine eigene.</li>
+      </ol></details>
+    <label class="l" style="margin-top:10px">Client ID</label>
+    <div class="row"><input type="text" id="spClient" placeholder="z. B. 3f2a…" value="${esc(SP.clientId)}"><button class="btn sm" id="spIn" style="flex:0 0 auto">Mit Spotify verbinden</button></div>`;
+}
+function bindSpotifyBox(){
+  const out = $("#spOut"); if(out) out.onclick = () => { spLogout(); renderSetup(); toast("Spotify getrennt."); };
+  const cl = $("#spClient"); if(cl) cl.oninput = e => { SP.clientId = e.target.value.trim(); store.set("kh_sp_client", SP.clientId); };
+  const inb = $("#spIn"); if(inb) inb.onclick = spLogin;
+}
+function donate(){
+  if(DONATE_URL){ window.open(DONATE_URL, "_blank", "noopener"); }
+  else toast("Spendenlink kommt bald 🍺");
 }
 
 function startGame(){
-  unlockAudio();
-  const names = setup.players.map(s=>s.trim()).filter(Boolean);
+  unlockAudio(); spActivate();
+  const names = setup.names.slice(0, setup.count).map(s=>s.trim()).filter(Boolean);
   const pool = shuffle(songs.filter(s=>s.a && s.t && Number.isFinite(+s.y)).map(s=>({...s, y:+s.y})));
   if(!names.length){ toast("Mindestens ein Team, bitte."); return; }
   if(pool.length < names.length + 3){ toast("Zu wenige Songs in der Liste."); return; }
   game = { players: names.map(n=>({name:n, cards:[pool.pop()], kamelle:0})), deck:pool, turn:0, current:null, phase:"draw", lastSlot:null, lastOk:null, newCard:null };
   $("#btnNew").style.display = "";
+  scrollTo(0,0);
   draw();
 }
-
 function draw(){
   if(!game.deck.length) return endGame(true);
   game.current = game.deck.pop();
   game.phase = "place"; game.lastSlot = null; game.lastOk = null; game.bonusAsked = false;
   renderGame();
-  startSong(game.current, true);   // noch innerhalb des Klicks → Autoplay erlaubt
+  startSong(game.current, true);
 }
 
 /* =========================================================
-   SPIEL-ANSICHT
+   SPIEL
    ========================================================= */
 function renderGame(){
   const g = game, Pl = g.players[g.turn], s = g.current, hoer = setup.mode==="hoer";
   let face;
-  if(g.phase==="place"){
+  if(g.phase === "place"){
     face = hoer
-      ? `<div class="card mystery" id="theCard"><div class="q">?</div><div style="font-weight:700;margin-top:8px">Hör ens jot hin!</div><div class="eq" id="pEq"><i></i><i></i><i></i><i></i><i></i></div></div>`
+      ? `<div class="card mystery" id="theCard"><div class="q">?</div><div class="eq" id="pEq"><i></i><i></i><i></i><i></i><i></i></div></div>`
       : `<div class="card shown" id="theCard"><div class="artist">${esc(s.a)}</div><div class="title">${esc(s.t)}</div><div class="year">????</div></div>`;
   } else {
-    face = `<div class="card shown ${g.lastOk?"ok":"bad"}" id="theCard">
-      <div class="artist">${esc(s.a)}</div><div class="title">${esc(s.t)}</div><div class="year">${s.y}</div>
-      ${s.c?"":`<div class="flag">⚠︎ Jahr nicht abschließend geprüft</div>`}</div>`;
+    face = `<div class="card shown ${g.lastOk?"ok":"bad"}" id="theCard"><div class="artist">${esc(s.a)}</div><div class="title">${esc(s.t)}</div><div class="year">${s.y}</div>${s.c?"":`<div class="flag">Jahr nicht abschließend geprüft</div>`}</div>`;
   }
-  const found = (g.phase!=="place" && P.title) ? `<div class="found">Gespielt: ${esc(P.title)}${P.link?` · <a href="${esc(P.link)}" target="_blank" rel="noopener">ansehen</a>`:""}</div>` : "";
-
-  let actions = `<div class="player">
-      <button class="btn primary play" id="pPlay">▶</button>
-      <div><div class="status" id="pStatus"></div>
-        <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
-          <button class="btn sm" id="pRestart" title="Von vorn">↺ von vorn</button>
-          <button class="btn sm" id="pNext" title="Falsches Lied oder geht nicht? Nächstes Video nehmen">↻ anderes Video</button>
-        </div></div></div>
-      <a class="btn sm" id="pYt" style="display:none" href="${ytLink(s)}" target="_blank" rel="noopener">Bei YouTube suchen</a>`;
-  if(g.phase==="place"){
-    actions += `<div class="hint" style="text-align:center">Tippt auf die Lücke im Zeitstrahl, wo der Song hingehört.</div>`;
-    actions += `<button class="btn sm" id="skip" ${Pl.kamelle<1?"disabled":""}>Überspringen (1 🍬)</button>`;
-    actions += `<button class="btn sm" id="trade" ${Pl.kamelle<3?"disabled":""}>3 🍬 gegen eine Karte</button>`;
-  } else {
-    actions += `<div class="verdict" style="color:${g.lastOk?"var(--ok)":"var(--bad)"}">${g.lastOk?"Richtig, jot jemaht! 🎉":"Daneben, schad! 😬"}</div>`;
-    if(hoer && !g.bonusAsked){
-      actions += `<div class="hint">Interpret <i>und</i> Titel richtig genannt?</div>
-        <div style="display:flex;gap:8px"><button class="btn sm gold" id="bonusYes" style="flex:1">Jo! +1 🍬</button><button class="btn sm" id="bonusNo" style="flex:1">Nä</button></div>`;
-    }
-    actions += `<button class="btn primary" id="next">Nächstes Team ➜</button>`;
+  const found = (g.phase!=="place" && P.title) ? `<div class="found">Gespielt: ${esc(P.title)}${P.link?` · <a href="${esc(P.link)}" target="_blank" rel="noopener">öffnen</a>`:""}</div>` : "";
+  let below = "";
+  if(g.phase !== "place"){
+    below += `<div class="verdict" style="color:${g.lastOk?"var(--ok)":"var(--rot)"}">${g.lastOk?"Richtig – jot jemaht!":"Daneben – schad!"}</div>`;
+    if(hoer && !g.bonusAsked) below += `<p class="hint" style="text-align:center;margin:0 0 8px">Interpret <i>und</i> Titel gewusst?</p><div class="row"><button class="btn ghost" id="bonusYes">Jo, +1 🍬</button><button class="btn ghost" id="bonusNo">Nä</button></div><div style="height:8px"></div>`;
+    below += `<button class="btn big" id="next">Weiter ➜</button>`;
   }
-
-  const cards = Pl.cards;
   let tl = "";
-  for(let i=0;i<=cards.length;i++){
-    if(g.phase==="place") tl += `<button class="slot" data-i="${i}" title="Hier einordnen">+</button>`;
-    else if(i===g.lastSlot && !g.lastOk) tl += `<div class="slot miss">✕</div>`;
-    if(i<cards.length){
-      const c = cards[i];
-      tl += `<div class="tcard ${c===g.newCard?"new":""}"><div class="y">${c.y}</div><div class="t">${esc(c.t)}</div><div class="a">${esc(c.a)}</div></div>`;
-    }
+  for(let i=0;i<=Pl.cards.length;i++){
+    if(g.phase === "place") tl += `<button class="slot" data-i="${i}" aria-label="Hier einordnen">+</button>`;
+    else if(i === g.lastSlot && !g.lastOk) tl += `<div class="slot miss">✕</div>`;
+    if(i < Pl.cards.length){ const c = Pl.cards[i]; tl += `<div class="tcard ${c===g.newCard?"new":""}"><div class="y">${c.y}</div><div class="t">${esc(c.t)}</div><div class="a">${esc(c.a)}</div></div>`; }
   }
-  const others = g.players.map((p,i)=> i===g.turn ? "" : `
-    <details><summary>${esc(p.name)}: ${p.cards.length} Karten, ${p.kamelle} 🍬</summary>
-      <div class="mini">${p.cards.map(c=>`<span><b>${c.y}</b> ${esc(c.t)}</span>`).join("")}</div></details>`).join("");
+  const others = g.players.map((p,i)=> i===g.turn ? "" : `<div class="item" style="display:block"><b>${esc(p.name)}</b> <span class="mut">· ${p.cards.length} Karten${hoer?` · ${p.kamelle} 🍬`:""}</span><div class="mini">${p.cards.map(c=>`<span><b>${c.y}</b> ${esc(c.t)}</span>`).join("")}</div></div>`).join("");
 
   app.innerHTML = `
-    <div class="score">${g.players.map((p,i)=>`<div class="chip ${i===g.turn?"active":""}">${esc(p.name)} <span>${p.cards.length}/${setup.target}</span>${hoer?`<span class="k">${p.kamelle} 🍬</span>`:""}</div>`).join("")}
-      <div class="chip" style="border-style:dashed">Stapel: ${g.deck.length}</div></div>
+    <div class="teams">${g.players.map((p,i)=>`<div class="tchip ${i===g.turn?"on":""}">${esc(p.name)} <span>${p.cards.length}/${setup.target}${hoer&&p.kamelle?` · ${p.kamelle}🍬`:""}</span></div>`).join("")}</div>
     <div class="stage">
-      <div><div class="cardwrap" id="cardSlot">${face}</div>${found}<div class="actions">${actions}</div></div>
-      <div class="panel">
-        <div class="tl-head"><h2 style="margin:0">${esc(Pl.name)} ist dran</h2><span class="hint">Zeitstrahl, alt → neu</span></div>
+      <div class="cardcol">
+        <div class="cardwrap" id="cardSlot">${face}</div>
+        <div class="controls">
+          <button class="cbtn" id="pRestart" title="Von vorn">↺</button>
+          <button class="play" id="pPlay">▶</button>
+          <button class="cbtn" id="pNext" title="Falsches Lied? Nächste Quelle">↻</button>
+        </div>
+        <div class="status" id="pStatus"></div>
+        ${found}${below}
+      </div>
+      <div>
+        <div class="tl-head"><h2>${esc(Pl.name)} ist dran</h2><span class="hint">${g.phase==="place"?"Wo jehört dat hin?":""}</span></div>
         <div class="timeline">${tl}</div>
-        ${others?`<div class="others">${others}</div>`:""}
+        <details class="box more" style="margin-top:14px"><summary>Mehr <small>${hoer?`${Pl.kamelle} 🍬 · `:""}${g.deck.length} im Stapel</small></summary>
+          ${hoer?`<div class="item"><span>Song überspringen <span class="mut">(1 🍬)</span></span><button class="btn sm ghost" id="skip" ${Pl.kamelle<1||g.phase!=="place"?"disabled":""}>Überspringen</button></div>
+          <div class="item"><span>Karte geschenkt <span class="mut">(3 🍬)</span></span><button class="btn sm ghost" id="trade" ${Pl.kamelle<3?"disabled":""}>Eintauschen</button></div>`:""}
+          <div class="item"><span>Song läuft nicht?</span><a class="btn sm ghost" href="${ytLink(s)}" target="_blank" rel="noopener" style="text-decoration:none">Bei YouTube suchen</a></div>
+          ${others}
+        </details>
       </div>
     </div>`;
 
-  app.querySelectorAll(".slot[data-i]").forEach(b=> b.onclick = ()=> place(+b.dataset.i));
-  const on = (id,fn)=>{ const el=$(id); if(el) el.onclick=fn; };
-  on("#skip", ()=>{ Pl.kamelle--; game.deck.unshift(game.current); draw(); toast("Übersprungen."); });
+  app.querySelectorAll(".slot[data-i]").forEach(b => b.onclick = () => place(+b.dataset.i));
+  const on = (id,fn) => { const el = $(id); if(el) el.onclick = fn; };
+  on("#skip", () => { Pl.kamelle--; game.deck.unshift(game.current); draw(); toast("Übersprungen."); });
   on("#trade", tradeCard);
   on("#next", nextTurn);
-  on("#bonusYes", ()=>{ Pl.kamelle++; g.bonusAsked=true; renderGame(); });
-  on("#bonusNo", ()=>{ g.bonusAsked=true; renderGame(); });
-  on("#pPlay", togglePlay);
-  on("#pRestart", restart);
-  on("#pNext", nextMatch);
-  updatePlayerUI();
-  placeYT(); requestAnimationFrame(placeYT);
+  on("#bonusYes", () => { Pl.kamelle++; g.bonusAsked = true; renderGame(); });
+  on("#bonusNo", () => { g.bonusAsked = true; renderGame(); });
+  on("#pPlay", togglePlay); on("#pRestart", restart); on("#pNext", nextMatch);
+  on("#theCard", () => { if(P.state==="blocked" && P.mode!=="yt") togglePlay(); });
+  updatePlayerUI(); placeYT(); requestAnimationFrame(placeYT);
 }
-
 function place(i){
-  const g=game, Pl=g.players[g.turn], c=Pl.cards, y=g.current.y;
+  const g = game, Pl = g.players[g.turn], c = Pl.cards, y = g.current.y;
   const ok = (i===0 || c[i-1].y<=y) && (i===c.length || c[i].y>=y);
-  g.lastSlot=i; g.lastOk=ok; g.phase="result"; g.bonusAsked=false; g.newCard=null;
-  if(ok){ c.splice(i,0,g.current); g.newCard=g.current; burst(30); }
+  Object.assign(g, { lastSlot:i, lastOk:ok, phase:"result", bonusAsked:false, newCard:null });
+  if(ok){ c.splice(i,0,g.current); g.newCard = g.current; burst(28); }
   renderGame();
 }
 function tradeCard(){
-  const g=game, Pl=g.players[g.turn];
-  if(Pl.kamelle<3 || !g.deck.length) return;
-  Pl.kamelle-=3;
-  const free = g.deck.shift();
-  Pl.cards.push(free); sortCards(Pl.cards); g.newCard=free;
+  const g = game, Pl = g.players[g.turn];
+  if(Pl.kamelle < 3 || !g.deck.length) return;
+  Pl.kamelle -= 3;
+  const free = g.deck.shift(); Pl.cards.push(free); Pl.cards.sort((a,b)=>a.y-b.y); g.newCard = free;
   toast(`Geschenkt: ${free.t} (${free.y})`);
-  if(Pl.cards.length>=setup.target) return endGame(false, Pl);
+  if(Pl.cards.length >= setup.target) return endGame(false, Pl);
   renderGame();
 }
 function nextTurn(){
-  const g=game, Pl=g.players[g.turn];
-  if(Pl.cards.length>=setup.target) return endGame(false, Pl);
-  g.newCard=null;
-  g.turn=(g.turn+1)%g.players.length;
+  const g = game, Pl = g.players[g.turn];
+  if(Pl.cards.length >= setup.target) return endGame(false, Pl);
+  g.newCard = null; g.turn = (g.turn+1) % g.players.length;
   draw();
 }
 function endGame(deckEmpty, winner){
-  stopAll(); P.song=null; P.mode=null;
-  const g=game;
-  if(!winner){ const max=Math.max(...g.players.map(p=>p.cards.length)); winner=g.players.filter(p=>p.cards.length===max); }
-  else winner=[winner];
-  game = null; placeYT(); game = g; // Player wegschieben
-  burst(120);
-  app.innerHTML = `<div class="panel end">
+  stopAll(); P.song = null; P.mode = null;
+  const g = game;
+  winner = winner ? [winner] : (()=>{ const m = Math.max(...g.players.map(p=>p.cards.length)); return g.players.filter(p=>p.cards.length===m); })();
+  game = null; placeYT(); game = g;
+  burst(110);
+  app.innerHTML = `<div class="end">
     <div class="hint">${deckEmpty?"Der Stapel ist leer.":"Zielzahl erreicht!"}</div>
     <div class="big">${winner.map(w=>esc(w.name)).join(" & ")}</div>
     <div style="font-weight:700;font-size:20px">${winner.length>1?"teilen sich den Sieg":"hät jewonne!"} 🏆</div>
-    <div class="mini" style="justify-content:center;margin:20px 0">${g.players.map(p=>`<span>${esc(p.name)}: <b>${p.cards.length}</b></span>`).join("")}</div>
-    <button class="btn primary" id="again">Noch en Rund</button>
-    <button class="btn" id="toSetup">Teams ändern</button></div>`;
-  $("#again").onclick=startGame;
-  $("#toSetup").onclick=()=>{ game=null; renderSetup(); };
+    <div class="mini" style="justify-content:center;margin:18px 0 22px">${g.players.map(p=>`<span>${esc(p.name)}: <b>${p.cards.length}</b></span>`).join("")}</div>
+    <div class="row" style="max-width:420px;margin:0 auto"><button class="btn red" id="again">Noch en Rund</button><button class="btn ghost" id="toSetup">Teams ändern</button></div>
+    <div class="foot"><p class="hint">Spaß jehatt? Dann spendier en Kölsch.</p><button class="btn ghost" id="donate">🍺 Spenden</button></div>
+  </div>`;
+  $("#again").onclick = startGame; $("#toSetup").onclick = renderSetup; $("#donate").onclick = donate;
 }
 function burst(n){
-  const cols=["#c8102e","#fff","#f2b705","#1f8a4c","#3b6fd1"];
+  const cols = ["#d0112b","#ffffff","#f2b51c","#1d8a51","#17120f"];
   for(let i=0;i<n;i++){
-    const d=document.createElement("div"); d.className="confetti";
-    d.style.left=Math.random()*100+"vw"; d.style.background=cols[i%cols.length]; d.style.border="1px solid #0002";
-    d.style.animationDuration=(1.6+Math.random()*1.8)+"s"; d.style.animationDelay=(Math.random()*.4)+"s";
-    document.body.appendChild(d); setTimeout(()=>d.remove(),4200);
+    const d = document.createElement("div"); d.className = "confetti";
+    d.style.left = Math.random()*100+"vw"; d.style.background = cols[i%cols.length]; d.style.boxShadow = "0 0 0 1px #0001";
+    d.style.animationDuration = (1.6+Math.random()*1.8)+"s"; d.style.animationDelay = (Math.random()*.4)+"s";
+    document.body.appendChild(d); setTimeout(()=>d.remove(), 4200);
   }
 }
 
@@ -690,126 +872,121 @@ function burst(n){
    ========================================================= */
 const testStatus = {};
 let listPlaying = null;
+function linkValue(s){ return s.sp ? "https://open.spotify.com/track/"+s.sp : s.u ? "https://youtu.be/"+s.u : ""; }
 function renderSongs(){
   $("#songCount").textContent = songs.length;
-  const tb=$("#songRows"); tb.innerHTML="";
+  const tb = $("#songRows"); tb.innerHTML = "";
   songs.forEach((s,i)=>{
-    const tr=document.createElement("tr");
-    tr.innerHTML=`<td><input type="text" data-k="a" value="${esc(s.a)}"></td>
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td><input type="text" data-k="a" value="${esc(s.a)}"></td>
       <td><input type="text" data-k="t" value="${esc(s.t)}"></td>
       <td><input type="number" data-k="y" value="${esc(s.y)}"></td>
       <td><span class="tag ${s.c?"ok":""}">${s.c?"geprüft":"bitte prüfen"}</span></td>
-      <td><input type="text" class="yt" data-k="u" placeholder="YouTube-Link (optional)" value="${s.u?esc("https://youtu.be/"+s.u):""}"></td>
-      <td><div style="display:flex;gap:4px;align-items:center"><button class="btn sm" data-act="play" title="Anhören">▶</button><button class="btn sm" data-act="alt" title="Nächstes Video">↻</button><span class="st">${testStatus[songKey(s)]||""}</span></div></td>
-      <td><button class="btn sm" data-act="del" title="Löschen">✕</button></td>`;
-    tr.querySelectorAll("input").forEach(inp=> inp.onchange=inp.oninput=e=>{
-      const k=e.target.dataset.k;
-      if(k==="y"){ s.y=+e.target.value; s.c=1; const tg=tr.querySelector(".tag"); tg.className="tag ok"; tg.textContent="geprüft"; }
-      else if(k==="u"){ const id=parseYt(e.target.value); if(id || !e.target.value.trim()){ s.u=id||undefined; e.target.style.borderColor=""; } else e.target.style.borderColor="var(--bad)"; }
-      else s[k]=e.target.value;
+      <td><input type="text" class="lnk" data-k="link" placeholder="YouTube/Spotify" value="${esc(linkValue(s))}"></td>
+      <td><div style="display:flex;gap:4px;align-items:center"><button class="btn sm ghost" data-act="play" title="Anhören">▶</button><button class="btn sm ghost" data-act="alt" title="Nächste Quelle">↻</button><span class="st">${testStatus[songKey(s)]||""}</span></div></td>
+      <td><button class="btn sm ghost" data-act="del" title="Löschen">✕</button></td>`;
+    tr.querySelectorAll("input").forEach(inp => inp.oninput = e => {
+      const k = e.target.dataset.k;
+      if(k === "y"){ s.y = +e.target.value; s.c = 1; const tg = tr.querySelector(".tag"); tg.className = "tag ok"; tg.textContent = "geprüft"; }
+      else if(k === "link"){
+        const r = parseLink(e.target.value);
+        if(r.bad){ e.target.style.borderColor = "var(--rot)"; return; }
+        e.target.style.borderColor = ""; s.u = r.u; s.sp = r.sp; delete spCache[songKey(s)];
+      } else { s[k] = e.target.value; }
       saveSongs();
     });
-    tr.querySelector('[data-act="del"]').onclick=()=>{ songs.splice(i,1); saveSongs(); renderSongs(); };
-    tr.querySelector('[data-act="play"]').onclick=e=>{
-      unlockAudio();
-      if(listPlaying===s){ stopAll(); listPlaying=null; e.currentTarget.textContent="▶"; return; }
+    tr.querySelector('[data-act="del"]').onclick = () => { songs.splice(i,1); saveSongs(); renderSongs(); };
+    tr.querySelector('[data-act="play"]').onclick = e => {
+      unlockAudio(); spActivate();
+      if(listPlaying === s){ stopAll(); listPlaying = null; e.currentTarget.textContent = "▶"; return; }
       document.querySelectorAll('#songRows [data-act="play"]').forEach(b=>b.textContent="▶");
-      listPlaying=s; e.currentTarget.textContent="⏸"; startSong(s, true); watchListTitle(s);
+      listPlaying = s; e.currentTarget.textContent = "❚❚"; startSong(s, true); watchListTitle(s);
     };
-    tr.querySelector('[data-act="alt"]').onclick=()=>{ if(listPlaying!==s){ listPlaying=s; startSong(s,true); } else nextMatch(); watchListTitle(s); };
+    tr.querySelector('[data-act="alt"]').onclick = () => { if(listPlaying !== s){ listPlaying = s; startSong(s,true); } else nextMatch(); watchListTitle(s); };
     tb.appendChild(tr);
   });
 }
 function setStatus(s, html){
   testStatus[songKey(s)] = html;
-  const i = songs.indexOf(s); const row = document.querySelectorAll("#songRows tr")[i];
+  const row = document.querySelectorAll("#songRows tr")[songs.indexOf(s)];
   if(row) row.querySelector(".st").innerHTML = html;
 }
 function watchListTitle(s){
-  let n=0; const iv=setInterval(()=>{
-    n++;
-    if(P.song!==s || n>40){ clearInterval(iv); return; }
-    if(P.state==="playing" && P.title){ setStatus(s, "✓ "+esc(P.title)); clearInterval(iv); }
-    else if(P.state==="none"){ setStatus(s, "✗ nichts gefunden"); clearInterval(iv); }
-    else if(P.state==="blocked"){ setStatus(s, "Tippe ▶ in der Spielansicht"); clearInterval(iv); }
+  let n = 0; const iv = setInterval(()=>{
+    n++; if(P.song !== s || n > 40){ clearInterval(iv); return; }
+    if(P.state === "playing"){ setStatus(s, "✓ " + esc((SRC[P.mode]||"")+": "+(P.title||"läuft"))); clearInterval(iv); }
+    else if(P.state === "none"){ setStatus(s, "✗ nichts gefunden"); clearInterval(iv); }
+    else if(P.state === "blocked"){ setStatus(s, "im Spiel einmal antippen"); clearInterval(iv); }
   }, 300);
 }
-
-/* Stumm-Test: spielt jedes Video kurz ohne Ton an */
 function ytTestId(id){
   return new Promise(res=>{
-    let done=false;
-    const fin = r => { if(done) return; done=true; clearTimeout(t); testHook=null; try{ ytPlayer.stopVideo(); }catch(e){} res(r); };
-    testHook = { state: s=>{ if(s===1){ let title=""; try{ title=ytPlayer.getVideoData().title||""; }catch(e){} fin({ok:true,title}); } }, error: ()=>fin({ok:false}) };
+    let done = false;
+    const fin = r => { if(done) return; done = true; clearTimeout(t); testHook = null; try{ ytPlayer.stopVideo(); }catch(e){} res(r); };
+    testHook = { state: s => { if(s===1){ let title = ""; try{ title = ytPlayer.getVideoData().title||""; }catch(e){} fin({ok:true, title}); } }, error: () => fin({ok:false}) };
     const t = setTimeout(()=>fin({ok:null}), 9000);
-    try{ ytPlayer.mute(); ytPlayer.loadVideoById({videoId:id, startSeconds:0, endSeconds:3}); }catch(e){ fin({ok:false}); }
+    try{ ytPlayer.mute(); ytPlayer.loadVideoById({ videoId:id, startSeconds:0, endSeconds:3 }); }catch(e){ fin({ok:false}); }
   });
 }
 async function testSong(s){
+  if(spConnected() && !SP.failed){
+    try{ const tr = await spFindTrack(s); if(tr){ setStatus(s, "✓ Spotify: " + esc(tr.title)); return true; } }catch(e){}
+  }
   if(ytReady){
-    const cands = candidatesFor(s).filter(c=>c.type==="yt");
-    let unclear = false;
+    const cands = candidatesFor(s).filter(c=>c.type==="yt"); let unclear = false;
     for(let k=0;k<cands.length;k++){
       setStatus(s, `teste Video ${k+1}/${cands.length} …`);
       const r = await ytTestId(cands[k].id);
-      if(r.ok){ ytOk[songKey(s)] = cands[k].id; saveYt(); setStatus(s, "✓ "+esc(r.title||"Video läuft")); return true; }
-      if(r.ok===false){ ytBad.add(cands[k].id); saveYt(); } else unclear = true;
+      if(r.ok){ ytOk[songKey(s)] = cands[k].id; saveYt(); setStatus(s, "✓ YouTube: " + esc(r.title||"läuft")); return true; }
+      if(r.ok === false){ ytBad.add(cands[k].id); saveYt(); } else unclear = true;
     }
-    if(unclear){ setStatus(s, "? keine Antwort von YouTube – später nochmal testen"); return false; }
+    if(unclear){ setStatus(s, "? keine Antwort – später nochmal"); return false; }
   }
   const f = await itunesPreview(s);
-  setStatus(s, f ? "⚠︎ nur 30-Sek.-Ausschnitt: "+esc(f.title) : "✗ nichts gefunden – eigenes Video eintragen");
+  setStatus(s, f ? "⚠︎ nur 30-Sek.-Ausschnitt" : "✗ nichts gefunden – eigenen Link eintragen");
   return !!f;
 }
-let testing=false;
-$("#testAll").onclick=async ()=>{
+let testing = false;
+$("#testAll").onclick = async () => {
   if(testing) return;
-  if(!ytReady && !ytFailed){ toast("YouTube lädt noch – gleich nochmal."); return; }
-  testing=true; stopAll(); listPlaying=null;
-  const btn=$("#testAll"); let ok=0, n=0;
-  const list = songs.filter(s=>s.a && s.t);
-  for(const s of list){
-    n++; btn.textContent=`Teste ${n}/${list.length} …`;
-    if(await testSong(s)) ok++;
-  }
+  if(!ytReady && !ytFailed && !spConnected()){ toast("YouTube lädt noch – gleich nochmal."); return; }
+  testing = true; stopAll(); listPlaying = null;
+  const btn = $("#testAll"); let ok = 0, n = 0; const list = songs.filter(s=>s.a && s.t);
+  for(const s of list){ n++; btn.textContent = `Teste ${n}/${list.length} …`; if(await testSong(s)) ok++; }
   try{ ytPlayer && ytPlayer.unMute(); }catch(e){}
-  btn.textContent=`🔊 Fertig: ${ok}/${list.length} spielbar`; testing=false;
+  btn.textContent = `Fertig: ${ok}/${list.length} spielbar`; testing = false;
 };
-$("#addSong").onclick=()=>{ songs.push({a:"",t:"",y:2026,c:0,yt:[]}); saveSongs(); renderSongs(); const rows=$("#songRows").querySelectorAll("tr"); rows[rows.length-1].querySelector("input").focus(); };
-$("#resetSongs").onclick=()=>{ songs=DEFAULT_SONGS.map(s=>({...s, yt:[...s.yt]})); saveSongs(); renderSongs(); toast("Standardliste wiederhergestellt."); };
-$("#exportSongs").onclick=async()=>{
-  const txt=JSON.stringify(songs.map(({_it,...s})=>s));
+$("#addSong").onclick = () => { songs.push({a:"",t:"",y:2026,c:0,yt:[]}); saveSongs(); renderSongs(); const rows = $("#songRows").querySelectorAll("tr"); rows[rows.length-1].querySelector("input").focus(); };
+$("#resetSongs").onclick = () => { songs = DEFAULT_SONGS.map(s=>({...s, yt:[...s.yt]})); saveSongs(); renderSongs(); toast("Standardliste wiederhergestellt."); };
+$("#exportSongs").onclick = async () => {
+  const txt = JSON.stringify(songs.map(({_it,...s})=>s));
   try{ await navigator.clipboard.writeText(txt); toast("Liste kopiert."); }
-  catch(e){ $("#importBox").style.display="block"; $("#importText").value=txt; $("#importText").select(); toast("Bitte manuell kopieren."); }
+  catch(e){ $("#importBox").style.display = "block"; $("#importText").value = txt; $("#importText").select(); toast("Bitte manuell kopieren."); }
 };
-$("#importToggle").onclick=()=>{ const b=$("#importBox"); b.style.display=b.style.display==="none"?"block":"none"; };
-$("#doImport").onclick=()=>{
+$("#importToggle").onclick = () => { const b = $("#importBox"); b.style.display = b.style.display==="none" ? "block" : "none"; };
+$("#doImport").onclick = () => {
   try{
-    const arr=JSON.parse($("#importText").value);
-    if(!Array.isArray(arr)) throw 0;
-    songs=arr.filter(s=>s && s.a && s.t && Number.isFinite(+s.y)).map(s=>({a:String(s.a),t:String(s.t),y:+s.y,c:s.c?1:0,yt:Array.isArray(s.yt)?s.yt.filter(x=>/^[\w-]{11}$/.test(x)):[],u:parseYt(s.u)||undefined}));
-    saveSongs(); renderSongs(); toast(songs.length+" Songs übernommen.");
+    const arr = JSON.parse($("#importText").value); if(!Array.isArray(arr)) throw 0;
+    songs = arr.filter(s=>s && s.a && s.t && Number.isFinite(+s.y)).map(s=>({ a:String(s.a), t:String(s.t), y:+s.y, c:s.c?1:0, yt:Array.isArray(s.yt)?s.yt.filter(x=>/^[\w-]{11}$/.test(x)):[], u:/^[\w-]{11}$/.test(s.u||"")?s.u:undefined, sp:/^[A-Za-z0-9]{22}$/.test(s.sp||"")?s.sp:undefined }));
+    saveSongs(); renderSongs(); toast(songs.length + " Songs übernommen.");
   }catch(e){ toast("Das war kein gültiges Listenformat."); }
 };
 
-/* ---------- Fenster ---------- */
-function openM(id){ $(id).classList.add("open"); }
-document.querySelectorAll(".modal").forEach(m=>{
-  m.addEventListener("click", e=>{
-    if(e.target===m || e.target.hasAttribute("data-close")){
-      m.classList.remove("open");
-      if(m.id==="mSongs"){
-        if(listPlaying){ listPlaying=null; stopAll(); }
-        if(game && game.current && $("#theCard")){ startSong(game.current, false); renderGame(); }
-        else if(!game) renderSetup();
-      }
-    }
-  });
-});
-$("#btnSongs").onclick=()=>{ renderSongs(); openM("#mSongs"); };
-$("#btnRules").onclick=()=>openM("#mRules");
-$("#btnNew").onclick=()=>{ game=null; renderSetup(); };
+/* ---------- Fenster & Start ---------- */
+const openM = id => $(id).classList.add("open");
+document.querySelectorAll(".modal").forEach(m => m.addEventListener("click", e => {
+  if(e.target !== m && !e.target.hasAttribute("data-close")) return;
+  m.classList.remove("open");
+  if(m.id === "mSongs"){
+    if(listPlaying){ listPlaying = null; stopAll(); }
+    if(game && game.current && $("#theCard")){ startSong(game.current, false); renderGame(); }
+  }
+}));
+$("#btnSongs").onclick = () => { renderSongs(); openM("#mSongs"); };
+$("#btnRules").onclick = () => openM("#mRules");
+$("#btnNew").onclick = renderSetup;
 
+spHandleRedirect().then(()=>{ if(spConnected()) spBoot(); renderSetupIfOpen(); });
 renderSetup();
 </script>
 </body>
