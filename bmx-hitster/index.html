@@ -172,7 +172,7 @@ footer{margin-top:30px;font-size:12px;opacity:.55;line-height:1.5}
       <button class="sec mini" id="pAllOff">Alle aus</button>
       <button class="sec mini" id="pOpenAll">Alle Videos auf-/zuklappen</button>
     </div>
-    <div class="hint" style="margin:4px 0 8px">Haken = Part kommt ins Spiel. Bei der Suche wirken „Alle an/aus“ nur auf die Treffer. Grau = fällt gerade durch einen Filter oben (Jahr, Format, Aufrufe, kein Ton).</div>
+    <div class="hint" style="margin:4px 0 8px">Haken = Part kommt ins Spiel. Bei der Suche wirken „Alle an/aus“ nur auf die Treffer. Grau = derzeit nicht spielbar (Filter, fehlender Ton oder ungeklärte Part-Zuordnung). Full-Lengths brauchen konkrete Fahrer-Kapitel; eine Trackliste allein genügt nicht.</div>
     <div id="cardTable"></div>
     <details id="delBox" class="hidden" style="margin-top:12px"><summary style="cursor:pointer;font-weight:700">🗑 Gelöschte Parts (<span id="delCount">0</span>)</summary>
       <div id="delList"></div><button class="sec mini" id="pRestoreAll" style="margin-top:6px">Alle wiederherstellen</button></details>
@@ -206,6 +206,11 @@ footer{margin-top:30px;font-size:12px;opacity:.55;line-height:1.5}
     <div><label>Format</label><select id="fFmt"><option>Web</option><option>DVD</option></select></div>
     <div><label>Startzeit (Sekunden)</label><input id="fStart" type="number" value="20" min="0"></div>
   </div>
+  <details style="margin-top:14px"><summary>Kapitel und Song-Credits einfügen</summary>
+    <p class="hint">Videolink oben eingeben. Hier die Kapitel aus der Beschreibung oder bestätigte Credits einfügen. Format: <code>01:20 Fahrername</code>, darunter <code>Music:</code> und <code>Fahrername: Künstler – Song</code>. Kommentare vorher prüfen; automatische Kapitel können falsch sein. Eine Trackliste ohne Fahrer wird keinem Full-Length-Part zugeordnet.</p>
+    <textarea id="partCredits" placeholder="00:00 Intro&#10;01:20 Fahrername&#10;05:00 Nächster Fahrer&#10;Music:&#10;Fahrername: Künstler – Song"></textarea>
+    <button class="small" id="btnPartCredits">Zuordnung speichern</button><div class="status" id="partCreditsStatus"></div>
+  </details>
   <div class="row" style="margin-top:12px"><button class="small" id="btnAdd">Karte speichern</button><span class="hint" id="addMsg"></span></div>
   <details style="margin-top:14px"><summary style="cursor:pointer;font-weight:700">Eigene Karten verwalten (JSON)</summary>
     <p class="hint">Eigene Karten werden in diesem Browser gespeichert. Zum Sichern oder Teilen: kopieren und woanders wieder einfügen.</p>
@@ -259,6 +264,18 @@ footer{margin-top:30px;font-size:12px;opacity:.55;line-height:1.5}
    ===================================================================== */
 const BMXMDB = id => 'https://bmxmdb.com/films/'+id;
 const DEFAULT_DECK = [
+ // Researched individual Vimeo sections, 2026-11-08.
+ {"song": "Geraldine", "artist": "Glasvegas", "riders": ["Dakota Roche"], "video": "Brighton Ain't Ready", "year": 2009, "company": "Seventies", "fmt": "DVD", "vimeo": "6277976", "start": 0, "src": "https://bmxmdb.com/films/78-Brighton-Aint-Ready", "songSrc": "BMXMDB: konkrete Section; Vimeo-Einzelupload"},
+ {"song": "Unforgettable Season", "artist": "Cut Copy", "riders": ["Scott Ditchburn", "Sebastian Keep", "Hoang Tran", "Wade Lajlar", "Bowlhead", "Duncan Lloyd", "Cookie", "Waffle", "Steve Debusk"], "video": "Brighton Ain't Ready", "year": 2009, "company": "Seventies", "fmt": "DVD", "vimeo": "10089819", "start": 0, "src": "https://bmxmdb.com/films/78-Brighton-Aint-Ready", "songSrc": "BMXMDB: konkrete Section; Vimeo-Einzelupload"},
+ {"song": "Fuck The Hook", "artist": "Skinnyman", "riders": ["Dan Lacey"], "video": "Brighton Ain't Ready", "year": 2009, "company": "Seventies", "fmt": "DVD", "vimeo": "9851375", "start": 0, "src": "https://bmxmdb.com/films/78-Brighton-Aint-Ready", "songSrc": "BMXMDB: konkrete Section; Vimeo-Einzelupload"},
+ {"song": "The Tears Of A Clown", "artist": "Smokey Robinson & The Miracles", "riders": ["Nate Moroshan", "Gary Young", "Seth Kimbrough"], "video": "Brighton Ain't Ready", "year": 2009, "company": "Seventies", "fmt": "DVD", "vimeo": "11072854", "start": 0, "src": "https://bmxmdb.com/films/78-Brighton-Aint-Ready", "songSrc": "BMXMDB: konkrete Section; Vimeo-Einzelupload"},
+ {"song": "Little Lies", "artist": "Fleetwood Mac", "riders": ["Matt Roey", "Davey Watson", "Darryl Tocco"], "video": "Brighton Ain't Ready", "year": 2009, "company": "Seventies", "fmt": "DVD", "vimeo": "6376965", "start": 0, "src": "https://bmxmdb.com/films/78-Brighton-Aint-Ready", "songSrc": "BMXMDB: konkrete Section; Vimeo-Einzelupload"},
+ {"song": "Make 'em Pay", "artist": "Gang Starr", "riders": ["Kym Grosser"], "video": "Brighton Ain't Ready", "year": 2009, "company": "Seventies", "fmt": "DVD", "vimeo": "10373907", "start": 0, "src": "https://bmxmdb.com/films/78-Brighton-Aint-Ready", "songSrc": "BMXMDB: konkrete Section; Vimeo-Einzelupload"},
+ {"song": "Stadium & Shrines 2", "artist": "Sunset Rubdown", "riders": ["Tony Neyer"], "video": "Brighton Ain't Ready", "year": 2009, "company": "Seventies", "fmt": "DVD", "vimeo": "10921106", "start": 0, "src": "https://bmxmdb.com/films/78-Brighton-Aint-Ready", "songSrc": "BMXMDB: konkrete Section; Vimeo-Einzelupload"},
+ {"song": "Wash The Day Away", "artist": "TV On The Radio", "riders": ["Sean Sexton"], "video": "Brighton Ain't Ready", "year": 2009, "company": "Seventies", "fmt": "DVD", "vimeo": "12109749", "start": 0, "src": "https://bmxmdb.com/films/78-Brighton-Aint-Ready", "songSrc": "BMXMDB: konkrete Section; Vimeo-Einzelupload"},
+ {"song": "Lust For Life", "artist": "Iggy Pop", "riders": ["Mark Love", "Josh Bedford", "Nick Halsey", "Matt", "Tom Dillon", "Chicken", "Harrison Boyce", "Dayson", "Tony Hamlin", "Alistair Whitton"], "video": "Brighton Ain't Ready", "year": 2009, "company": "Seventies", "fmt": "DVD", "vimeo": "6465210", "start": 0, "src": "https://bmxmdb.com/films/78-Brighton-Aint-Ready", "songSrc": "BMXMDB: konkrete Section; Vimeo-Einzelupload"},
+ {"song": "In The City", "artist": "Joe Walsh", "riders": ["Ryan Sher", "Brad Simms"], "video": "Brighton Ain't Ready", "year": 2009, "company": "Seventies", "fmt": "DVD", "vimeo": "12107782", "start": 0, "src": "https://bmxmdb.com/films/78-Brighton-Aint-Ready", "songSrc": "BMXMDB: konkrete Section; Vimeo-Einzelupload"},
+
  // ---------- DVD-Parts (Quelle: bmxmdb.com) ----------
  {song:"Touch You Touch You",artist:"Hot Hot Heat",riders:["Joe Simon"],video:"The Calling",year:2005,company:"The Shadow Conspiracy",fmt:"DVD",src:BMXMDB("86-The-Calling")},
  {song:"Worked Up So Sexual",artist:"The Faint",riders:["Ryan Sher"],video:"The Calling",year:2005,company:"The Shadow Conspiracy",fmt:"DVD",src:BMXMDB("86-The-Calling")},
@@ -628,14 +645,14 @@ const DEFAULT_DECK = [
  {song:"Run to the Devil",artist:"Dragonwyck",riders:["Calvin Kosovich"],video:"Illustrated",year:2016,company:"Vans",fmt:"DVD",yt:"dZW_u3fbR74",start:10,src:"https://bmxunion.com/page/1582"},
 
  // ---------- Full-Lengths & Team-Videos 2016–2026 (Video-IDs: bmxunion.com; Song meist nur im Video gelistet) ----------
- {song:"",artist:"",riders:["Brett Silva"],video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"pCvrdSF5jAY",start:15,src:"https://bmxunion.com/?p=133144"},
- {song:"",artist:"",riders:["Jake Seeley"],video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"Kw2PSKDLZbg",start:15,src:"https://bmxunion.com/?p=133144"},
- {song:"",artist:"",riders:["Gary Young"],video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"cLeGOjmKYOs",start:15,src:"https://bmxunion.com/?p=133144"},
- {song:"",artist:"",riders:["Aaron Ross"],video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"xqerJ110Ri0",start:15,src:"https://bmxunion.com/?p=133144"},
- {song:"",artist:"",riders:["Julian Arteaga", "Jared Duncan", "Alec Siemon"],section:"Split-Part",video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"U_0l3OX1FE8",start:15,src:"https://bmxunion.com/?p=133144"},
- {song:"",artist:"",riders:["Mark Burnett"],video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"Hifx6_3bztw",start:15,src:"https://bmxunion.com/?p=133144"},
- {song:"",artist:"",riders:["Chris Childs"],video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"_mTIQ8KSuSU",start:15,src:"https://bmxunion.com/?p=133144"},
- {song:"",artist:"",riders:["Erik Elstran"],video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"5SWdK7Nua7g",start:15,src:"https://bmxunion.com/?p=133144"},
+ {song:"",sourceMismatch:true,artist:"",riders:["Brett Silva"],video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"pCvrdSF5jAY",start:15,src:"https://bmxunion.com/?p=133144"},
+ {song:"",artist:"",riders:["Jake Seeley"],video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"pCvrdSF5jAY",start:15,src:"https://bmxunion.com/?p=133144"},
+ {song:"",artist:"",riders:["Gary Young"],video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"Kw2PSKDLZbg",start:15,src:"https://bmxunion.com/?p=133144"},
+ {song:"",sourceMismatch:true,artist:"",riders:["Aaron Ross"],video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"xqerJ110Ri0",start:15,src:"https://bmxunion.com/?p=133144"},
+ {song:"",artist:"",riders:["Julian Arteaga", "Jared Duncan", "Alec Siemon"],section:"Split-Part",video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"xqerJ110Ri0",start:15,src:"https://bmxunion.com/?p=133144"},
+ {song:"",artist:"",riders:["Mark Burnett"],video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"U_0l3OX1FE8",start:15,src:"https://bmxunion.com/?p=133144"},
+ {song:"",artist:"",riders:["Chris Childs"],video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"Hifx6_3bztw",start:15,src:"https://bmxunion.com/?p=133144"},
+ {song:"",artist:"",riders:["Erik Elstran"],video:"Grow Up",year:2016,company:"Sunday",fmt:"DVD",yt:"_mTIQ8KSuSU",start:15,src:"https://bmxunion.com/?p=133144"},
  {song:"",artist:"",riders:["Bruno Hoffmann"],video:"FTS",year:2019,company:"Federal",fmt:"DVD",yt:"2kVmvORQp4s",start:30,src:"https://bmxunion.com/tag/federal-bikes/page/7/"},
  {song:"",artist:"",riders:["Ryan Eles"],video:"FTS",year:2019,company:"Federal",fmt:"DVD",yt:"gWnmugC1pGg",start:15,src:"https://bmxunion.com/tag/federal-bikes/page/7/"},
  {song:"",artist:"",riders:["Michal Smelko"],video:"FTS",year:2019,company:"Federal",fmt:"DVD",yt:"vTXY2dYR8xs",start:15,src:"https://bmxunion.com/tag/federal-bikes/page/7/"},
@@ -677,12 +694,12 @@ const DEFAULT_DECK = [
  {song:"",artist:"",riders:["Hobie Doan", "Corey Martinez", "Brian Wizmerski", "Reed Stark", "George Duran", "Harrison Arcari", "Brandon Begin", "Mark Burnett"],section:"Full-Length",video:"Lacuna",year:2022,company:"Skapegoat",fmt:"DVD",yt:"PUvhkHSGj9Q",start:60,src:"https://bmxunion.com/tag/brandon-begin/page/2/"},
  {song:"",artist:"",riders:["Boyd Hilder", "Santi Laverde", "Mikey Andrew", "Tom Dugan", "Takato Ueda", "Gary Young", "Dennis Enarson", "Justin Spriet", "Aaron Ross"],section:"Full-Length",video:"Feast",year:2023,company:"Odyssey",fmt:"DVD",yt:"bjO1S9eHgEI",start:60,src:"https://bmxunion.com/tag/justin-spriet"},
  {song:"",artist:"",riders:["Dennis Enarson", "Boyd Hilder", "Murray Loubser", "Matt Nordstrom", "Jacob Cable", "Broc Raiford", "Gary Young", "Corey Walsh", "Perris Benegas"],section:"Full-Length",video:"On Lock",year:2025,company:"Odyssey",fmt:"DVD",yt:"CJazfMTvoBw",start:60,src:"https://bmxunion.com/tag/corey-walsh/"},
- {song:"",artist:"",riders:["Matt Closson", "Antonio Chavez", "Martin Siman", "Johnny Raekes", "Garrett Reynolds", "Lewis Mills", "Hobie Doan"],section:"Full-Length",video:"No Love",year:2026,company:"Fiend",fmt:"DVD",yt:"xoFK3snnpXY",start:60,src:"https://bmxunion.com/home"},
+ {song:"",artist:"",riders:["Matt Closson", "Antonio Chavez", "Martin Siman", "Johnny Raekes", "Garrett Reynolds", "Lewis Mills", "Hobie Doan"],section:"Full-Length",video:"No Love",year:2025,company:"Fiend",fmt:"DVD",yt:"xoFK3snnpXY",start:60,src:"https://bmxunion.com/home"},
  {song:"",artist:"",riders:["Garrett Reynolds", "Chad Kerley", "Nathan Williams", "Dakota Roche", "Corey Martinez", "Julian Arteaga"],section:"Full-Length",video:"Stay Dangerous",year:2026,company:"Cinema",fmt:"DVD",yt:"3rA05R7OAIg",start:60,src:"https://bmxunion.com/home"},
  {song:"",artist:"",riders:["Jack Hennicke", "Hilario Olivos", "JP Ross", "Justin Spriet", "Zack Dunn", "Tyler Veatch", "Chris Kimbell"],section:"Full-Length",video:"And Still",year:2026,company:"Realm BMX",fmt:"DVD",yt:"1FUGJB8ZKus",start:60,src:"https://bmxunion.com/tag/justin-spriet"},
  {song:"",artist:"",riders:["Damian Racut", "Luke Burdeshaw", "Ryan Vandemotter", "Colin Dougherty", "Broc Raiford", "Brandon Begin"],section:"Full-Length",video:"Protocol",year:2026,company:"Act Like You Know",fmt:"DVD",yt:"Wqm8PPpQ1_c",start:60,src:"https://bmxunion.com/home"},
  {song:"",artist:"",riders:["Dan Kruk", "Felix Prangenberg", "Matt Closson", "Jordan Godwin"],section:"Full-Length",video:"Lead By Example",year:2026,company:"Lead By Example",fmt:"DVD",yt:"81CovNal_kw",start:60,src:"https://bmxunion.com/home"},
- {song:"",artist:"",riders:["Garrett Reynolds", "Boyd Hilder", "Simone Barraco", "Felix Prangenberg", "Corey Walsh", "Jordan Godwin", "Alex Kennedy", "Anthony Perrin"],section:"Full-Length",video:"Project X",year:2025,company:"Project X",fmt:"DVD",yt:"QDl20FsS6R8",start:60,src:"https://bmxunion.com/tag/corey-walsh/"},
+ {song:"",artist:"",riders:["Garrett Reynolds", "Boyd Hilder", "Simone Barraco", "Felix Prangenberg", "Corey Walsh", "Jordan Godwin", "Alex Kennedy", "Anthony Perrin"],section:"Full-Length",video:"Project X",year:2024,company:"Project X",fmt:"DVD",yt:"QDl20FsS6R8",start:60,src:"https://bmxunion.com/tag/corey-walsh/"},
  {song:"",artist:"",riders:["Corey Walsh", "Gary Young", "Dennis Enarson", "Perris Benegas", "Justin Spriet", "Tom Dugan", "Noah Miranda"],section:"Team-Video",video:"Say Less",year:2023,company:"Odyssey",fmt:"Web",yt:"NUpMUcnrHKw",start:30,src:"https://bmxunion.com/tag/justin-spriet"},
  {song:"",artist:"",riders:["Preston Okert", "Murray Loubser", "Corey Walsh", "Gary Young", "Boyd Hilder", "Mikey Andrew", "Jacob Cable", "Dennis Enarson", "Perris Benegas"],section:"Team-Video",video:"Shuffle",year:2025,company:"Odyssey",fmt:"Web",yt:"sZfM_MBvtqc",start:30,src:"https://bmxunion.com/tag/corey-walsh/"},
  {song:"",artist:"",riders:["Brett Silva", "Diego Bravo", "Jared Duncan", "Erik Elstran", "Jake Seeley", "Julian Arteaga", "Gary Young"],section:"Team-Video",video:"Wise Up",year:2025,company:"Sunday",fmt:"Web",yt:"_X9ZbA6QjMg",start:30,src:"https://bmxunion.com/tag/erik-elstran"},
@@ -769,7 +786,8 @@ async function inv(path){
    Läuft im Browser: holt Beschreibung, Kapitelmarken und YouTube-Musikangaben über offene YouTube-Frontends
    (Invidious, Piped). Full-Lengths werden so in einzelne Parts (ohne Intro/Outro) zerlegt, fehlende Songs ergänzt. */
 const PIPED=['https://pipedapi.kavin.rocks','https://pipedapi.adminforge.de','https://api.piped.private.coffee'];
-let META=LS.get('bmxHitsterMeta',{});   // ytId -> {t, ok, ch:[{s,title}], mu:[{a,s,r?}], tr:[{a,s}]}
+const VERIFIED_META = {"y6njcHWdZf8": {"ok": true, "ch": [{"s": 0.0, "title": "Intro"}, {"s": 45.0, "title": "Casey Starling"}, {"s": 140.0, "title": "Jacob Cable"}, {"s": 302.0, "title": "Calvin Kosovich"}, {"s": 445.0, "title": "Anthony Perrin"}, {"s": 596.0, "title": "Anahi Valentina"}, {"s": 643.0, "title": "Santiago Laverde"}, {"s": 794.0, "title": "Harrison Arcari"}, {"s": 969.0, "title": "Nathan Williams"}, {"s": 1415.0, "title": "Outro"}], "mu": [], "tr": [], "source": "https://www.youtube.com/watch?v=y6njcHWdZf8", "curated": true}, "xoFK3snnpXY": {"ok": true, "ch": [{"s": 0.0, "title": "Matt Closson"}, {"s": 374.0, "title": "Lewis Mills, Mati Lasgoity, Kevin Vannauker, Augie Simoncini, Nino Valdez, Hobie Doan"}, {"s": 592.0, "title": "Martin Siman"}, {"s": 716.0, "title": "Antonio Chavez"}, {"s": 818.0, "title": "Johnny Raekes"}, {"s": 1271.0, "title": "Garrett Reynolds"}], "mu": [], "tr": [], "source": "https://www.youtube.com/watch?v=xoFK3snnpXY", "curated": true}, "CJazfMTvoBw": {"ok": true, "ch": [{"s": 0.0, "title": "Main title"}, {"s": 31.0, "title": "Intro"}, {"s": 160.0, "title": "Aryei Levenson"}, {"s": 324.0, "title": "Team Mix/Matt Nordstrom"}, {"s": 590.0, "title": "Santi Laverde/Boyd Hilder/CA Mix"}, {"s": 747.0, "title": "Mikey Andrew"}, {"s": 905.0, "title": "Ladies Mix"}, {"s": 1076.0, "title": "Josh Delarosa"}, {"s": 1216.0, "title": "Joy's Interlude"}, {"s": 1320.0, "title": "Corey Walsh/Pools"}, {"s": 1444.0, "title": "Gary Young/CA Mix"}, {"s": 1560.0, "title": "Perris Benegas / Vancouver/Jacob Cable"}, {"s": 1868.0, "title": "SLC"}, {"s": 2080.0, "title": "Johnny Raekes/Mix/Matt Nordstrom"}, {"s": 2386.0, "title": "Preston Okert"}, {"s": 2540.0, "title": "Broc Raiford/Closing Mix"}, {"s": 2793.0, "title": "Murray Loubser"}, {"s": 3016.0, "title": "Dennis Enarson"}, {"s": 3153.0, "title": "Credits"}], "mu": [], "tr": [], "source": "https://www.youtube.com/watch?v=CJazfMTvoBw", "curated": true}};
+let META={...VERIFIED_META,...LS.get('bmxHitsterMeta_v3',{})};   // ytId -> {t, ok, ch:[{s,title}], mu:[{a,s,r?}], tr:[{a,s}]}
 const tsSec=t=>t.split(':').reduce((a,b)=>a*60+(+b),0);
 const SKIP_CH=/\b(intro|outro|credits?|abspann|vorspann|trailer|bonus|bloopers?|slams?|crash(es)?|thanks|end(ing)?|b-?sides?|extras?|teaser|title)\b/i;
 const htmlText=h=>String(h||'').replace(/<br\s*\/?>/gi,'\n').replace(/<\/p>/gi,'\n').replace(/<[^>]+>/g,'')
@@ -794,13 +812,18 @@ function parseDesc(txt){
     if(ts){ ch.push({s:tsSec(ts),title:title.trim()}); inMu=false; continue; }
     const h=l.match(/^(?:music|musik|songs?|soundtrack|tracks?|tracklist)(?:\s*(?:by|credits?))?\s*[:\-–—]\s*(.*)$/i)||l.match(/^(?:music|musik|songs?|soundtrack|tracklist|music credits)$/i);
     if(h){ inMu=true; if(h[1]){ const x=musicLine(h[1]); if(x) mu.push(x); } continue; }
-    if(inMu){ if(/^(film|filmed|edit|edited|video|camera|kamera|photo|special thanks|thanks|follow|shot|riders?|featuring|starring|http|www\.|@|#)/i.test(l)){ inMu=false; continue; }
+    if(inMu){ if(/^(film|filmed|edit|edited|video|camera|kamera|photo|special thanks|thanks|follow|shot|riders?:|featuring|starring|http|www\.|@|#)/i.test(l)){ inMu=false; continue; }
       const x=musicLine(l); if(x) mu.push(x); else inMu=false; }
   }
-  ch.sort((a,b)=>a.s-b.s); return {ch,mu};
+  ch.sort((a,b)=>a.s-b.s); const clean=ch.filter((x,i)=>!i||x.s!==ch[i-1].s); return {ch:clean,mu};
 }
 const META_BAD=new Set();   // Server, die in dieser Sitzung nicht antworten
 async function fetchMeta(id){
+  if(id.startsWith('vm:')){
+    try{ const v=await vimeoInfo(id.slice(3)); if(!v) return {ok:false};
+      const p=parseDesc(v.description||''); return {ok:true,...p,tr:[],len:v.duration||0};
+    }catch(e){ return {ok:null}; }
+  }
   let reached=false;
   const get=async(base,path)=>{ if(META_BAD.has(base)) return null;
     const ctl=new AbortController(), t=setTimeout(()=>ctl.abort(),9000);
@@ -816,7 +839,7 @@ async function fetchMeta(id){
     const d=await get(b,`/streams/${id}`); if(!d||d.error) continue;
     const p=parseDesc(htmlText(d.description));
     const ch=(d.chapters||[]).map(x=>({s:x.start,title:x.title})).filter(x=>x.title);
-    return {ok:true,ch:ch.length?ch:p.ch,mu:p.mu,tr:[],len:d.duration||0};
+    return {ok:true,ch:p.ch,mu:p.mu,tr:[],len:d.duration||0};
   }
   return {ok:reached?false:null};   // false = Server erreichbar, aber keine Infos; null = keiner erreichbar
 }
@@ -824,29 +847,27 @@ function ridersIn(title,riders){ const t=' '+normName(title)+' ';
   return riders.filter(r=>{ const n=normName(r); if(n&&t.includes(' '+n+' ')) return true;
     const last=n.split(' ').pop(); return last.length>3&&t.includes(' '+last+' '); }); }
 function expandMeta(c){
-  const m=c.yt&&META[c.yt]; if(!m||!m.ok) return [c];
+  const m=META[c.yt||('vm:'+c.vimeo)]; if(!m||!m.ok) return [c];
   if(!c.song&&c.riders.length>1&&m.ch&&m.ch.length>=2){
     const out=[];
     m.ch.forEach((x,i)=>{
-      if(SKIP_CH.test(x.title)) return;
+      if(SKIP_CH.test(x.title)||/mix|interlude|pools|vancouver|[,/]/i.test(x.title)) return;
       const rs=ridersIn(x.title,c.riders); if(!rs.length) return;
       const nx=m.ch[i+1]; if(nx&&nx.s-x.s<25) return;              // zu kurz für einen Part
-      const k={...c,riders:rs,section:x.title,start:x.s+8,fromMeta:true};
+      const k={...c,riders:rs,section:x.title,start:x.s+8,end:nx?nx.s:undefined,fromMeta:true,partResolved:true};
       const rest=x.title.split(/\s+[-–—|]\s+/).slice(1).join(' - '), sp=rest&&splitSong(rest);
       const song=sp||(m.mu||[]).find(u=>u.r&&ridersIn(u.r,rs).length);
       if(song){ k.song=song.s; k.artist=song.a; k.songSrc='Videobeschreibung'; }
       out.push(k);
     });
-    if(out.length>=2){
-      if(m.tr&&m.tr.length===out.length) out.forEach((k,i)=>{ if(!k.song){ k.song=m.tr[i].s; k.artist=m.tr[i].a; k.songSrc='YouTube-Musikangaben, nach Reihenfolge'; } });
-      return out;
-    }
+    if(out.length) return out; // Never infer rider/song pairs from playlist order.
   }
   let k=c;
-  if(!c.song){ const f=(m.mu&&m.mu[0])||(m.tr&&m.tr[0]);
+  if(!c.song&&!/Full-Length|Team-Video/i.test(c.section||'')){
+    const named=(m.mu||[]).filter(u=>u.r&&ridersIn(u.r,c.riders).length);
+    const plain=(m.mu||[]).filter(u=>!u.r);
+    const f=named.length===1?named[0]:(!named.length&&plain.length===1&&!(m.mu||[]).some(u=>u.r)?plain[0]:null);
     if(f) k={...k,song:f.s,artist:f.a,songSrc:m.mu&&m.mu[0]?'Videobeschreibung':'YouTube-Musikangaben',fromMeta:true}; }
-  if(m.ch&&m.ch.length){ const i=m.ch.findIndex(x=>/\b(intro|vorspann|title)\b/i.test(x.title)), nx=i>=0&&m.ch[i+1];
-    if(nx&&(k.start||0)<nx.s) k={...k,start:nx.s+5}; }
   return [k];
 }
 // Kapitel-Parts nicht doppelt, wenn es den Part schon als eigenes Video gibt
@@ -857,20 +878,21 @@ function dedupeMeta(list){
   const out=list.filter(c=>{
     if(!c.fromMeta||c.riders.length!==1) return true;
     const b=base.get(key(c)); if(!b) return true;
-    if(b.yt||b.vimeo) return false;                     // Part gibt es schon als eigenes Video
+    if(b.yt||b.vimeo){ if(!b.song&&c.song){ b.song=c.song; b.artist=c.artist; b.songSrc=c.songSrc; } return false; }                     // Part gibt es schon als eigenes Video
     drop.add(b); if(!c.song&&b.song){ c.song=b.song; c.artist=b.artist; c.songSrc=null; }   // Song-Karte ohne Video → Kapitel übernimmt
     return true; });
   return out.filter(c=>!drop.has(c));
 }
 async function runMetaCheck(force){
-  const ids=[...new Set(DEFAULT_DECK.concat(custom()).filter(c=>c.yt&&!c.song).map(c=>c.yt))]
-    .filter(id=>{ const m=META[id]; return force||!m||Date.now()-m.t>(m.ok?30:2)*864e5; });
+  const ids=[...new Set(DEFAULT_DECK.concat(custom()).filter(c=>(c.yt||c.vimeo)&&!c.song).map(c=>c.yt||('vm:'+c.vimeo)))]
+    .filter(id=>{ const m=META[id]; return !m?.curated&&!m?.manual&&(force||!m||Date.now()-m.t>(m.ok?30:2)*864e5); });
   let i=0, dead=0;
   for(const id of ids){
-    if(SC_ABORT||dead>=4) break;                                   // Frontends offline → später nochmal
+    if(SC_ABORT) break;
+    if(dead>=4&&!id.startsWith('vm:')) continue;                                   // Frontends offline → später nochmal
     i++; $('#scStatus').textContent=`Lese Kapitel & Songs aus Videobeschreibungen … ${i}/${ids.length}`;
     const r=await fetchMeta(id); if(r.ok===null){ dead++; continue; } dead=0;
-    META[id]={...r,t:Date.now()}; LS.set('bmxHitsterMeta',META);
+    META[id]={...r,t:Date.now()}; LS.set('bmxHitsterMeta_v3',META);
   }
 }
 
@@ -888,7 +910,14 @@ function applyOvr(c){
   if(o.start!=null) r.start=o.start;
   return r;
 }
-const rawCards = () => dedupeMeta(DEFAULT_DECK.concat(custom().map(c=>({...c,custom:true}))).flatMap(expandMeta)).map(applyOvr);
+function enrichKnown(c){
+  if(c.song) return c;
+  const same=DEFAULT_DECK.filter(b=>b.song&&b.artist&&b.video===c.video&&b.year===c.year&&b.riders.length===c.riders.length&&b.riders.every(r=>c.riders.includes(r)));
+  const songs=new Map(same.map(b=>[b.artist+'|'+b.song,b]));
+  if(songs.size!==1) return c;
+  const b=[...songs.values()][0]; return {...c,song:b.song,artist:b.artist,songSrc:b.src};
+}
+const rawCards = () => dedupeMeta(DEFAULT_DECK.concat(custom().map(c=>({...c,custom:true}))).flatMap(expandMeta).map(enrichKnown)).map(applyOvr);
 // Auswahl im Parts-Menü: abgewählte und gelöschte Parts (cardKey), im Browser gespeichert
 let OFF = new Set(LS.get('bmxHitsterOff',[])), DEL = new Set(LS.get('bmxHitsterDeleted',[]));
 const saveSel = () => { LS.set('bmxHitsterOff',[...OFF]); LS.set('bmxHitsterDeleted',[...DEL]); };
@@ -929,6 +958,8 @@ function eligible(c,o=opts()){
 }
 // Filter oben (Jahr, Format, Bonus, Ton, Aufrufe) – unabhängig vom Haken im Parts-Menü
 function passesFilters(c,o=opts()){
+  if(/Full-Length|Team-Video/i.test(c.section||'')&&!c.partResolved) return 'Part-Zuordnung offen';
+  if(c.sourceMismatch) return 'Video passt nicht zum Part';
   if(c.year<o.yearFrom) return false;
   if(o.fmt==='dvd'&&c.fmt!=='DVD') return false;
   if(o.fmt==='web'&&c.fmt!=='Web') return false;
@@ -988,6 +1019,8 @@ function soundPill(c){
 }
 let OPENV=new Set(), DELASK=null;
 function filterReason(c,o=opts()){
+  if(/Full-Length|Team-Video/i.test(c.section||'')&&!c.partResolved) return 'Part-Zuordnung offen';
+  if(c.sourceMismatch) return 'Video passt nicht zum Part';
   if(c.year<o.yearFrom) return 'vor '+o.yearFrom;
   if(o.fmt==='dvd'&&c.fmt!=='DVD') return 'kein DVD-Part';
   if(o.fmt==='web'&&c.fmt!=='Web') return 'kein Webvideo';
@@ -1090,6 +1123,16 @@ function parseVideoUrl(u){
   m=String(u).match(/vimeo\.com\/(?:video\/|.*\/)?(\d{5,})/); if(m) return {vimeo:m[1]};
   return null;
 }
+$('#btnPartCredits').onclick=()=>{
+  const p=parseVideoUrl($('#detUrl').value.trim()), status=$('#partCreditsStatus');
+  if(!p){ status.textContent='Bitte oben den YouTube- oder Vimeo-Link eintragen.'; return; }
+  const parsed=parseDesc($('#partCredits').value);
+  if(!parsed.ch.length&&!parsed.mu.length){ status.textContent='Keine Kapitel oder Song-Credits erkannt.'; return; }
+  const key=p.yt||('vm:'+p.vimeo), old=META[key]||{};
+  META[key]={...old,ok:true,t:Date.now(),ch:parsed.ch.length?parsed.ch:old.ch||[],mu:parsed.mu.length?parsed.mu:old.mu||[],tr:[],manual:true};
+  LS.set('bmxHitsterMeta_v3',META); renderCardList(); updateDeckInfo();
+  status.textContent=`Gespeichert: ${parsed.ch.length} Kapitel, ${parsed.mu.length} Song-Credits. Gilt für passende Karten dieses Uploads in diesem Browser.`;
+};
 const SONG_RX=/(music|musik|song|track|soundtrack|audio|tune|lied)\b/i;
 let DET={};
 $('#btnDet').onclick=async()=>{
@@ -1331,6 +1374,7 @@ function loadAudio(url,ms=9000){
 }
 function audioErr(){ if(SRC&&(SRC.kind==='preview'||SRC.kind==='ytaudio')) sourceFailed('Audio bricht ab'); }
 audio.onerror=audioErr;
+audio.ontimeupdate=()=>{ if(SRC?.kind==='ytaudio'&&Number.isFinite(G?.card?.end)&&audio.currentTime>=G.card.end){ G.wantPlay=false; stopAll(); } };
 let INV_DEAD=false;   // wenn kein Server liefert, den Umweg für den Rest der Sitzung überspringen
 async function invAudio(id){
   if(INV_DEAD) return false;
@@ -1363,7 +1407,7 @@ async function trySources(c){
     const k=G.chain.shift();
     try{
       if(k==='yt'){ const p=await getYT(); if(!G||G.card!==c) return; showHost('yt');
-        p.cueVideoById({videoId:c.yt,startSeconds:c.start||0}); SRC={kind:'yt',start:c.start||0};
+        p.cueVideoById({videoId:c.yt,startSeconds:c.start||0,...(Number.isFinite(c.end)?{endSeconds:c.end}:{})}); SRC={kind:'yt',start:c.start||0};
         return ready('Originalton aus dem Video'); }
       if(k==='ytaudio'){ setStatus('Hole die Tonspur des Videos …'); const ok=await invAudio(c.yt); if(!G||G.card!==c) return; if(!ok) continue;
         showHost(null); SRC={kind:'ytaudio',start:c.start||0}; return ready('Originalton aus dem Video (nur Tonspur)'); }
@@ -1373,6 +1417,7 @@ async function trySources(c){
         await withTimeout(vmPlayer.ready(),10000);
         vmPlayer.on('play',()=>{ setPlaying(true); $('#fallback').innerHTML=''; }); vmPlayer.on('pause',()=>setPlaying(false)); vmPlayer.on('ended',()=>setPlaying(false));
         vmPlayer.on('error',()=>sourceFailed('Vimeo-Fehler'));
+        vmPlayer.on('timeupdate',e=>{ if(G?.card===c&&Number.isFinite(c.end)&&e.seconds>=c.end){ G.wantPlay=false; stopAll(); } });
         SRC={kind:'vimeo',start:c.start||0}; return ready('Originalton aus dem Video'); }
       if(k==='preview'){ const url=await findPreview(c); if(!G||G.card!==c) return; if(!url) continue;
         if(!await loadAudio(url)) continue; showHost(null); SRC={kind:'preview',start:0}; return ready('30-Sekunden-Vorschau des Songs (nicht aus dem Video)'); }
@@ -1459,8 +1504,8 @@ $('#screen').addEventListener('click',()=>{
 });
 $('#btnFwd').onclick=async()=>{
   if(!SRC) return;
-  if(SRC.kind==='yt'||SRC.kind==='ytsong') ytPlayer.seekTo(ytPlayer.getCurrentTime()+15,true);
-  else if(SRC.kind==='vimeo'){ const t=await vmPlayer.getCurrentTime(); vmPlayer.setCurrentTime(t+15); }
+  if(SRC.kind==='yt'||SRC.kind==='ytsong') ytPlayer.seekTo(Math.min(ytPlayer.getCurrentTime()+15,G?.card?.end!=null?G.card.end-1:Infinity),true);
+  else if(SRC.kind==='vimeo'){ const t=await vmPlayer.getCurrentTime(); vmPlayer.setCurrentTime(Math.min(t+15,G?.card?.end!=null?G.card.end-1:Infinity)); }
   else audio.currentTime=Math.min((audio.duration||30)-1,audio.currentTime+15);
 };
 $('#btnStop').onclick=()=>{ if(G) G.wantPlay=false; stopAll(); };
@@ -1563,3 +1608,4 @@ checkViews(false).then(()=>runSoundCheck(false));
 </script>
 </body>
 </html>
+
