@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Leederzick</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
 <style>
 :root{
   --rot:#d0112b; --rot-d:#a30c21; --paper:#ffffff; --ink:#2b0b11; --mut:#8c6b71; --line:#f2dadd; --tint:#fdf1f3;
   --card:#fff; --ok:#1d8a51; --gold:#f2b51c; --r:18px;
+  --dsp:"Anton","Oswald","Arial Narrow",Impact,sans-serif;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -20,7 +21,7 @@ a{color:inherit}
 /* Kopf */
 .topbar{background:var(--rot); color:#fff}
 header{max-width:1000px; margin:0 auto; padding:12px 18px; display:flex; align-items:center; justify-content:space-between; gap:10px}
-.logo{display:flex; align-items:center; gap:10px; font-weight:800; font-size:19px; letter-spacing:-.02em}
+.logo{display:flex; align-items:center; gap:10px; font-family:var(--dsp); font-weight:400; font-size:22px; letter-spacing:.03em; text-transform:uppercase}
 .logo .mark{width:26px; height:26px; border-radius:8px; background:repeating-linear-gradient(135deg,#fff 0 6px,var(--rot) 6px 12px); box-shadow:inset 0 0 0 2px #fff}
 .nav{display:flex; gap:2px}
 .ib{border:0; background:transparent; padding:8px 11px; border-radius:10px; font-weight:600; font-size:15px; color:#fff}
@@ -33,7 +34,7 @@ main{max-width:1000px; margin:0 auto; padding:16px 18px 30px}
 .btn.red{background:var(--rot)}
 .btn.ghost{background:#fff; color:var(--rot); box-shadow:inset 0 0 0 1.5px #d0112b55}
 .btn.sm{padding:7px 13px; font-size:14px}
-.btn.big{width:100%; padding:16px; font-size:18px}
+.btn.big{width:100%; padding:14px 16px 13px; font-family:var(--dsp); font-weight:400; font-size:24px; letter-spacing:.04em; text-transform:uppercase}
 .btn:disabled{opacity:.35; cursor:not-allowed}
 .box{background:var(--card); border:1.5px solid var(--line); border-radius:var(--r); padding:16px 18px}
 .stack>*+*{margin-top:12px}
@@ -56,16 +57,17 @@ input:focus,textarea:focus{outline:none; border-color:var(--rot)}
 .chip.on{background:var(--rot); border-color:var(--rot); color:#fff}
 .stepper{display:flex; align-items:center; gap:14px}
 .stepper>button{width:40px; height:40px; border-radius:50%; border:1.5px solid #d0112b55; background:#fff; color:var(--rot); font-size:22px; line-height:1}
-.stepper b{font-size:26px; min-width:24px; text-align:center}
+.stepper b{font-family:var(--dsp); font-weight:400; font-size:34px; min-width:24px; text-align:center; color:var(--rot)}
 .names{display:grid; grid-template-columns:1fr 1fr; gap:8px}
 @media (max-width:480px){.names{grid-template-columns:1fr}}
 .names input{padding:9px 12px}
 
 /* Start */
-.hero{text-align:center; padding:20px 0 18px}
-.hero h1{font-size:clamp(34px,7vw,56px); line-height:.98; letter-spacing:-.035em; margin:0; font-weight:800}
-.hero h1 em{font-style:normal; color:var(--rot)}
-.hero p{margin:10px 0 0; color:var(--mut)}
+.hero{text-align:center; padding:18px 0 20px}
+.hero h1{font-family:var(--dsp); font-weight:400; text-transform:uppercase; color:var(--rot); font-size:clamp(56px,16vw,128px); line-height:.9; letter-spacing:.01em; margin:0;
+  text-shadow:3px 3px 0 #fff, 5px 5px 0 var(--rot)}
+.hero .claim{margin:14px 0 0; font-weight:800; font-size:18px; color:var(--ink)}
+.hero .sub{margin:4px 0 0; font-size:14px; color:var(--mut)}
 .setup{max-width:560px; margin:0 auto}
 .foot{max-width:560px; margin:26px auto 0; text-align:center; padding:20px 18px; border-radius:var(--r); background:var(--tint)}
 .foot .hint{margin-bottom:10px}
@@ -85,11 +87,11 @@ input:focus,textarea:focus{outline:none; border-color:var(--rot)}
 @media (max-width:820px){.card{aspect-ratio:auto; min-height:230px}}
 .card.mystery{background:var(--rot); color:#fff}
 .card.mystery::before{content:""; position:absolute; inset:0; background:repeating-linear-gradient(135deg,#ffffff14 0 22px,transparent 22px 44px)}
-.card.mystery .q{font-size:110px; font-weight:800; line-height:.9; position:relative}
+.card.mystery .q{font-family:var(--dsp); font-size:150px; font-weight:400; line-height:.9; position:relative; text-shadow:4px 4px 0 var(--rot), 6px 6px 0 #fff}
 .card.shown{background:#fff; border:1.5px solid var(--line)}
 .card .artist{font-weight:600; color:var(--mut); font-size:15px}
-.card .title{font-weight:800; font-size:24px; line-height:1.1; letter-spacing:-.02em; margin:6px 0 10px}
-.card .year{font-weight:800; font-size:64px; letter-spacing:-.04em; color:var(--rot); line-height:1}
+.card .title{font-family:var(--dsp); font-weight:400; font-size:28px; line-height:1.05; letter-spacing:.01em; text-transform:uppercase; margin:6px 0 10px}
+.card .year{font-family:var(--dsp); font-weight:400; font-size:96px; letter-spacing:.01em; color:var(--rot); line-height:.95; text-shadow:3px 3px 0 #fff, 5px 5px 0 var(--rot)}
 .card .flag{position:absolute; bottom:12px; left:12px; right:12px; font-size:12px; color:var(--mut)}
 .card.ok{box-shadow:0 0 0 3px var(--ok), 0 18px 40px -22px #00000059}
 .card.bad{box-shadow:0 0 0 3px var(--rot), 0 18px 40px -22px #00000059}
@@ -107,15 +109,15 @@ input:focus,textarea:focus{outline:none; border-color:var(--rot)}
 .cbtn{width:44px; height:44px; border-radius:50%; border:1.5px solid #d0112b55; background:#fff; color:var(--rot); font-size:18px}
 .status{text-align:center; font-size:13px; color:var(--mut); margin-top:8px; min-height:18px}
 .found{text-align:center; font-size:13px; color:var(--mut); margin-top:10px}
-.verdict{font-weight:800; font-size:22px; text-align:center; margin:14px 0 8px}
+.verdict{font-family:var(--dsp); font-weight:400; font-size:30px; letter-spacing:.02em; text-transform:uppercase; text-align:center; margin:14px 0 8px}
 .row{display:flex; gap:8px}
 .row>*{flex:1}
 
 .tl-head{display:flex; justify-content:space-between; align-items:baseline; gap:10px}
-.tl-head h2{margin:0; font-size:22px; letter-spacing:-.02em}
+.tl-head h2{margin:0; font-family:var(--dsp); font-weight:400; font-size:28px; letter-spacing:.02em; text-transform:uppercase}
 .timeline{display:flex; flex-wrap:wrap; align-items:stretch; gap:6px; padding:14px 0 4px}
 .tcard{min-width:104px; max-width:140px; flex:0 0 auto; background:#fff; border:1.5px solid var(--line); border-radius:14px; padding:9px 10px; text-align:center}
-.tcard .y{font-weight:800; font-size:24px; color:var(--rot); letter-spacing:-.03em}
+.tcard .y{font-family:var(--dsp); font-size:32px; color:var(--rot); letter-spacing:.01em; line-height:1.05}
 .tcard .t{font-weight:700; font-size:12.5px; line-height:1.2}
 .tcard .a{font-size:11.5px; color:var(--mut)}
 .tcard.new{animation:pop .5s ease}
@@ -131,14 +133,14 @@ input:focus,textarea:focus{outline:none; border-color:var(--rot)}
 
 /* Ende */
 .end{text-align:center; padding:30px 10px}
-.end .big{font-size:clamp(38px,8vw,72px); font-weight:800; letter-spacing:-.04em; color:var(--rot); margin:8px 0}
+.end .big{font-family:var(--dsp); font-weight:400; text-transform:uppercase; font-size:clamp(52px,12vw,96px); letter-spacing:.01em; line-height:.95; color:var(--rot); margin:8px 0; text-shadow:3px 3px 0 #fff, 5px 5px 0 var(--rot)}
 
 /* Fenster */
 .modal{position:fixed; inset:0; background:#2b0b1199; display:none; align-items:flex-start; justify-content:center; padding:20px 10px; overflow:auto; z-index:20}
 .modal.open{display:flex}
 .modal .box{max-width:920px; width:100%}
 .mhead{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:8px}
-.mhead h2{margin:0; font-size:22px}
+.mhead h2{margin:0; font-family:var(--dsp); font-weight:400; font-size:28px; letter-spacing:.02em; text-transform:uppercase}
 table{width:100%; border-collapse:collapse; font-size:14px}
 th{text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--mut); padding:6px 4px; font-weight:700}
 td{padding:4px; border-top:1px solid var(--line); vertical-align:middle}
@@ -668,7 +670,7 @@ function renderSetup(){
   const spState = !SP.clientId ? "aus" : spConnected() ? (SP.failed ? "Problem" : SP.ready ? "verbunden" : "verbunden") : "nicht verbunden";
   app.innerHTML = `
   <div class="setup" id="setupRoot">
-    <div class="hero"><h1>Wann kom dat<br><em>Leed</em> eruss?</h1><p>Karnevalshits hören – und auf dem Zeitstrahl einsortieren.</p></div>
+    <div class="hero"><h1>${esc(GAME_NAME)}</h1><p class="claim">Wann kom dat Leed eruss?</p><p class="sub">Karnevalshits hören und auf dem Zeitstrahl einsortieren.</p></div>
     <div class="stack">
       <div class="box">
         <label class="l">Teams</label>
