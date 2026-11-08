@@ -709,6 +709,22 @@ const DEFAULT_DECK = [
  {song:"Mighty and Superior",artist:"Conflict",riders:["Chad Osburn"],video:"Champagne",year:2019,company:"Kink",fmt:"DVD",src:"https://digbmx.com/mfeature/creating-a-classic-kinks-champagne"},
  {song:"As Our Witness",artist:"Piers Baron",riders:["Dennis Enarson","Jason Watts","Corey Walsh"],video:"Homestead",year:2020,company:"Vans",fmt:"Web",src:"https://bmxunion.com/category/daily/page/785/"},
 
+ // ---------- Einzeln nachgereichte Parts ----------
+ {song:"",artist:"",riders:["Matt Nordstrom"],video:"F-IT ALL",year:2022,company:"Fit Bike Co.",fmt:"DVD",yt:"ATXG2RquSJ8",start:15,src:"https://bmxunion.com/tag/fit-bike-co/page/10"},
+ {song:"",artist:"",riders:["John Nelson"],video:"F-IT ALL",year:2022,company:"Fit Bike Co.",fmt:"DVD",yt:"MONl_GBx5ec",start:15,src:"https://bmxunion.com/tag/fit-bike-co/page/10"},
+ {song:"",artist:"",riders:["Ethan Corriere"],video:"F-IT ALL",year:2022,company:"Fit Bike Co.",fmt:"DVD",yt:"Hpb71383TUc",start:15,src:"https://bmxunion.com/tag/fit-bike-co/page/10"},
+ {song:"",artist:"",riders:["Cory Nastazio", "Nico Badet", "Van Homan", "Markus Hoyte", "Austin Augie", "Riley Abramyk", "Coltin Knudson"],section:"Mix-Section",video:"F-IT ALL",year:2022,company:"Fit Bike Co.",fmt:"DVD",yt:"hNIRd9Z8An4",start:15,src:"https://bmxunion.com/tag/fit-bike-co/page/10"},
+ {song:"",artist:"",riders:["Jordan Hango"],section:"Ender-Part",video:"F-IT ALL",year:2022,company:"Fit Bike Co.",fmt:"DVD",yt:"VslEE-xjM-c",start:15,src:"https://bmxunion.com/tag/fit-bike-co/page/9"},
+ {song:"",artist:"",riders:["Max Miller"],video:"F-IT ALL",year:2022,company:"Fit Bike Co.",fmt:"DVD",yt:"-mFhlOZVr1c",start:15,src:"https://bmxunion.com/tag/fit-bike-co/page/9"},
+ {song:"",artist:"",riders:["Ryan Howard", "Jack O'Leary"],section:"Sections",video:"Let 'Em Have It",year:2022,company:"Animal Bikes",fmt:"DVD",yt:"4A6eYgCajmQ",start:15,src:"https://bmxunion.com/tag/animal-bikes/page/7/"},
+ {song:"",artist:"",riders:["Joby Suender", "Nick Bonnell"],section:"Sections",video:"Let 'Em Have It",year:2022,company:"Animal Bikes",fmt:"DVD",yt:"ZSIkw8qELdE",start:15,src:"https://bmxunion.com/tag/animal-bikes/page/7/"},
+ {song:"",artist:"",riders:["Mike Hoder", "Latane Coghill"],section:"Sections",video:"Let 'Em Have It",year:2022,company:"Animal Bikes",fmt:"DVD",yt:"z2tvoo4Cco4",start:15,src:"https://bmxunion.com/tag/animal-bikes/page/6/"},
+ {song:"",artist:"",riders:["Mike Hoder", "Latane Coghill"],section:"Sections",video:"Let 'Em Have It",year:2022,company:"Animal Bikes",fmt:"DVD",yt:"5GzWFoN65XQ",start:15,src:"https://bmxunion.com/tag/animal-bikes/page/6/"},
+ {song:"",artist:"",riders:["Harrison Arcari", "Jeff Kocsis"],section:"Sections",video:"Let 'Em Have It",year:2022,company:"Animal Bikes",fmt:"DVD",yt:"DPKYD1OzEbA",start:15,src:"https://bmxunion.com/tag/animal-bikes/page/6/"},
+ {song:"",artist:"",riders:["Harrison Arcari", "Jeff Kocsis"],section:"Sections",video:"Let 'Em Have It",year:2022,company:"Animal Bikes",fmt:"DVD",yt:"FHfuCF0MXTM",start:15,src:"https://bmxunion.com/tag/animal-bikes/page/6/"},
+ {song:"",artist:"",riders:["Nathan Williams", "Harrison Arcari", "Bethany Hedrick", "Emma Finnegan", "Dak Bratt", "Lucas Figlesthaler"],section:"Full-Length",video:"BLVD",year:2026,company:"Kink",fmt:"DVD",yt:"Jn6R0B8QH_U",start:60,src:"https://bmxunion.com/tag/kink-bmx"},
+ {song:"",artist:"",riders:["Nathan Williams", "Santiago Laverde", "Jacob Cable", "Bethany Hedrick", "Emma Finnegan", "Anahi Valentina"],section:"Team-Video",video:"Marseille",year:2025,company:"Kink",fmt:"Web",yt:"-m8FeFr582s",start:30,src:"https://bmxunion.com/tag/kink-bmx"},
+
  // ---------- Heimspiel-Bonus (gefilmt & geschnitten von Timm Wiegmann) ----------
  {song:"Set Me Free",artist:"The Heavy",riders:["Lukas Häusler"],video:"Welcome to Sunday",year:2014,company:"Sunday / Sport Import",fmt:"Web",yt:"CTX4PyZqsZI",start:15,bonus:true,src:"https://bmxunion.com/tag/sport-import/"},
  {song:"Night Moves",artist:"Bob Seger",riders:["Daniel Portorreal"],video:"Welcome to Sunday",year:2014,company:"Sunday / Sport Import",fmt:"Web",vimeo:"99120190",start:15,bonus:true,src:"https://bmxunion.com/tag/sport-import/"},
@@ -749,6 +765,115 @@ async function inv(path){
   throw 'kein Invidious-Server erreichbar';
 }
 
+/* ===================== Video-Infos: Kapitel & Songs aus der YouTube-Beschreibung =====================
+   Läuft im Browser: holt Beschreibung, Kapitelmarken und YouTube-Musikangaben über offene YouTube-Frontends
+   (Invidious, Piped). Full-Lengths werden so in einzelne Parts (ohne Intro/Outro) zerlegt, fehlende Songs ergänzt. */
+const PIPED=['https://pipedapi.kavin.rocks','https://pipedapi.adminforge.de','https://api.piped.private.coffee'];
+let META=LS.get('bmxHitsterMeta',{});   // ytId -> {t, ok, ch:[{s,title}], mu:[{a,s,r?}], tr:[{a,s}]}
+const tsSec=t=>t.split(':').reduce((a,b)=>a*60+(+b),0);
+const SKIP_CH=/\b(intro|outro|credits?|abspann|vorspann|trailer|bonus|bloopers?|slams?|crash(es)?|thanks|end(ing)?|b-?sides?|extras?|teaser|title)\b/i;
+const htmlText=h=>String(h||'').replace(/<br\s*\/?>/gi,'\n').replace(/<\/p>/gi,'\n').replace(/<[^>]+>/g,'')
+  .replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+const normName=s=>String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+function splitSong(t){
+  t=String(t).replace(/^[\s•*·\-–—>]+/,'').replace(/\s*\((official|lyric|audio|prod\.?)[^)]*\)\s*$/i,'').trim();
+  if(!t||/https?:|www\.|@/.test(t)) return null;
+  let m=t.match(/^["“'‘](.+?)["”'’]\s*(?:by|von|-|–|—)\s*(.+)$/i); if(m) return {s:m[1].trim(),a:m[2].trim()};
+  m=t.match(/^(.+?)\s+["“](.+?)["”]$/); if(m) return {a:m[1].replace(/[-–—:]\s*$/,'').trim(),s:m[2].trim()};
+  m=t.match(/^(.+?)\s+(?:-|–|—|\|)\s+(.+)$/); if(m) return {a:m[1].trim(),s:m[2].replace(/^["“'‘]|["”'’]$/g,'').trim()};
+  m=t.match(/^(.+?)\s+by\s+(.+)$/i); if(m) return {s:m[1].replace(/["“”']/g,'').trim(),a:m[2].trim()};
+  return null;
+}
+function musicLine(l){ let r=null; const m=l.match(/^([^:"“]{2,40}):\s*(.+)$/); if(m){ r=m[1].trim(); l=m[2]; }
+  const x=splitSong(l); if(x&&r) x.r=r; return x; }
+function parseDesc(txt){
+  const lines=htmlText(txt).split(/\r?\n/).map(l=>l.trim()).filter(Boolean), ch=[], mu=[]; let inMu=false;
+  for(const l of lines){
+    let m=l.match(/^[\[(]?((?:\d{1,2}:)?\d{1,2}:\d{2})[\])]?\s*[-–—:|.]?\s*(.+)$/), ts=null, title=null;
+    if(m){ ts=m[1]; title=m[2]; } else { m=l.match(/^(.+?)\s*[-–—:|(\[]?\s*((?:\d{1,2}:)?\d{1,2}:\d{2})[\])]?$/); if(m){ ts=m[2]; title=m[1]; } }
+    if(ts){ ch.push({s:tsSec(ts),title:title.trim()}); inMu=false; continue; }
+    const h=l.match(/^(?:music|musik|songs?|soundtrack|tracks?|tracklist)(?:\s*(?:by|credits?))?\s*[:\-–—]\s*(.*)$/i)||l.match(/^(?:music|musik|songs?|soundtrack|tracklist|music credits)$/i);
+    if(h){ inMu=true; if(h[1]){ const x=musicLine(h[1]); if(x) mu.push(x); } continue; }
+    if(inMu){ if(/^(film|filmed|edit|edited|video|camera|kamera|photo|special thanks|thanks|follow|shot|riders?|featuring|starring|http|www\.|@|#)/i.test(l)){ inMu=false; continue; }
+      const x=musicLine(l); if(x) mu.push(x); else inMu=false; }
+  }
+  ch.sort((a,b)=>a.s-b.s); return {ch,mu};
+}
+const META_BAD=new Set();   // Server, die in dieser Sitzung nicht antworten
+async function fetchMeta(id){
+  let reached=false;
+  const get=async(base,path)=>{ if(META_BAD.has(base)) return null;
+    const ctl=new AbortController(), t=setTimeout(()=>ctl.abort(),9000);
+    try{ const r=await fetch(base+path,{signal:ctl.signal}); reached=true; return r.ok?await r.json():null; }
+    catch(e){ META_BAD.add(base); return null; } finally{ clearTimeout(t); } };
+  for(const b of INVIDIOUS){
+    const d=await get(b,`/api/v1/videos/${id}`); if(!d||d.error) continue;
+    const p=parseDesc(d.description||htmlText(d.descriptionHtml));
+    const tr=(d.musicTracks||[]).map(x=>({s:x.song,a:x.artist})).filter(x=>x.s&&x.a);
+    return {ok:true,ch:p.ch,mu:p.mu,tr,len:d.lengthSeconds||0};
+  }
+  for(const b of PIPED){
+    const d=await get(b,`/streams/${id}`); if(!d||d.error) continue;
+    const p=parseDesc(htmlText(d.description));
+    const ch=(d.chapters||[]).map(x=>({s:x.start,title:x.title})).filter(x=>x.title);
+    return {ok:true,ch:ch.length?ch:p.ch,mu:p.mu,tr:[],len:d.duration||0};
+  }
+  return {ok:reached?false:null};   // false = Server erreichbar, aber keine Infos; null = keiner erreichbar
+}
+function ridersIn(title,riders){ const t=' '+normName(title)+' ';
+  return riders.filter(r=>{ const n=normName(r); if(n&&t.includes(' '+n+' ')) return true;
+    const last=n.split(' ').pop(); return last.length>3&&t.includes(' '+last+' '); }); }
+function expandMeta(c){
+  const m=c.yt&&META[c.yt]; if(!m||!m.ok) return [c];
+  if(!c.song&&c.riders.length>1&&m.ch&&m.ch.length>=2){
+    const out=[];
+    m.ch.forEach((x,i)=>{
+      if(SKIP_CH.test(x.title)) return;
+      const rs=ridersIn(x.title,c.riders); if(!rs.length) return;
+      const nx=m.ch[i+1]; if(nx&&nx.s-x.s<25) return;              // zu kurz für einen Part
+      const k={...c,riders:rs,section:x.title,start:x.s+8,fromMeta:true};
+      const rest=x.title.split(/\s+[-–—|]\s+/).slice(1).join(' - '), sp=rest&&splitSong(rest);
+      const song=sp||(m.mu||[]).find(u=>u.r&&ridersIn(u.r,rs).length);
+      if(song){ k.song=song.s; k.artist=song.a; k.songSrc='Videobeschreibung'; }
+      out.push(k);
+    });
+    if(out.length>=2){
+      if(m.tr&&m.tr.length===out.length) out.forEach((k,i)=>{ if(!k.song){ k.song=m.tr[i].s; k.artist=m.tr[i].a; k.songSrc='YouTube-Musikangaben, nach Reihenfolge'; } });
+      return out;
+    }
+  }
+  let k=c;
+  if(!c.song){ const f=(m.mu&&m.mu[0])||(m.tr&&m.tr[0]);
+    if(f) k={...k,song:f.s,artist:f.a,songSrc:m.mu&&m.mu[0]?'Videobeschreibung':'YouTube-Musikangaben',fromMeta:true}; }
+  if(m.ch&&m.ch.length){ const i=m.ch.findIndex(x=>/\b(intro|vorspann|title)\b/i.test(x.title)), nx=i>=0&&m.ch[i+1];
+    if(nx&&(k.start||0)<nx.s) k={...k,start:nx.s+5}; }
+  return [k];
+}
+// Kapitel-Parts nicht doppelt, wenn es den Part schon als eigenes Video gibt
+function dedupeMeta(list){
+  const key=c=>c.video+'|'+c.year+'|'+normName(c.riders[0]);
+  const base=new Map(list.filter(c=>!c.fromMeta&&c.riders.length===1).map(c=>[key(c),c]));
+  const drop=new Set();
+  const out=list.filter(c=>{
+    if(!c.fromMeta||c.riders.length!==1) return true;
+    const b=base.get(key(c)); if(!b) return true;
+    if(b.yt||b.vimeo) return false;                     // Part gibt es schon als eigenes Video
+    drop.add(b); if(!c.song&&b.song){ c.song=b.song; c.artist=b.artist; c.songSrc=null; }   // Song-Karte ohne Video → Kapitel übernimmt
+    return true; });
+  return out.filter(c=>!drop.has(c));
+}
+async function runMetaCheck(force){
+  const ids=[...new Set(DEFAULT_DECK.concat(custom()).filter(c=>c.yt&&!c.song).map(c=>c.yt))]
+    .filter(id=>{ const m=META[id]; return force||!m||Date.now()-m.t>(m.ok?30:2)*864e5; });
+  let i=0, dead=0;
+  for(const id of ids){
+    if(SC_ABORT||dead>=4) break;                                   // Frontends offline → später nochmal
+    i++; $('#scStatus').textContent=`Lese Kapitel & Songs aus Videobeschreibungen … ${i}/${ids.length}`;
+    const r=await fetchMeta(id); if(r.ok===null){ dead++; continue; } dead=0;
+    META[id]={...r,t:Date.now()}; LS.set('bmxHitsterMeta',META);
+  }
+}
+
 /* ===================== Deck & Aufrufe ===================== */
 const custom = () => LS.get('bmxHitsterCustom_v2',[]);
 // Nachträgliche Änderungen pro Karte (Video-Link, Startzeit) – im Browser gespeichert
@@ -763,7 +888,7 @@ function applyOvr(c){
   if(o.start!=null) r.start=o.start;
   return r;
 }
-const rawCards = () => DEFAULT_DECK.concat(custom().map(c=>({...c,custom:true}))).map(applyOvr);
+const rawCards = () => dedupeMeta(DEFAULT_DECK.concat(custom().map(c=>({...c,custom:true}))).flatMap(expandMeta)).map(applyOvr);
 // Auswahl im Parts-Menü: abgewählte und gelöschte Parts (cardKey), im Browser gespeichert
 let OFF = new Set(LS.get('bmxHitsterOff',[])), DEL = new Set(LS.get('bmxHitsterDeleted',[]));
 const saveSel = () => { LS.set('bmxHitsterOff',[...OFF]); LS.set('bmxHitsterDeleted',[...DEL]); };
@@ -818,7 +943,7 @@ function passesFilters(c,o=opts()){
 }
 // Karte hat sicher keinen Ton: kein spielbares Video und die Song-Vorschau wurde nicht gefunden
 // Karten ohne gelisteten Song: Ton nur aus dem Video selbst
-const songTxt = c => c.song?`${esc(c.song)} – ${esc(c.artist)}`:'Song nicht gelistet (steht in der Videobeschreibung bzw. im Abspann)';
+const songTxt = c => c.song?`${esc(c.song)} – ${esc(c.artist)}${c.songSrc?` <span class="hint">(laut ${esc(c.songSrc)})</span>`:''}`:'Song nicht gelistet (steht in der Videobeschreibung bzw. im Abspann)';
 function noSound(c){
   const s=scOf(c);
   const vid=(c.yt&&!isFile&&!(s&&s.ok===false))||(c.vimeo&&!(s&&s.ok===false));
@@ -1415,6 +1540,7 @@ async function runSoundCheck(force=false){
     SC[vKey(c)]={...r,t:Date.now()}; LS.set('bmxHitsterSoundCheck',SC);
   }
   try{ if(testYT) testYT.stopVideo(); }catch(e){}
+  await runMetaCheck(force); renderCardList(); updateDeckInfo();
   // Karten, die auf die Song-Vorschau angewiesen sind: prüfen, ob es eine gibt
   const need=[...new Map(allCards().filter(c=>{ const s=scOf(c); return c.song&&!((c.yt&&!isFile&&!(s&&s.ok===false))||(c.vimeo&&!(s&&s.ok===false))); })
       .map(c=>[songKey(c),c])).values()].filter(c=>force||!PV[songKey(c)]||Date.now()-PV[songKey(c)].t>7*864e5);
