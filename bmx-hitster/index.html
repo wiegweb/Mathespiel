@@ -94,6 +94,28 @@ th{font-family:'Anton';font-weight:400;letter-spacing:.03em}
 .testbox .tcover span{background:var(--ink);padding:4px 8px}
 @media(max-width:600px){.soundcheck{flex-direction:column;align-items:flex-start}}
 tr.edit td{background:var(--yellow)}
+.partmenu{margin-top:16px;border:3px solid var(--ink);background:#fff}
+.partmenu>summary{cursor:pointer;padding:10px 12px;font-size:20px;list-style:none}
+.partmenu>summary::-webkit-details-marker{display:none}
+.partmenu>summary::before{content:'▸ ';}
+.partmenu[open]>summary::before{content:'▾ ';}
+.partmenu[open]>summary{border-bottom:3px solid var(--ink)}
+.ptools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 12px 0}
+.ptools input{flex:1;min-width:200px;padding:6px 10px}
+#cardTable,#delList{padding:0 12px 12px}
+.vgroup{border-bottom:2px solid #0002}
+.vgroup>summary{cursor:pointer;display:flex;align-items:center;gap:8px;padding:8px 0;font-weight:700;list-style:none}
+.vgroup>summary::-webkit-details-marker{display:none}
+.vgroup>summary .cnt{font-weight:400;font-size:13px;opacity:.7;margin-left:auto;white-space:nowrap}
+.part{display:flex;gap:10px;align-items:flex-start;padding:7px 0 7px 28px;border-top:1px solid #0001}
+.part.off{opacity:.45}
+.part.filtered .pmain{opacity:.5}
+.part .pmain{flex:1;min-width:0}
+.part .pt{font-weight:700}
+.part .ps{font-size:13px;opacity:.8}
+.part .pacts{display:flex;gap:6px;flex:none}
+.part input[type=checkbox],.vgroup input[type=checkbox]{flex:none;margin:2px 0 0;width:22px;height:22px;accent-color:var(--red)}
+.mini.danger{background:var(--red);color:var(--paper)}
 tr.edit input{padding:5px 8px;border-width:2px}
 .mini{font-size:12px;padding:3px 7px;box-shadow:2px 2px 0 var(--ink)}
 footer{margin-top:30px;font-size:12px;opacity:.55;line-height:1.5}
@@ -141,9 +163,20 @@ footer{margin-top:30px;font-size:12px;opacity:.55;line-height:1.5}
   <div class="row" style="margin-top:14px">
     <button id="btnStart">Los geht's</button>
     <button class="sec small" id="btnCheck">Aufrufe neu prüfen</button>
-    <button class="sec small" id="btnList">Kartenliste</button>
   </div>
-  <div id="cardList" class="hidden" style="margin-top:14px"><div class="scroll" id="cardTable"></div></div>
+  <details id="partMenu" class="partmenu">
+    <summary><span class="disp">🎬 Parts auswählen</span> <span id="partSum" class="hint" style="opacity:1"></span></summary>
+    <div class="ptools">
+      <input id="pSearch" type="search" placeholder="Suchen: Fahrer, Video, Song, Jahr …">
+      <button class="sec mini" id="pAllOn">Alle an</button>
+      <button class="sec mini" id="pAllOff">Alle aus</button>
+      <button class="sec mini" id="pOpenAll">Alle Videos auf-/zuklappen</button>
+    </div>
+    <div class="hint" style="margin:4px 0 8px">Haken = Part kommt ins Spiel. Bei der Suche wirken „Alle an/aus“ nur auf die Treffer. Grau = fällt gerade durch einen Filter oben (Jahr, Format, Aufrufe, kein Ton).</div>
+    <div id="cardTable"></div>
+    <details id="delBox" class="hidden" style="margin-top:12px"><summary style="cursor:pointer;font-weight:700">🗑 Gelöschte Parts (<span id="delCount">0</span>)</summary>
+      <div id="delList"></div><button class="sec mini" id="pRestoreAll" style="margin-top:6px">Alle wiederherstellen</button></details>
+  </details>
 
   <div class="steps" style="margin-top:22px">
     <h3>So läuft's</h3>
@@ -357,7 +390,11 @@ function applyOvr(c){
   if(o.start!=null) r.start=o.start;
   return r;
 }
-const allCards = () => DEFAULT_DECK.concat(custom().map(c=>({...c,custom:true}))).map(applyOvr);
+const rawCards = () => DEFAULT_DECK.concat(custom().map(c=>({...c,custom:true}))).map(applyOvr);
+// Auswahl im Parts-Menü: abgewählte und gelöschte Parts (cardKey), im Browser gespeichert
+let OFF = new Set(LS.get('bmxHitsterOff',[])), DEL = new Set(LS.get('bmxHitsterDeleted',[]));
+const saveSel = () => { LS.set('bmxHitsterOff',[...OFF]); LS.set('bmxHitsterDeleted',[...DEL]); };
+const allCards = () => rawCards().filter(c=>!DEL.has(cardKey(c)));
 const parseTime = s => { s=String(s||'').trim(); if(!s) return null; const m=s.match(/^(\d+):(\d{1,2})$/); return m?(+m[1])*60+(+m[2]):(isNaN(+s)?null:+s); };
 const vKey = c => c.yt?'yt:'+c.yt : c.vimeo?'vm:'+c.vimeo : null;
 let VIEWS = LS.get('bmxHitsterViews',{});   // key -> {v:Zahl|null, t:Zeit}
@@ -389,6 +426,11 @@ async function checkViews(force=false){
 }
 function opts(){ return { yearFrom:+$('#yearFrom').value||0, fmt:$('#fmt').value, min20k:$('#min20k').checked, strict:$('#strict').checked, bonus:$('#bonus').checked }; }
 function eligible(c,o=opts()){
+  if(OFF.has(cardKey(c))||DEL.has(cardKey(c))) return false;
+  return passesFilters(c,o);
+}
+// Filter oben (Jahr, Format, Bonus, Ton, Aufrufe) – unabhängig vom Haken im Parts-Menü
+function passesFilters(c,o=opts()){
   if(c.year<o.yearFrom) return false;
   if(o.fmt==='dvd'&&c.fmt!=='DVD') return false;
   if(o.fmt==='web'&&c.fmt!=='Web') return false;
@@ -443,45 +485,101 @@ function soundPill(c){
   if(!s||s.ok===null) return `<span class="pill p-na">${src} ?</span>`;
   return s.ok?`<span class="pill p-ok">${src} ✓</span>`:`<span class="pill p-low" title="${esc(s.code||'')}">${src} ✗</span>`;
 }
+let OPENV=new Set(), DELASK=null;
+function filterReason(c,o=opts()){
+  if(c.year<o.yearFrom) return 'vor '+o.yearFrom;
+  if(o.fmt==='dvd'&&c.fmt!=='DVD') return 'kein DVD-Part';
+  if(o.fmt==='web'&&c.fmt!=='Web') return 'kein Webvideo';
+  if(c.bonus&&!o.bonus) return 'Bonus aus';
+  if(noSound(c)) return 'kein Ton';
+  if(c.fmt==='Web'&&o.min20k&&!c.bonus){ const v=viewsOf(c); if(v!=null&&v<20000) return 'unter 20.000'; if(v==null&&o.strict) return 'Aufrufe ungeprüft'; }
+  return '';
+}
+const groupKey=c=>c.video+'|'+(c.company||'');
+function matches(c,q){ if(!q) return true; return [c.video,c.company,c.song,c.artist,c.section,c.year,...c.riders].join(' ').toLowerCase().includes(q); }
 function renderCardList(){
-  if($('#cardList').classList.contains('hidden')) return;
-  LIST=allCards().slice().sort((a,b)=>a.year-b.year||a.video.localeCompare(b.video));
-  const rows=LIST.map((c,i)=>{
-    let r=`<tr style="${eligible(c)?'':'opacity:.4'}">
-      <td>${c.year}</td><td>${esc(c.video)}<br><span class="hint">${esc(c.company||'')}</span></td><td>${esc(c.riders.join(', '))}</td>
-      <td>${esc(c.song)} – ${esc(c.artist)}</td><td>${viewPill(c)}</td><td>${soundPill(c)}${c.start?`<br><span class="hint">ab ${fmtTime(c.start)}</span>`:''}${c.ovr?'<br><span class="hint">geändert</span>':''}</td>
-      <td><button class="sec mini" data-edit="${i}" title="Video-Link / Startzeit nachtragen">✎</button></td></tr>`;
-    if(EDIT===i){
-      const link=c.yt?`https://www.youtube.com/watch?v=${c.yt}`:c.vimeo?`https://vimeo.com/${c.vimeo}`:'';
-      r+=`<tr class="edit"><td colspan="7">
-        <div class="row"><input id="eLink" style="flex:1;min-width:240px" placeholder="YouTube- oder Vimeo-Link des Parts (leer = ohne Video)" value="${esc(link)}">
-        <input id="eStart" style="width:110px" placeholder="Start m:ss" value="${c.start?fmtTime(c.start):''}">
-        <button class="mini" id="eSave">Speichern</button><button class="sec mini" id="eReset">Original</button><button class="sec mini" id="eClose">✕</button></div>
-        <div class="hint" style="margin-top:4px">Tipp: Bei einem kompletten DVD-Upload die Startzeit des Parts eintragen (z. B. 12:40).</div>
-        <div class="hint" id="eMsg"></div></td></tr>`;
+  const all=allCards(), on=all.filter(c=>!OFF.has(cardKey(c))).length;
+  $('#partSum').textContent=`· ${on} von ${all.length} Parts angehakt · ${all.filter(c=>eligible(c)).length} spielbar`;
+  if(!$('#partMenu').open) return;
+  const q=$('#pSearch').value.trim().toLowerCase(), o=opts();
+  LIST=all.filter(c=>matches(c,q)).sort((a,b)=>a.year-b.year||a.video.localeCompare(b.video)||a.riders[0].localeCompare(b.riders[0]));
+  const groups=new Map(); LIST.forEach((c,i)=>{ const k=groupKey(c); if(!groups.has(k)) groups.set(k,[]); groups.get(k).push(i); });
+  let html='';
+  for(const [gk,idx] of groups){
+    const cs=idx.map(i=>LIST[i]), nOn=cs.filter(c=>!OFF.has(cardKey(c))).length, c0=cs[0];
+    const open=q||OPENV.has(gk);
+    html+=`<details class="vgroup" data-g="${esc(gk)}" ${open?'open':''}><summary>
+      <input type="checkbox" data-gchk="${esc(gk)}" ${nOn===cs.length?'checked':''} ${nOn>0&&nOn<cs.length?'data-ind="1"':''} title="Alle Parts dieses Videos">
+      <span>${esc(c0.video)}${c0.company?` <span class="hint" style="opacity:.8">(${esc(c0.company)})</span>`:''}</span>
+      <span class="cnt">${c0.year} · ${nOn}/${cs.length} an</span></summary>`;
+    for(const i of idx){
+      const c=LIST[i], k=cardKey(c), off=OFF.has(k), why=filterReason(c,o);
+      html+=`<div class="part ${off?'off':''} ${why?'filtered':''}">
+        <input type="checkbox" data-chk="${i}" ${off?'':'checked'}>
+        <div class="pmain"><div class="pt">${esc(c.riders.join(', '))}${c.section?` <span class="hint">– ${esc(c.section)}</span>`:''}</div>
+          <div class="ps">♪ ${esc(c.song)} – ${esc(c.artist)}</div>
+          <div class="ps" style="margin-top:3px">${viewPill(c)} ${soundPill(c)}${c.start?` <span class="hint">ab ${fmtTime(c.start)}</span>`:''}${c.ovr?' <span class="hint">· geändert</span>':''}${why?` <span class="pill p-na">gefiltert: ${esc(why)}</span>`:''}</div></div>
+        <div class="pacts"><button class="sec mini" data-edit="${i}" title="Video-Link / Startzeit">✎</button>
+          <button class="mini ${DELASK===k?'danger':'sec'}" data-del="${i}" title="Part löschen">${DELASK===k?'Löschen?':'🗑'}</button></div></div>`;
+      if(EDIT===i){
+        const link=c.yt?`https://www.youtube.com/watch?v=${c.yt}`:c.vimeo?`https://vimeo.com/${c.vimeo}`:'';
+        html+=`<div class="part" style="background:var(--yellow);padding-right:8px;display:block">
+          <div class="row"><input id="eLink" style="flex:1;min-width:200px" placeholder="YouTube- oder Vimeo-Link (leer = ohne Video)" value="${esc(link)}">
+          <input id="eStart" style="width:100px" placeholder="Start m:ss" value="${c.start?fmtTime(c.start):''}">
+          <button class="mini" id="eSave">Speichern</button><button class="sec mini" id="eReset">Original</button><button class="sec mini" id="eClose">✕</button></div>
+          <div class="hint" style="margin-top:4px">Bei einem kompletten DVD-Upload die Startzeit des Parts eintragen (z. B. 12:40).</div><div class="hint" id="eMsg"></div></div>`;
+      }
     }
-    return r;
-  }).join('');
-  $('#cardTable').innerHTML=`<table><tr><th>Jahr</th><th>Video</th><th>Fahrer</th><th>Song</th><th>Aufrufe</th><th>Ton</th><th></th></tr>${rows}</table>`;
+    html+='</details>';
+  }
+  $('#cardTable').innerHTML=html||'<p class="hint">Keine Treffer.</p>';
+  document.querySelectorAll('[data-ind]').forEach(x=>x.indeterminate=true);
+  document.querySelectorAll('.vgroup').forEach(d=>d.addEventListener('toggle',()=>{ if(!q){ d.open?OPENV.add(d.dataset.g):OPENV.delete(d.dataset.g); } }));
+  document.querySelectorAll('[data-gchk]').forEach(x=>{
+    x.onclick=e=>e.stopPropagation();
+    x.onchange=()=>{ LIST.filter(c=>groupKey(c)===x.dataset.gchk).forEach(c=>x.checked?OFF.delete(cardKey(c)):OFF.add(cardKey(c))); selChanged(); };
+  });
+  document.querySelectorAll('[data-chk]').forEach(x=>x.onchange=()=>{ const k=cardKey(LIST[+x.dataset.chk]); x.checked?OFF.delete(k):OFF.add(k); selChanged(); });
   document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{ EDIT=EDIT===+b.dataset.edit?null:+b.dataset.edit; renderCardList(); });
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
+    const k=cardKey(LIST[+b.dataset.del]);
+    if(DELASK!==k){ DELASK=k; renderCardList(); return; }
+    DEL.add(k); OFF.delete(k); DELASK=null; EDIT=null; selChanged();
+  });
   if(EDIT!=null&&$('#eSave')){
     const c=LIST[EDIT], k=cardKey(c);
     $('#eClose').onclick=()=>{EDIT=null;renderCardList();};
     $('#eReset').onclick=()=>{ delete OVR[k]; LS.set('bmxHitsterOverrides',OVR); EDIT=null; afterEdit(); };
     $('#eSave').onclick=()=>{
       const l=$('#eLink').value.trim(), st=parseTime($('#eStart').value);
-      const o={...(OVR[k]||{})};
-      if(!l) o.video='none'; else { const p=parseVideoUrl(l); if(!p){ $('#eMsg').textContent='Das ist kein YouTube- oder Vimeo-Link.'; return; } o.video=p; }
-      if(st!=null) o.start=st; else delete o.start;
-      OVR[k]=o; LS.set('bmxHitsterOverrides',OVR); EDIT=null; afterEdit();
+      const o2={...(OVR[k]||{})};
+      if(!l) o2.video='none'; else { const p=parseVideoUrl(l); if(!p){ $('#eMsg').textContent='Das ist kein YouTube- oder Vimeo-Link.'; return; } o2.video=p; }
+      if(st!=null) o2.start=st; else delete o2.start;
+      OVR[k]=o2; LS.set('bmxHitsterOverrides',OVR); EDIT=null; afterEdit();
     };
   }
+  renderDeleted();
 }
+function renderDeleted(){
+  const dels=rawCards().filter(c=>DEL.has(cardKey(c)));
+  $('#delBox').classList.toggle('hidden',!dels.length); $('#delCount').textContent=dels.length;
+  $('#delList').innerHTML=dels.map(c=>`<div class="part" style="padding-left:0"><div class="pmain"><div class="pt">${esc(c.riders.join(', '))}</div>
+    <div class="ps">${c.year} · ${esc(c.video)} · ♪ ${esc(c.song)} – ${esc(c.artist)}</div></div>
+    <div class="pacts"><button class="sec mini" data-restore="${esc(cardKey(c))}">↩ Zurückholen</button></div></div>`).join('');
+  document.querySelectorAll('[data-restore]').forEach(b=>b.onclick=()=>{ DEL.delete(b.dataset.restore); selChanged(); });
+}
+function selChanged(){ saveSel(); updateDeckInfo(); renderCardList(); }
 function afterEdit(){ renderSetup(); renderCardList(); checkViews(false); if(!isFile) runSoundCheck(false); }
 ['#teamCount'].forEach(s=>$(s).onchange=renderSetup);
 ['#yearFrom','#fmt','#min20k','#strict','#bonus'].forEach(s=>$(s).onchange=()=>{updateDeckInfo();renderCardList();});
 $('#btnCheck').onclick=()=>checkViews(true);
-$('#btnList').onclick=()=>{ $('#cardList').classList.toggle('hidden'); renderCardList(); };
+$('#partMenu').addEventListener('toggle',renderCardList);
+$('#pSearch').oninput=()=>{ EDIT=null; renderCardList(); };
+const setVisible=on=>{ LIST.forEach(c=>on?OFF.delete(cardKey(c)):OFF.add(cardKey(c))); selChanged(); };
+$('#pAllOn').onclick=()=>setVisible(true);
+$('#pAllOff').onclick=()=>setVisible(false);
+$('#pOpenAll').onclick=()=>{ const gs=[...new Set(LIST.map(groupKey))]; if(gs.every(g=>OPENV.has(g))) OPENV.clear(); else gs.forEach(g=>OPENV.add(g)); renderCardList(); };
+$('#pRestoreAll').onclick=()=>{ DEL.clear(); selChanged(); };
 $('#btnRestart').onclick=()=>{ stopAll(); G=null; show('setup'); };
 function show(id){ ['setup','game','winner'].forEach(s=>$('#'+s).classList.toggle('hidden',s!==id)); }
 
@@ -957,6 +1055,7 @@ $('#btnSC').onclick=()=>runSoundCheck(true);
 /* ===================== Start ===================== */
 renderSetup();
 renderSC();
+renderCardList();
 checkViews(false).then(()=>runSoundCheck(false));
 
 </script>
