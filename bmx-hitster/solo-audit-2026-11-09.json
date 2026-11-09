@@ -1,0 +1,1245 @@
+{
+  "date": "2026-11-09",
+  "scope": "Solo webparts, German riders, awards, published full-film rider timestamps",
+  "newVideos": 43,
+  "updatedVideos": 1,
+  "reviewedSoloRecords": [
+    {
+      "song": "No Date",
+      "artist": "MexikoDro",
+      "riders": [
+        "Devon Smillie"
+      ],
+      "video": "Only Time Will Tell",
+      "company": "Cult",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "antIDvGtrdA",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 69518,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20261022",
+      "src": "https://freedombmx.de/top-stories/only-time-will-tell-devon-smillie-fuer-die-cult-crew.html",
+      "researchDate": "2026-11-09",
+      "songOnly": true,
+      "songSrc": "Cult-Trackliste + zwei Kommentare zum Devon-Einzelpart",
+      "confidence": "community-corroborated",
+      "songEvidence": [
+        "https://streetwatch.mov/films/F8512",
+        "https://www.youtube.com/watch?v=antIDvGtrdA"
+      ]
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Miki Fleck"
+      ],
+      "video": "United 2026",
+      "company": "United",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "zQl2ZosE6BI",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 28183,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20261016",
+      "src": "https://streetwatch.mov/films/miki-fleck-united-2026?nav_context=films",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Felix Prangenberg"
+      ],
+      "video": "STILL",
+      "company": "DIG",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "u1ylreMLT1M",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 28793,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20261002",
+      "src": "https://www.youtube.com/watch?v=u1ylreMLT1M",
+      "researchDate": "2026-11-09",
+      "reviewPending": "Doku: geeigneter Musikausschnitt noch offen",
+      "scoreArtist": "Lennard Hacker"
+    },
+    {
+      "song": "Shift",
+      "artist": "blue heron holy ghost",
+      "riders": [
+        "Broc Raiford"
+      ],
+      "video": "FORGE",
+      "company": "Sunday",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "tFEGCijg1cs",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 73062,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260828",
+      "src": "https://freedombmx.de/top-stories/forge-broc-raiford-fuer-sunday-bikes.html",
+      "researchDate": "2026-11-09",
+      "songOnly": true,
+      "songSrc": "Streetwatch: Musikangabe zum Einzelpart",
+      "songEvidence": "https://streetwatch.mov/films/broc-raiford-forge-sunday-bikes-2026?nav_context=films"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Kilian Roth"
+      ],
+      "video": "Quantum",
+      "company": "Monster Energy",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "SRZ_gbSFl9k",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 109933,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20250813",
+      "src": "https://freedombmx.de/top-stories/kilian-roth-quantum.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Eddie Baum"
+      ],
+      "video": "Emergence",
+      "company": "Fiend",
+      "year": 2024,
+      "fmt": "Web",
+      "yt": "mGjNitAUBkQ",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 28696,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20241004",
+      "src": "https://freedombmx.de/top-stories/emergence-eddie-baum-fuer-fiend-bmx.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Bruno Hoffmann"
+      ],
+      "video": "HOFFI",
+      "company": "Federal",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "eA8DneeZGYE",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 27544,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260408",
+      "src": "https://digbmx.com/videos/federal-bikes-hoffi",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Alex Donnachie"
+      ],
+      "video": "EDIT",
+      "company": "BSD",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "LhSeTO4u56k",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 254426,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20250724",
+      "src": "https://digbmx.com/videos/alex-donnachie-edit-bsd",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Alex Donnachie"
+      ],
+      "video": "JETLAG",
+      "company": "Monster Energy",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "x2IywF9JtEc",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 43785,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20250814",
+      "src": "https://digbmx.com/videos/jetlag-alex-donnachie",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Jordan Godwin"
+      ],
+      "video": "JETLAG",
+      "company": "Monster Energy",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "usi8IEPNq-4",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 33209,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20251020",
+      "src": "https://freedombmx.de/top-stories/jetlag-ep-3-jordan-godwin.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Anthony Perrin"
+      ],
+      "video": "ANTHO",
+      "company": "Vans",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "AyXrfBf_3SU",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 21824,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20251118",
+      "src": "https://freedombmx.de/top-stories/antho-anthony-perrin-fuer-vans.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Lewis Mills"
+      ],
+      "video": "Lew Is Fiending",
+      "company": "Fiend",
+      "year": 2022,
+      "fmt": "Web",
+      "yt": "0IKAUwcMT1g",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 956686,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20220618",
+      "src": "https://www.youtube.com/watch?v=0IKAUwcMT1g",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Nico Van Loon"
+      ],
+      "video": "IMPACT",
+      "company": "BSD / SIBMX",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "axzHv6n3p3Y",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 7145,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260115",
+      "src": "https://www.youtube.com/watch?v=axzHv6n3p3Y",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Dan Kruk"
+      ],
+      "video": "Forever Forward",
+      "company": "Rixin",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "sg6AXeYz-mc",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 11641,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260731",
+      "src": "https://www.youtube.com/watch?v=sg6AXeYz-mc",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Chris Tilk"
+      ],
+      "video": "Welcome to WTP",
+      "company": "Wethepeople",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "mttvcu3BrYA",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 4611,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20261013",
+      "src": "https://freedombmx.de/top-stories/chris-tilk-auf-wethepeople.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Hjalte Juul"
+      ],
+      "video": "Last Prodigy",
+      "company": "Wethepeople",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "abZeDHQ61nI",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 6629,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260924",
+      "src": "https://freedombmx.de/top-stories/last-prodigy-hjalte-juul-fuer-wethepeople.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Kilian Treek"
+      ],
+      "video": "Welcome to Bikers Base",
+      "company": "Bikers Base",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "_HgLriEmKvU",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 2557,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260924",
+      "src": "https://freedombmx.de/top-stories/kilian-treek-welcome-to-bikers-base.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Marius Stoll"
+      ],
+      "video": "Still Alive",
+      "company": "Traffic Distribution",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "1mS9f69ab-4",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 872,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260424",
+      "src": "https://freedombmx.de/top-stories/still-alive-marius-stoll-fuer-traffic-distribution.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Gabriel Rodriguez"
+      ],
+      "video": "Disfruta El Proceso",
+      "company": "Independent",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "uN36PozAtOA",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 3083,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260923",
+      "src": "https://freedombmx.de/top-stories/gabriel-rodriguez-disfruta-el-proceso.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Daniel Estrada"
+      ],
+      "video": "Vibing in San Diego & Tijuana",
+      "company": "Independent",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "xEs-hzNAZSA",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 1000,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260727",
+      "src": "https://freedombmx.de/top-stories/daniel-estrada-vibing-in-san-diego-tijuana.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Marvin Mayer"
+      ],
+      "video": "Manual Marv",
+      "company": "Bangers Film Festival",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "5OyIv6Q-kYg",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 1183,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20251012",
+      "src": "https://freedombmx.de/news/bmx-event/%f0%9f%a5%88-peoples-store-bangers-2025-marvin-mayer.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Sikharin Supanmart"
+      ],
+      "video": "East Hood",
+      "company": "Bangers Film Festival",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "-UrqKqfdst4",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 2406,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20251011",
+      "src": "https://freedombmx.de/news/bmx-event/%f0%9f%a5%89-peoples-store-bangers-2025-east-hood-by-sikharin-supanmart.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Adrian Warnken"
+      ],
+      "video": "Extra Mind",
+      "company": "Bangers Film Festival",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "TSrGrHB8hik",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 1605,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20251010",
+      "src": "https://www.youtube.com/watch?v=TSrGrHB8hik",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Domenik Brüggemann"
+      ],
+      "video": "Brügge's World",
+      "company": "Bangers Film Festival",
+      "year": 2024,
+      "fmt": "Web",
+      "yt": "d9jh_mETfL0",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 502,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20241008",
+      "src": "https://freedombmx.de/fff/peoples-store-bangers-2024-platz-7-10.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Christopher Sturm"
+      ],
+      "video": "Steel Is Real",
+      "company": "Bangers Film Festival",
+      "year": 2024,
+      "fmt": "Web",
+      "yt": "N8TDoBbX7aI",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 831,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20241008",
+      "src": "https://freedombmx.de/fff/peoples-store-bangers-2024-platz-7-10.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Malte Williams"
+      ],
+      "video": "Splitface",
+      "company": "Bangers Film Festival",
+      "year": 2024,
+      "fmt": "Web",
+      "yt": "lPdsLRLv6pQ",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 584,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20241008",
+      "src": "https://freedombmx.de/fff/peoples-store-bangers-2024-platz-7-10.html",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Brett Silva"
+      ],
+      "video": "Hair of the Dog",
+      "company": "The InBetween / Sunday",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "FgVO4ztPKU0",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 38438,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260921",
+      "src": "https://digbmx.com/videos/brett-silva-hair-of-the-dog-video-part",
+      "researchDate": "2026-11-09",
+      "yearSrc": "https://eu.bsdforever.com/blogs/news/bsd-texas-article-dig-book-2026"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Trent Lutzke"
+      ],
+      "video": "Hair of the Dog",
+      "company": "The InBetween / BSD",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "ITkGe6LP1FY",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 6707,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260917",
+      "src": "https://digbmx.com/videos/trent-lutzke-hair-of-the-dog-video-part",
+      "researchDate": "2026-11-09",
+      "yearSrc": "https://eu.bsdforever.com/blogs/news/bsd-texas-article-dig-book-2026"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Grant Yoobie"
+      ],
+      "video": "Hair of the Dog",
+      "company": "The InBetween / BSD",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "mx2ShFT61es",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 7142,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260914",
+      "src": "https://digbmx.com/videos/grant-yoobie-hair-of-the-dog-video-part",
+      "researchDate": "2026-11-09",
+      "yearSrc": "https://eu.bsdforever.com/blogs/news/bsd-texas-article-dig-book-2026"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Felix Prangenberg"
+      ],
+      "video": "JETLAG",
+      "company": "Monster Energy",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "w3HT4DrSdIg",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 45039,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20251128",
+      "src": "https://digbmx.com/videos/felix-prangenberg-jetlag",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "Die Alone",
+      "artist": "Jasmin Eyes",
+      "riders": [
+        "Felix Prangenberg"
+      ],
+      "video": "LÄRM",
+      "company": "DIG",
+      "year": 2022,
+      "fmt": "Web",
+      "yt": "cmrUSXnbUqU",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 327655,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20220811",
+      "src": "https://digbmx.com/videos/felix-prangenberg-larm",
+      "researchDate": "2026-11-09",
+      "songOnly": true,
+      "songSrc": "DIG: ausdrücklich zweiter Song des Einzelparts"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Felix Prangenberg"
+      ],
+      "video": "Last February",
+      "company": "Wethepeople",
+      "year": 2024,
+      "fmt": "Web",
+      "yt": "ogZTE6ymbxk",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 148283,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20240627",
+      "src": "https://digbmx.com/videos/felix-prangenberg-last-february",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Kilian Roth"
+      ],
+      "video": "Cult 2025",
+      "company": "Cult",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "SjGbY-t8EeA",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 19763,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20250829",
+      "src": "https://digbmx.com/videos/cultcrew-kilian-roth",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Bruno Hoffmann"
+      ],
+      "video": "FOREIGN",
+      "company": "Vans",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "uzc8oSQEEig",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 26622,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20250421",
+      "src": "https://digbmx.com/videos/foreign-bruno-hoffmann-vans-europe",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "One Last Breath",
+      "artist": "Creed",
+      "riders": [
+        "Jared Duncan"
+      ],
+      "video": "Hair of the Dog",
+      "company": "The InBetween",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "5Yb57exJy5M",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 11203,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260925",
+      "src": "https://streetwatch.mov/films/jared-duncan-hair-of-the-dog-the-inbetween?nav_context=films",
+      "researchDate": "2026-11-09",
+      "yearSrc": "https://eu.bsdforever.com/blogs/news/bsd-texas-article-dig-book-2026",
+      "songOnly": true,
+      "songSrc": "Streetwatch: Musikangabe zum Einzelpart",
+      "songEvidence": "https://streetwatch.mov/films/jared-duncan-hair-of-the-dog-the-inbetween?nav_context=films"
+    },
+    {
+      "song": "Ride 'Em Cowboy",
+      "artist": "David Allan Coe",
+      "riders": [
+        "Ison Bogosian"
+      ],
+      "video": "Cult 2026",
+      "company": "Cult",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "a-bRQInnNVM",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 7761,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20261005",
+      "src": "https://streetwatch.mov/films/cult-ison-bogosian?nav_context=films",
+      "researchDate": "2026-11-09",
+      "songOnly": true,
+      "songSrc": "Streetwatch: Musikangabe zum Einzelpart",
+      "songEvidence": "https://streetwatch.mov/films/cult-ison-bogosian?nav_context=films"
+    },
+    {
+      "song": "Losing Grip",
+      "artist": "Avril Lavigne",
+      "riders": [
+        "Julian Arteaga"
+      ],
+      "video": "Hair of the Dog",
+      "company": "The InBetween / Sunday",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "GNFiqPA-VRY",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 17305,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260903",
+      "src": "https://streetwatch.mov/films/julian-arteaga-hair-of-the-dog-the-inbetween?nav_context=films",
+      "researchDate": "2026-11-09",
+      "yearSrc": "https://eu.bsdforever.com/blogs/news/bsd-texas-article-dig-book-2026",
+      "songOnly": true,
+      "songSrc": "Streetwatch: Musikangabe zum Einzelpart",
+      "songEvidence": "https://streetwatch.mov/films/julian-arteaga-hair-of-the-dog-the-inbetween?nav_context=films"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Max Miller"
+      ],
+      "video": "WILDER",
+      "company": "Fitbikeco.",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "ncEvsuTFnB0",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 101464,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20261016",
+      "src": "https://streetwatch.mov/films/fitbikeco-wilder-feat-max-miller?nav_context=films",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "Badala Zamana",
+      "artist": "Zohra",
+      "riders": [
+        "Antonio Smallwood"
+      ],
+      "video": "Hair of the Dog",
+      "company": "The InBetween / BSD",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "OMQjBZJ4K2s",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 8787,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260831",
+      "src": "https://streetwatch.mov/films/antonio-smallwood-hair-of-the-dog-video-part-bsd-bmx?nav_context=films",
+      "researchDate": "2026-11-09",
+      "yearSrc": "https://eu.bsdforever.com/blogs/news/bsd-texas-article-dig-book-2026",
+      "songOnly": true,
+      "songSrc": "Streetwatch: Musikangabe zum Einzelpart",
+      "songEvidence": "https://streetwatch.mov/films/antonio-smallwood-hair-of-the-dog-video-part-bsd-bmx?nav_context=films"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Tam Roulston"
+      ],
+      "video": "Hair of the Dog",
+      "company": "The InBetween / BSD",
+      "year": 2025,
+      "fmt": "Web",
+      "yt": "-ZWKLi3o1ZU",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 4088,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260820",
+      "src": "https://streetwatch.mov/films/tam-roulston-hair-of-the-dog-video-part-bsd-bmx-2026?nav_context=films",
+      "researchDate": "2026-11-09",
+      "yearSrc": "https://eu.bsdforever.com/blogs/news/bsd-texas-article-dig-book-2026"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Jan Bisanz"
+      ],
+      "video": "SHIVER",
+      "company": "DIG",
+      "year": 2024,
+      "fmt": "Web",
+      "yt": "Rb6VWD_KmVg",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 19061,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20240122",
+      "src": "https://digbmx.com/videos/shiver-jan-bisanz",
+      "researchDate": "2026-11-09",
+      "scoreArtist": "Rosa Arens"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Marius Dietsche"
+      ],
+      "video": "ROAMING",
+      "company": "United",
+      "year": 2023,
+      "fmt": "Web",
+      "yt": "S2bX_e-4IyU",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 14738,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20230503",
+      "src": "https://digbmx.com/videos/premiere-setup-killer-marius-dietsche-roaming-united-bmx",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "",
+      "artist": "",
+      "riders": [
+        "Marius Dietsche"
+      ],
+      "video": "Hell Nah",
+      "company": "DIG",
+      "year": 2026,
+      "fmt": "Web",
+      "yt": "qMDSJPekxBw",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 153908,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20260126",
+      "src": "https://digbmx.com/videos/dig-x-marius-dietsche-hell-nah",
+      "researchDate": "2026-11-09"
+    },
+    {
+      "song": "Orbit",
+      "artist": "Oliver Lodge",
+      "riders": [
+        "Dennis Enarson"
+      ],
+      "video": "Right Here",
+      "company": "Vans",
+      "year": 2020,
+      "fmt": "Web",
+      "yt": "hHOttB2enSQ",
+      "start": 0,
+      "startKind": "upload-start",
+      "partResolved": true,
+      "section": "Einzelpart",
+      "views": 3872897,
+      "viewsChecked": "2026-11-09",
+      "uploadDate": "20200924",
+      "src": "https://digbmx.com/videos/vans-dennis-enarson-right-here",
+      "researchDate": "2026-11-09",
+      "songOnly": true,
+      "songSrc": "Vans: Musikcredit zum Einzelpart"
+    }
+  ],
+  "policy": {
+    "multiRider": "Excluded even when song is known",
+    "viewThreshold": 20000,
+    "unknownSong": "Never inferred from tracklist order",
+    "chapterTimestamp": "Part beginning, not confirmed song beginning",
+    "automaticYouTubeChapters": "Not accepted as rider/time evidence"
+  },
+  "newPublishedChapters": {
+    "wXHhmcLt2lE": {
+      "David Osterhouse": 28,
+      "Curtis Cantwell": 324,
+      "Nick Bonnell": 452,
+      "Wesley Wilcox": 491,
+      "Latane Coghill": 612,
+      "Dan Banks": 804,
+      "Richie Freeman": 1323
+    },
+    "Wqm8PPpQ1_c": {
+      "Damian Racut": 20,
+      "Luke Burdeshaw": 496,
+      "Ryan Vandemotter": 639,
+      "Colin Dougherty": 1020,
+      "Broc Raiford": 1523,
+      "Brandon Galosi": 1947,
+      "Brandon Begin": 2476
+    }
+  },
+  "pending": [
+    {
+      "video": "FREAK",
+      "rider": "Felix Prangenberg",
+      "publishedStart": 705,
+      "source": "https://freedombmx.de/news/bmx-event/die-besten-bmx-videos-des-jahres-2023.html",
+      "reason": "Published part start found; end boundary and exact music onset still unverified; not added as playable interval"
+    },
+    {
+      "video": "STILL",
+      "reason": "Documentary with narration and original score; suitable music interval unverified"
+    },
+    {
+      "video": "Integration",
+      "reason": "Multiple riders; soundtrack list cannot establish rider-song boundaries"
+    },
+    {
+      "video": "Lead By Example",
+      "reason": "2025 original film, 2026 full upload; exact rider boundaries remain unverified"
+    },
+    {
+      "video": "Still Having Fun",
+      "reason": "Found full Colony film, not a Dean Florian solo upload; not mislabelled as single-rider video"
+    }
+  ],
+  "excludedDiscoveryCandidates": [
+    {
+      "video": "Neighborhood",
+      "reason": "Marcus Rieck and Nico Van Loon, mixed"
+    },
+    {
+      "video": "A BMX Video",
+      "reason": "Multiple riders, Bangers 2024 winner"
+    },
+    {
+      "video": "Arcanum",
+      "reason": "Multiple riders"
+    },
+    {
+      "video": "Fireabend",
+      "reason": "Carlo Hoffmann and Taylor Cadel"
+    },
+    {
+      "video": "Collage",
+      "reason": "Crew film; filmmaker not sole rider"
+    },
+    {
+      "video": "Visions of Light",
+      "reason": "Felix Prangenberg is filmmaker; multi-rider film"
+    },
+    {
+      "video": "Another Summer",
+      "reason": "Trails crew film; known song does not identify one rider"
+    },
+    {
+      "video": "Hair of the Dog – Friends",
+      "reason": "Explicit friends mix"
+    },
+    {
+      "video": "Hair of the Dog – Reed Stark & Denim Cox",
+      "reason": "Shared section"
+    },
+    {
+      "video": "Hair of the Dog – Dan Banks & Ison Bogosian",
+      "reason": "Shared section"
+    }
+  ],
+  "checkedComments": {
+    "antIDvGtrdA": 164,
+    "zQl2ZosE6BI": 92,
+    "tFEGCijg1cs": 173,
+    "u1ylreMLT1M": 47
+  },
+  "limitations": [
+    "No frame-accurate audiovisual verification performed.",
+    "Public comment clues are explicitly marked as community corroboration.",
+    "Original scores without a named track are not assigned invented titles.",
+    "View counts apply to the linked upload, not combined cross-platform views.",
+    "Some original solo uploads have fewer than 20k views and remain excluded while the threshold is active."
+  ],
+  "previewChecks": [
+    {
+      "video": "Only Time Will Tell",
+      "song": "No Date",
+      "artist": "MexikoDro",
+      "status": "exact-preview-found",
+      "matches": [
+        {
+          "title": "No Date",
+          "artist": "MexikoDro",
+          "url": "https://music.apple.com/us/album/no-date/1823037648?i=1823037651&uo=4"
+        },
+        {
+          "title": "No Date",
+          "artist": "MexikoDro",
+          "url": "https://music.apple.com/us/album/no-date/1848268122?i=1848268147&uo=4"
+        }
+      ]
+    },
+    {
+      "video": "FORGE",
+      "song": "Shift",
+      "artist": "blue heron holy ghost",
+      "status": "exact-preview-found",
+      "matches": [
+        {
+          "title": "Shift",
+          "artist": "blue heron holy ghost",
+          "url": "https://music.apple.com/us/album/shift/1842251789?i=1842252125&uo=4"
+        },
+        {
+          "title": "Shift",
+          "artist": "blue heron holy ghost",
+          "url": "https://music.apple.com/us/album/shift/1838404088?i=1838404092&uo=4"
+        }
+      ]
+    },
+    {
+      "video": "LÄRM",
+      "song": "Die Alone",
+      "artist": "Jasmin Eyes",
+      "status": "no-exact-preview",
+      "matches": []
+    },
+    {
+      "video": "Hair of the Dog",
+      "song": "One Last Breath",
+      "artist": "Creed",
+      "status": "exact-preview-found",
+      "matches": [
+        {
+          "title": "One Last Breath",
+          "artist": "Creed",
+          "url": "https://music.apple.com/us/album/one-last-breath/1440738578?i=1440738795&uo=4"
+        },
+        {
+          "title": "One Last Breath (Jojo Lorenzo Remix)",
+          "artist": "Creed",
+          "url": "https://music.apple.com/us/album/one-last-breath-jojo-lorenzo-remix/1782972282?i=1782972512&uo=4"
+        },
+        {
+          "title": "One Last Breath",
+          "artist": "Creed",
+          "url": "https://music.apple.com/us/album/one-last-breath/1440717897?i=1440718237&uo=4"
+        },
+        {
+          "title": "One Last Breath (Remastered 2025)",
+          "artist": "Creed",
+          "url": "https://music.apple.com/us/album/one-last-breath-remastered-2025/1835543875?i=1835543878&uo=4"
+        },
+        {
+          "title": "One Last Breath (Radio Version)",
+          "artist": "Creed",
+          "url": "https://music.apple.com/us/album/one-last-breath-radio-version/1440947631?i=1440948254&uo=4"
+        }
+      ]
+    },
+    {
+      "video": "Cult 2026",
+      "song": "Ride 'Em Cowboy",
+      "artist": "David Allan Coe",
+      "status": "exact-preview-found",
+      "matches": [
+        {
+          "title": "Ride 'Em Cowboy",
+          "artist": "David Allan Coe",
+          "url": "https://music.apple.com/us/album/ride-em-cowboy/917244904?i=917245267&uo=4"
+        },
+        {
+          "title": "Ride 'Em Cowboy",
+          "artist": "David Allan Coe",
+          "url": "https://music.apple.com/us/album/ride-em-cowboy/1554595045?i=1554595111&uo=4"
+        }
+      ]
+    },
+    {
+      "video": "Hair of the Dog",
+      "song": "Losing Grip",
+      "artist": "Avril Lavigne",
+      "status": "exact-preview-found",
+      "matches": [
+        {
+          "title": "Losing Grip",
+          "artist": "Avril Lavigne",
+          "url": "https://music.apple.com/us/album/losing-grip/315025768?i=315025821&uo=4"
+        },
+        {
+          "title": "Losing Grip",
+          "artist": "Avril Lavigne",
+          "url": "https://music.apple.com/us/album/losing-grip/1626353802?i=1626353813&uo=4"
+        },
+        {
+          "title": "Losing Grip (Live at The Roxy Theatre, Los Angeles, CA - October 2007)",
+          "artist": "Avril Lavigne",
+          "url": "https://music.apple.com/us/album/losing-grip-live-at-the-roxy-theatre-los-angeles-ca/277742545?i=277742572&uo=4"
+        },
+        {
+          "title": "Losing Grip",
+          "artist": "Avril Lavigne",
+          "url": "https://music.apple.com/us/album/losing-grip/1744964938?i=1744965325&uo=4"
+        },
+        {
+          "title": "Losing Grip (Live)",
+          "artist": "Avril Lavigne",
+          "url": "https://music.apple.com/us/album/losing-grip-live/271338847?i=271338910&uo=4"
+        }
+      ]
+    },
+    {
+      "video": "Hair of the Dog",
+      "song": "Badala Zamana",
+      "artist": "Zohra",
+      "status": "exact-preview-found",
+      "matches": [
+        {
+          "title": "Badala Zamana",
+          "artist": "Zohra",
+          "url": "https://music.apple.com/us/album/badala-zamana/1834598304?i=1834598305&uo=4"
+        },
+        {
+          "title": "Badala Zamana",
+          "artist": "Zohra",
+          "url": "https://music.apple.com/us/album/badala-zamana/1577184694?i=1577184695&uo=4"
+        },
+        {
+          "title": "Badala Zamana",
+          "artist": "Zohra",
+          "url": "https://music.apple.com/us/album/badala-zamana/1837534447?i=1837534455&uo=4"
+        },
+        {
+          "title": "Badala Zamana (Extended Version)",
+          "artist": "Zohra",
+          "url": "https://music.apple.com/us/album/badala-zamana-extended-version/1577184694?i=1577184756&uo=4"
+        }
+      ]
+    },
+    {
+      "video": "Right Here",
+      "song": "Orbit",
+      "artist": "Oliver Lodge",
+      "status": "exact-preview-found",
+      "matches": [
+        {
+          "title": "Orbit",
+          "artist": "Oliver Lodge",
+          "url": "https://music.apple.com/us/album/orbit/1540056949?i=1540056950&uo=4"
+        }
+      ]
+    }
+  ]
+}
