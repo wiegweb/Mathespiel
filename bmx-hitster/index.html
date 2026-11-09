@@ -866,6 +866,979 @@ for(const c of RESEARCHED_PARTS){
   if(old) Object.assign(old,c); else DEFAULT_DECK.push(c);
 }
 
+// Audited solo releases: public upload metadata checked 2026-11-09.
+const RECENT_SOLO_PARTS = [
+ {
+  "song": "No Date",
+  "artist": "MexikoDro",
+  "riders": [
+   "Devon Smillie"
+  ],
+  "video": "Only Time Will Tell",
+  "company": "Cult",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "antIDvGtrdA",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 69518,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20261022",
+  "src": "https://freedombmx.de/top-stories/only-time-will-tell-devon-smillie-fuer-die-cult-crew.html",
+  "researchDate": "2026-11-09",
+  "songOnly": true,
+  "songSrc": "Cult-Trackliste + zwei Kommentare zum Devon-Einzelpart",
+  "confidence": "community-corroborated",
+  "songEvidence": [
+   "https://streetwatch.mov/films/F8512",
+   "https://www.youtube.com/watch?v=antIDvGtrdA"
+  ]
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Miki Fleck"
+  ],
+  "video": "United 2026",
+  "company": "United",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "zQl2ZosE6BI",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 28183,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20261016",
+  "src": "https://streetwatch.mov/films/miki-fleck-united-2026?nav_context=films",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Felix Prangenberg"
+  ],
+  "video": "STILL",
+  "company": "DIG",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "u1ylreMLT1M",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 28793,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20261002",
+  "src": "https://www.youtube.com/watch?v=u1ylreMLT1M",
+  "researchDate": "2026-11-09",
+  "reviewPending": "Doku: geeigneter Musikausschnitt noch offen",
+  "scoreArtist": "Lennard Hacker"
+ },
+ {
+  "song": "Shift",
+  "artist": "blue heron holy ghost",
+  "riders": [
+   "Broc Raiford"
+  ],
+  "video": "FORGE",
+  "company": "Sunday",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "tFEGCijg1cs",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 73062,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260828",
+  "src": "https://freedombmx.de/top-stories/forge-broc-raiford-fuer-sunday-bikes.html",
+  "researchDate": "2026-11-09",
+  "songOnly": true,
+  "songSrc": "Streetwatch: Musikangabe zum Einzelpart",
+  "songEvidence": "https://streetwatch.mov/films/broc-raiford-forge-sunday-bikes-2026?nav_context=films"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Kilian Roth"
+  ],
+  "video": "Quantum",
+  "company": "Monster Energy",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "SRZ_gbSFl9k",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 109933,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20250813",
+  "src": "https://freedombmx.de/top-stories/kilian-roth-quantum.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Eddie Baum"
+  ],
+  "video": "Emergence",
+  "company": "Fiend",
+  "year": 2024,
+  "fmt": "Web",
+  "yt": "mGjNitAUBkQ",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 28696,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20241004",
+  "src": "https://freedombmx.de/top-stories/emergence-eddie-baum-fuer-fiend-bmx.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Bruno Hoffmann"
+  ],
+  "video": "HOFFI",
+  "company": "Federal",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "eA8DneeZGYE",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 27544,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260408",
+  "src": "https://digbmx.com/videos/federal-bikes-hoffi",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Alex Donnachie"
+  ],
+  "video": "EDIT",
+  "company": "BSD",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "LhSeTO4u56k",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 254426,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20250724",
+  "src": "https://digbmx.com/videos/alex-donnachie-edit-bsd",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Alex Donnachie"
+  ],
+  "video": "JETLAG",
+  "company": "Monster Energy",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "x2IywF9JtEc",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 43785,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20250814",
+  "src": "https://digbmx.com/videos/jetlag-alex-donnachie",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Jordan Godwin"
+  ],
+  "video": "JETLAG",
+  "company": "Monster Energy",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "usi8IEPNq-4",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 33209,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20251020",
+  "src": "https://freedombmx.de/top-stories/jetlag-ep-3-jordan-godwin.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Anthony Perrin"
+  ],
+  "video": "ANTHO",
+  "company": "Vans",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "AyXrfBf_3SU",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 21824,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20251118",
+  "src": "https://freedombmx.de/top-stories/antho-anthony-perrin-fuer-vans.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Lewis Mills"
+  ],
+  "video": "Lew Is Fiending",
+  "company": "Fiend",
+  "year": 2022,
+  "fmt": "Web",
+  "yt": "0IKAUwcMT1g",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 956686,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20220618",
+  "src": "https://www.youtube.com/watch?v=0IKAUwcMT1g",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Nico Van Loon"
+  ],
+  "video": "IMPACT",
+  "company": "BSD / SIBMX",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "axzHv6n3p3Y",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 7145,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260115",
+  "src": "https://www.youtube.com/watch?v=axzHv6n3p3Y",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Dan Kruk"
+  ],
+  "video": "Forever Forward",
+  "company": "Rixin",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "sg6AXeYz-mc",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 11641,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260731",
+  "src": "https://www.youtube.com/watch?v=sg6AXeYz-mc",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Chris Tilk"
+  ],
+  "video": "Welcome to WTP",
+  "company": "Wethepeople",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "mttvcu3BrYA",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 4611,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20261013",
+  "src": "https://freedombmx.de/top-stories/chris-tilk-auf-wethepeople.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Hjalte Juul"
+  ],
+  "video": "Last Prodigy",
+  "company": "Wethepeople",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "abZeDHQ61nI",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 6629,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260924",
+  "src": "https://freedombmx.de/top-stories/last-prodigy-hjalte-juul-fuer-wethepeople.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Kilian Treek"
+  ],
+  "video": "Welcome to Bikers Base",
+  "company": "Bikers Base",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "_HgLriEmKvU",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 2557,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260924",
+  "src": "https://freedombmx.de/top-stories/kilian-treek-welcome-to-bikers-base.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Marius Stoll"
+  ],
+  "video": "Still Alive",
+  "company": "Traffic Distribution",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "1mS9f69ab-4",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 872,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260424",
+  "src": "https://freedombmx.de/top-stories/still-alive-marius-stoll-fuer-traffic-distribution.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Gabriel Rodriguez"
+  ],
+  "video": "Disfruta El Proceso",
+  "company": "Independent",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "uN36PozAtOA",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 3083,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260923",
+  "src": "https://freedombmx.de/top-stories/gabriel-rodriguez-disfruta-el-proceso.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Daniel Estrada"
+  ],
+  "video": "Vibing in San Diego & Tijuana",
+  "company": "Independent",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "xEs-hzNAZSA",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 1000,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260727",
+  "src": "https://freedombmx.de/top-stories/daniel-estrada-vibing-in-san-diego-tijuana.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Marvin Mayer"
+  ],
+  "video": "Manual Marv",
+  "company": "Bangers Film Festival",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "5OyIv6Q-kYg",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 1183,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20251012",
+  "src": "https://freedombmx.de/news/bmx-event/%f0%9f%a5%88-peoples-store-bangers-2025-marvin-mayer.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Sikharin Supanmart"
+  ],
+  "video": "East Hood",
+  "company": "Bangers Film Festival",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "-UrqKqfdst4",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 2406,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20251011",
+  "src": "https://freedombmx.de/news/bmx-event/%f0%9f%a5%89-peoples-store-bangers-2025-east-hood-by-sikharin-supanmart.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Adrian Warnken"
+  ],
+  "video": "Extra Mind",
+  "company": "Bangers Film Festival",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "TSrGrHB8hik",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 1605,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20251010",
+  "src": "https://www.youtube.com/watch?v=TSrGrHB8hik",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Domenik Brüggemann"
+  ],
+  "video": "Brügge's World",
+  "company": "Bangers Film Festival",
+  "year": 2024,
+  "fmt": "Web",
+  "yt": "d9jh_mETfL0",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 502,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20241008",
+  "src": "https://freedombmx.de/fff/peoples-store-bangers-2024-platz-7-10.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Christopher Sturm"
+  ],
+  "video": "Steel Is Real",
+  "company": "Bangers Film Festival",
+  "year": 2024,
+  "fmt": "Web",
+  "yt": "N8TDoBbX7aI",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 831,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20241008",
+  "src": "https://freedombmx.de/fff/peoples-store-bangers-2024-platz-7-10.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Malte Williams"
+  ],
+  "video": "Splitface",
+  "company": "Bangers Film Festival",
+  "year": 2024,
+  "fmt": "Web",
+  "yt": "lPdsLRLv6pQ",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 584,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20241008",
+  "src": "https://freedombmx.de/fff/peoples-store-bangers-2024-platz-7-10.html",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Brett Silva"
+  ],
+  "video": "Hair of the Dog",
+  "company": "The InBetween / Sunday",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "FgVO4ztPKU0",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 38438,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260921",
+  "src": "https://digbmx.com/videos/brett-silva-hair-of-the-dog-video-part",
+  "researchDate": "2026-11-09",
+  "yearSrc": "https://eu.bsdforever.com/blogs/news/bsd-texas-article-dig-book-2026"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Trent Lutzke"
+  ],
+  "video": "Hair of the Dog",
+  "company": "The InBetween / BSD",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "ITkGe6LP1FY",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 6707,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260917",
+  "src": "https://digbmx.com/videos/trent-lutzke-hair-of-the-dog-video-part",
+  "researchDate": "2026-11-09",
+  "yearSrc": "https://eu.bsdforever.com/blogs/news/bsd-texas-article-dig-book-2026"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Grant Yoobie"
+  ],
+  "video": "Hair of the Dog",
+  "company": "The InBetween / BSD",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "mx2ShFT61es",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 7142,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260914",
+  "src": "https://digbmx.com/videos/grant-yoobie-hair-of-the-dog-video-part",
+  "researchDate": "2026-11-09",
+  "yearSrc": "https://eu.bsdforever.com/blogs/news/bsd-texas-article-dig-book-2026"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Felix Prangenberg"
+  ],
+  "video": "JETLAG",
+  "company": "Monster Energy",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "w3HT4DrSdIg",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 45039,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20251128",
+  "src": "https://digbmx.com/videos/felix-prangenberg-jetlag",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "Die Alone",
+  "artist": "Jasmin Eyes",
+  "riders": [
+   "Felix Prangenberg"
+  ],
+  "video": "LÄRM",
+  "company": "DIG",
+  "year": 2022,
+  "fmt": "Web",
+  "yt": "cmrUSXnbUqU",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 327655,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20220811",
+  "src": "https://digbmx.com/videos/felix-prangenberg-larm",
+  "researchDate": "2026-11-09",
+  "songOnly": true,
+  "songSrc": "DIG: ausdrücklich zweiter Song des Einzelparts"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Felix Prangenberg"
+  ],
+  "video": "Last February",
+  "company": "Wethepeople",
+  "year": 2024,
+  "fmt": "Web",
+  "yt": "ogZTE6ymbxk",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 148283,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20240627",
+  "src": "https://digbmx.com/videos/felix-prangenberg-last-february",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Kilian Roth"
+  ],
+  "video": "Cult 2025",
+  "company": "Cult",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "SjGbY-t8EeA",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 19763,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20250829",
+  "src": "https://digbmx.com/videos/cultcrew-kilian-roth",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Bruno Hoffmann"
+  ],
+  "video": "FOREIGN",
+  "company": "Vans",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "uzc8oSQEEig",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 26622,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20250421",
+  "src": "https://digbmx.com/videos/foreign-bruno-hoffmann-vans-europe",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "One Last Breath",
+  "artist": "Creed",
+  "riders": [
+   "Jared Duncan"
+  ],
+  "video": "Hair of the Dog",
+  "company": "The InBetween",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "5Yb57exJy5M",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 11203,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260925",
+  "src": "https://streetwatch.mov/films/jared-duncan-hair-of-the-dog-the-inbetween?nav_context=films",
+  "researchDate": "2026-11-09",
+  "yearSrc": "https://eu.bsdforever.com/blogs/news/bsd-texas-article-dig-book-2026",
+  "songOnly": true,
+  "songSrc": "Streetwatch: Musikangabe zum Einzelpart",
+  "songEvidence": "https://streetwatch.mov/films/jared-duncan-hair-of-the-dog-the-inbetween?nav_context=films"
+ },
+ {
+  "song": "Ride 'Em Cowboy",
+  "artist": "David Allan Coe",
+  "riders": [
+   "Ison Bogosian"
+  ],
+  "video": "Cult 2026",
+  "company": "Cult",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "a-bRQInnNVM",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 7761,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20261005",
+  "src": "https://streetwatch.mov/films/cult-ison-bogosian?nav_context=films",
+  "researchDate": "2026-11-09",
+  "songOnly": true,
+  "songSrc": "Streetwatch: Musikangabe zum Einzelpart",
+  "songEvidence": "https://streetwatch.mov/films/cult-ison-bogosian?nav_context=films"
+ },
+ {
+  "song": "Losing Grip",
+  "artist": "Avril Lavigne",
+  "riders": [
+   "Julian Arteaga"
+  ],
+  "video": "Hair of the Dog",
+  "company": "The InBetween / Sunday",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "GNFiqPA-VRY",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 17305,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260903",
+  "src": "https://streetwatch.mov/films/julian-arteaga-hair-of-the-dog-the-inbetween?nav_context=films",
+  "researchDate": "2026-11-09",
+  "yearSrc": "https://eu.bsdforever.com/blogs/news/bsd-texas-article-dig-book-2026",
+  "songOnly": true,
+  "songSrc": "Streetwatch: Musikangabe zum Einzelpart",
+  "songEvidence": "https://streetwatch.mov/films/julian-arteaga-hair-of-the-dog-the-inbetween?nav_context=films"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Max Miller"
+  ],
+  "video": "WILDER",
+  "company": "Fitbikeco.",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "ncEvsuTFnB0",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 101464,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20261016",
+  "src": "https://streetwatch.mov/films/fitbikeco-wilder-feat-max-miller?nav_context=films",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "Badala Zamana",
+  "artist": "Zohra",
+  "riders": [
+   "Antonio Smallwood"
+  ],
+  "video": "Hair of the Dog",
+  "company": "The InBetween / BSD",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "OMQjBZJ4K2s",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 8787,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260831",
+  "src": "https://streetwatch.mov/films/antonio-smallwood-hair-of-the-dog-video-part-bsd-bmx?nav_context=films",
+  "researchDate": "2026-11-09",
+  "yearSrc": "https://eu.bsdforever.com/blogs/news/bsd-texas-article-dig-book-2026",
+  "songOnly": true,
+  "songSrc": "Streetwatch: Musikangabe zum Einzelpart",
+  "songEvidence": "https://streetwatch.mov/films/antonio-smallwood-hair-of-the-dog-video-part-bsd-bmx?nav_context=films"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Tam Roulston"
+  ],
+  "video": "Hair of the Dog",
+  "company": "The InBetween / BSD",
+  "year": 2025,
+  "fmt": "Web",
+  "yt": "-ZWKLi3o1ZU",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 4088,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260820",
+  "src": "https://streetwatch.mov/films/tam-roulston-hair-of-the-dog-video-part-bsd-bmx-2026?nav_context=films",
+  "researchDate": "2026-11-09",
+  "yearSrc": "https://eu.bsdforever.com/blogs/news/bsd-texas-article-dig-book-2026"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Jan Bisanz"
+  ],
+  "video": "SHIVER",
+  "company": "DIG",
+  "year": 2024,
+  "fmt": "Web",
+  "yt": "Rb6VWD_KmVg",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 19061,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20240122",
+  "src": "https://digbmx.com/videos/shiver-jan-bisanz",
+  "researchDate": "2026-11-09",
+  "scoreArtist": "Rosa Arens"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Marius Dietsche"
+  ],
+  "video": "ROAMING",
+  "company": "United",
+  "year": 2023,
+  "fmt": "Web",
+  "yt": "S2bX_e-4IyU",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 14738,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20230503",
+  "src": "https://digbmx.com/videos/premiere-setup-killer-marius-dietsche-roaming-united-bmx",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "",
+  "artist": "",
+  "riders": [
+   "Marius Dietsche"
+  ],
+  "video": "Hell Nah",
+  "company": "DIG",
+  "year": 2026,
+  "fmt": "Web",
+  "yt": "qMDSJPekxBw",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 153908,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20260126",
+  "src": "https://digbmx.com/videos/dig-x-marius-dietsche-hell-nah",
+  "researchDate": "2026-11-09"
+ },
+ {
+  "song": "Orbit",
+  "artist": "Oliver Lodge",
+  "riders": [
+   "Dennis Enarson"
+  ],
+  "video": "Right Here",
+  "company": "Vans",
+  "year": 2020,
+  "fmt": "Web",
+  "yt": "hHOttB2enSQ",
+  "start": 0,
+  "startKind": "upload-start",
+  "partResolved": true,
+  "section": "Einzelpart",
+  "views": 3872897,
+  "viewsChecked": "2026-11-09",
+  "uploadDate": "20200924",
+  "src": "https://digbmx.com/videos/vans-dennis-enarson-right-here",
+  "researchDate": "2026-11-09",
+  "songOnly": true,
+  "songSrc": "Vans: Musikcredit zum Einzelpart"
+ }
+];
+for(const c of RECENT_SOLO_PARTS){
+  const matches=DEFAULT_DECK.filter(d=>d.yt===c.yt&&d.riders.length===1&&d.riders[0]===c.riders[0]);
+  if(matches.length) for(const old of matches){ const song=old.song,artist=old.artist,songSrc=old.songSrc,songOnly=old.songOnly; Object.assign(old,c); if(song&&!c.song) Object.assign(old,{song,artist,songSrc,songOnly}); }
+  else DEFAULT_DECK.push(c);
+}
+for(const c of DEFAULT_DECK) {
+  if(c.video==='Lead By Example') c.year=2025;
+  if(c.yt==='Wqm8PPpQ1_c'&&!c.riders.includes('Brandon Galosi')) c.riders.push('Brandon Galosi');
+}
+
 const $ = s => document.querySelector(s);
 const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
@@ -903,8 +1876,8 @@ async function inv(path){
    Läuft im Browser: holt Beschreibung, Kapitelmarken und YouTube-Musikangaben über offene YouTube-Frontends
    (Invidious, Piped). Full-Lengths werden so in einzelne Parts (ohne Intro/Outro) zerlegt, fehlende Songs ergänzt. */
 const PIPED=['https://pipedapi.kavin.rocks','https://pipedapi.adminforge.de','https://api.piped.private.coffee'];
-const VERIFIED_META = {"y6njcHWdZf8": {"ok": true, "ch": [{"s": 0.0, "title": "Intro"}, {"s": 45.0, "title": "Casey Starling"}, {"s": 140.0, "title": "Jacob Cable"}, {"s": 302.0, "title": "Calvin Kosovich"}, {"s": 445.0, "title": "Anthony Perrin"}, {"s": 596.0, "title": "Anahi Valentina"}, {"s": 643.0, "title": "Santiago Laverde"}, {"s": 794.0, "title": "Harrison Arcari"}, {"s": 969.0, "title": "Nathan Williams"}, {"s": 1415.0, "title": "Outro"}], "mu": [], "tr": [], "source": "https://www.youtube.com/watch?v=y6njcHWdZf8", "curated": true}, "xoFK3snnpXY": {"ok": true, "ch": [{"s": 0.0, "title": "Matt Closson"}, {"s": 374.0, "title": "Lewis Mills, Mati Lasgoity, Kevin Vannauker, Augie Simoncini, Nino Valdez, Hobie Doan"}, {"s": 592.0, "title": "Martin Siman"}, {"s": 716.0, "title": "Antonio Chavez"}, {"s": 818.0, "title": "Johnny Raekes"}, {"s": 1271.0, "title": "Garrett Reynolds"}], "mu": [], "tr": [], "source": "https://www.youtube.com/watch?v=xoFK3snnpXY", "curated": true}, "CJazfMTvoBw": {"ok": true, "ch": [{"s": 0.0, "title": "Main title"}, {"s": 31.0, "title": "Intro"}, {"s": 160.0, "title": "Aryei Levenson"}, {"s": 324.0, "title": "Team Mix/Matt Nordstrom"}, {"s": 590.0, "title": "Santi Laverde/Boyd Hilder/CA Mix"}, {"s": 747.0, "title": "Mikey Andrew"}, {"s": 905.0, "title": "Ladies Mix"}, {"s": 1076.0, "title": "Josh Delarosa"}, {"s": 1216.0, "title": "Joy's Interlude"}, {"s": 1320.0, "title": "Corey Walsh/Pools"}, {"s": 1444.0, "title": "Gary Young/CA Mix"}, {"s": 1560.0, "title": "Perris Benegas / Vancouver/Jacob Cable"}, {"s": 1868.0, "title": "SLC"}, {"s": 2080.0, "title": "Johnny Raekes/Mix/Matt Nordstrom"}, {"s": 2386.0, "title": "Preston Okert"}, {"s": 2540.0, "title": "Broc Raiford/Closing Mix"}, {"s": 2793.0, "title": "Murray Loubser"}, {"s": 3016.0, "title": "Dennis Enarson"}, {"s": 3153.0, "title": "Credits"}], "mu": [], "tr": [], "source": "https://www.youtube.com/watch?v=CJazfMTvoBw", "curated": true}};
-let META={...VERIFIED_META,...LS.get('bmxHitsterMeta_v3',{})};   // ytId -> {t, ok, ch:[{s,title}], mu:[{a,s,r?}], tr:[{a,s}]}
+const VERIFIED_META = {"y6njcHWdZf8": {"ok": true, "ch": [{"s": 0.0, "title": "Intro"}, {"s": 45.0, "title": "Casey Starling"}, {"s": 140.0, "title": "Jacob Cable"}, {"s": 302.0, "title": "Calvin Kosovich"}, {"s": 445.0, "title": "Anthony Perrin"}, {"s": 596.0, "title": "Anahi Valentina"}, {"s": 643.0, "title": "Santiago Laverde"}, {"s": 794.0, "title": "Harrison Arcari"}, {"s": 969.0, "title": "Nathan Williams"}, {"s": 1415.0, "title": "Outro"}], "mu": [], "tr": [], "source": "https://www.youtube.com/watch?v=y6njcHWdZf8", "curated": true}, "xoFK3snnpXY": {"ok": true, "ch": [{"s": 0.0, "title": "Matt Closson"}, {"s": 374.0, "title": "Lewis Mills, Mati Lasgoity, Kevin Vannauker, Augie Simoncini, Nino Valdez, Hobie Doan"}, {"s": 592.0, "title": "Martin Siman"}, {"s": 716.0, "title": "Antonio Chavez"}, {"s": 818.0, "title": "Johnny Raekes"}, {"s": 1271.0, "title": "Garrett Reynolds"}], "mu": [], "tr": [], "source": "https://www.youtube.com/watch?v=xoFK3snnpXY", "curated": true}, "CJazfMTvoBw": {"ok": true, "ch": [{"s": 0.0, "title": "Main title"}, {"s": 31.0, "title": "Intro"}, {"s": 160.0, "title": "Aryei Levenson"}, {"s": 324.0, "title": "Team Mix/Matt Nordstrom"}, {"s": 590.0, "title": "Santi Laverde/Boyd Hilder/CA Mix"}, {"s": 747.0, "title": "Mikey Andrew"}, {"s": 905.0, "title": "Ladies Mix"}, {"s": 1076.0, "title": "Josh Delarosa"}, {"s": 1216.0, "title": "Joy's Interlude"}, {"s": 1320.0, "title": "Corey Walsh/Pools"}, {"s": 1444.0, "title": "Gary Young/CA Mix"}, {"s": 1560.0, "title": "Perris Benegas / Vancouver/Jacob Cable"}, {"s": 1868.0, "title": "SLC"}, {"s": 2080.0, "title": "Johnny Raekes/Mix/Matt Nordstrom"}, {"s": 2386.0, "title": "Preston Okert"}, {"s": 2540.0, "title": "Broc Raiford/Closing Mix"}, {"s": 2793.0, "title": "Murray Loubser"}, {"s": 3016.0, "title": "Dennis Enarson"}, {"s": 3153.0, "title": "Credits"}], "mu": [], "tr": [], "source": "https://www.youtube.com/watch?v=CJazfMTvoBw", "curated": true}, "wXHhmcLt2lE": {"ok": true, "ch": [{"s": 0, "title": "Intro"}, {"s": 28, "title": "David Osterhouse"}, {"s": 324, "title": "Curtis Cantwell"}, {"s": 452, "title": "Nick Bonnell"}, {"s": 491, "title": "Wesley Wilcox"}, {"s": 612, "title": "Latane Coghill"}, {"s": 804, "title": "Dan Banks"}, {"s": 1323, "title": "Richie Freeman"}], "mu": [], "tr": [], "source": "https://www.youtube.com/watch?v=wXHhmcLt2lE", "curated": true, "startKind": "published-part-start"}, "Wqm8PPpQ1_c": {"ok": true, "ch": [{"s": 0, "title": "Intro"}, {"s": 20, "title": "Damian Racut"}, {"s": 496, "title": "Luke Burdeshaw"}, {"s": 639, "title": "Ryan Vandemotter"}, {"s": 1020, "title": "Colin Dougherty"}, {"s": 1283, "title": "Friends Mix"}, {"s": 1523, "title": "Broc Raiford"}, {"s": 1947, "title": "Brandon Galosi"}, {"s": 2476, "title": "Brandon Begin"}], "mu": [], "tr": [], "source": "https://www.youtube.com/watch?v=Wqm8PPpQ1_c", "curated": true, "startKind": "published-part-start"}};
+let META={...LS.get('bmxHitsterMeta_v3',{}),...VERIFIED_META};   // ytId -> {t, ok, ch:[{s,title}], mu:[{a,s,r?}], tr:[{a,s}]}
 const tsSec=t=>t.split(':').reduce((a,b)=>a*60+(+b),0);
 const SKIP_CH=/\b(intro|outro|credits?|abspann|vorspann|trailer|bonus|bloopers?|slams?|crash(es)?|thanks|end(ing)?|b-?sides?|extras?|teaser|title)\b/i;
 const htmlText=h=>String(h||'').replace(/<br\s*\/?>/gi,'\n').replace(/<\/p>/gi,'\n').replace(/<[^>]+>/g,'')
@@ -969,9 +1942,9 @@ function expandMeta(c){
     const out=[];
     m.ch.forEach((x,i)=>{
       if(SKIP_CH.test(x.title)||/mix|interlude|pools|vancouver|[,/]/i.test(x.title)) return;
-      const rs=ridersIn(x.title,c.riders); if(!rs.length) return;
+      const rs=ridersIn(x.title,c.riders); if(rs.length!==1) return;
       const nx=m.ch[i+1]; if(nx&&nx.s-x.s<25) return;              // zu kurz für einen Part
-      const k={...c,riders:rs,section:x.title,start:x.s+8,end:nx?nx.s:undefined,fromMeta:true,partResolved:true};
+      const k={...c,riders:rs,section:x.title,start:x.s,end:nx?nx.s:undefined,startKind:'published-part-start',startSource:m.source,fromMeta:true,partResolved:true};
       const rest=x.title.split(/\s+[-–—|]\s+/).slice(1).join(' - '), sp=rest&&splitSong(rest);
       const song=sp||(m.mu||[]).find(u=>u.r&&ridersIn(u.r,rs).length);
       if(song){ k.song=song.s; k.artist=song.a; k.songSrc='Videobeschreibung'; }
@@ -995,7 +1968,8 @@ function dedupeMeta(list){
   const out=list.filter(c=>{
     if(!c.fromMeta||c.riders.length!==1) return true;
     const b=base.get(key(c)); if(!b) return true;
-    if(b.yt||b.vimeo){ if(!b.song&&c.song){ b.song=c.song; b.artist=c.artist; b.songSrc=c.songSrc; } return false; }                     // Part gibt es schon als eigenes Video
+    if((b.yt||b.vimeo)&&!b.songOnly){ if(!b.song&&c.song){ b.song=c.song; b.artist=c.artist; b.songSrc=c.songSrc; } return false; }                     // Part gibt es schon als eigenes Video
+    if(b.songOnly) return true;
     drop.add(b); if(!c.song&&b.song){ c.song=b.song; c.artist=b.artist; c.songSrc=b.songSrc||null; c.songOnly=b.songOnly; }   // Song-Karte ohne Video → Kapitel übernimmt
     return true; });
   return out.filter(c=>!drop.has(c));
@@ -1032,7 +2006,7 @@ function enrichKnown(c){
   const same=DEFAULT_DECK.filter(b=>b.song&&b.artist&&b.video===c.video&&b.year===c.year&&b.riders.length===c.riders.length&&b.riders.every(r=>c.riders.includes(r)));
   const songs=new Map(same.map(b=>[b.artist+'|'+b.song,b]));
   if(songs.size!==1) return c;
-  const b=[...songs.values()][0]; return {...c,song:b.song,artist:b.artist,songSrc:b.songSrc||b.src,songOnly:b.songOnly};
+  const b=[...songs.values()][0]; if(c.startKind==='published-part-start'&&b.songOnly) return c; return {...c,song:b.song,artist:b.artist,songSrc:b.songSrc||b.src,songOnly:b.songOnly};
 }
 const rawCards = () => dedupeMeta(DEFAULT_DECK.concat(custom().map(c=>({...c,custom:true}))).flatMap(expandMeta).map(enrichKnown)).map(applyOvr);
 // Auswahl im Parts-Menü: abgewählte und gelöschte Parts (cardKey), im Browser gespeichert
@@ -1041,8 +2015,9 @@ const saveSel = () => { LS.set('bmxHitsterOff',[...OFF]); LS.set('bmxHitsterDele
 const allCards = () => rawCards().filter(c=>!DEL.has(cardKey(c)));
 const parseTime = s => { s=String(s||'').trim(); if(!s) return null; const m=s.match(/^(\d+):(\d{1,2})$/); return m?(+m[1])*60+(+m[2]):(isNaN(+s)?null:+s); };
 const vKey = c => c.yt?'yt:'+c.yt : c.vimeo?'vm:'+c.vimeo : null;
-let VIEWS = LS.get('bmxHitsterViews',{});   // key -> {v:Zahl|null, t:Zeit}
-const viewsOf = c => { if(c.views!=null) return c.views; const k=vKey(c); return k&&VIEWS[k]?VIEWS[k].v:null; };
+const RESEARCHED_VIEWS = {"yt:PUvhkHSGj9Q": {"v": 28782, "t": 1794222000000}, "yt:abZeDHQ61nI": {"v": 6629, "t": 1794222000000}, "yt:uN36PozAtOA": {"v": 3083, "t": 1794222000000}, "yt:qMDSJPekxBw": {"v": 153908, "t": 1794222000000}, "yt:FgVO4ztPKU0": {"v": 38438, "t": 1794222000000}, "yt:BeA7ohEdyPg": {"v": 192814, "t": 1794222000000}, "yt:antIDvGtrdA": {"v": 69518, "t": 1794222000000}, "yt:dbxdRoPD98o": {"v": 2861, "t": 1794222000000}, "yt:w3HT4DrSdIg": {"v": 45039, "t": 1794222000000}, "yt:SjGbY-t8EeA": {"v": 19763, "t": 1794222000000}, "yt:is0fTCheQkU": {"v": 13732, "t": 1794222000000}, "yt:5OyIv6Q-kYg": {"v": 1183, "t": 1794222000000}, "yt:81CovNal_kw": {"v": 27056, "t": 1794222000000}, "yt:usi8IEPNq-4": {"v": 33209, "t": 1794222000000}, "yt:axzHv6n3p3Y": {"v": 7145, "t": 1794222000000}, "yt:37gE26V25ac": {"v": 64031, "t": 1794222000000}, "yt:mx2ShFT61es": {"v": 7142, "t": 1794222000000}, "yt:5B32NLhsets": {"v": 158226, "t": 1794222000000}, "yt:mGjNitAUBkQ": {"v": 28696, "t": 1794222000000}, "yt:-ZWKLi3o1ZU": {"v": 4088, "t": 1794222000000}, "yt:0IKAUwcMT1g": {"v": 956686, "t": 1794222000000}, "yt:d9jh_mETfL0": {"v": 502, "t": 1794222000000}, "yt:4QWFnQ8X1-M": {"v": 106893, "t": 1794222000000}, "yt:Rb6VWD_KmVg": {"v": 19061, "t": 1794222000000}, "yt:S_Br53C_xVE": {"v": 1234, "t": 1794222000000}, "yt:1mS9f69ab-4": {"v": 872, "t": 1794222000000}, "yt:xEs-hzNAZSA": {"v": 1000, "t": 1794222000000}, "yt:eA8DneeZGYE": {"v": 27544, "t": 1794222000000}, "yt:a-bRQInnNVM": {"v": 7761, "t": 1794222000000}, "yt:RzGbBS1XoSY": {"v": 1287, "t": 1794222000000}, "yt:S2bX_e-4IyU": {"v": 14738, "t": 1794222000000}, "yt:Wqm8PPpQ1_c": {"v": 22608, "t": 1794222000000}, "yt:uzc8oSQEEig": {"v": 26622, "t": 1794222000000}, "yt:5Yb57exJy5M": {"v": 11203, "t": 1794222000000}, "yt:N8TDoBbX7aI": {"v": 831, "t": 1794222000000}, "yt:RHP5N-ADsbM": {"v": 1601, "t": 1794222000000}, "yt:Jn6R0B8QH_U": {"v": 16507, "t": 1794222000000}, "yt:QDl20FsS6R8": {"v": 185728, "t": 1794222000000}, "yt:ogZTE6ymbxk": {"v": 148283, "t": 1794222000000}, "yt:lPdsLRLv6pQ": {"v": 584, "t": 1794222000000}, "yt:uwHMd78LXCs": {"v": 282680, "t": 1794222000000}, "yt:x2IywF9JtEc": {"v": 43785, "t": 1794222000000}, "yt:mttvcu3BrYA": {"v": 4611, "t": 1794222000000}, "yt:cmrUSXnbUqU": {"v": 327655, "t": 1794222000000}, "yt:hHOttB2enSQ": {"v": 3872897, "t": 1794222000000}, "yt:u1ylreMLT1M": {"v": 28793, "t": 1794222000000}, "yt:TSrGrHB8hik": {"v": 1605, "t": 1794222000000}, "yt:LhSeTO4u56k": {"v": 254426, "t": 1794222000000}, "yt:ITkGe6LP1FY": {"v": 6707, "t": 1794222000000}, "yt:zQl2ZosE6BI": {"v": 28183, "t": 1794222000000}, "yt:tFEGCijg1cs": {"v": 73062, "t": 1794222000000}, "yt:DQnt0r5tI2Y": {"v": 1587192, "t": 1794222000000}, "yt:wXHhmcLt2lE": {"v": 39400, "t": 1794222000000}, "yt:GNFiqPA-VRY": {"v": 17305, "t": 1794222000000}, "yt:u9E37A9npjI": {"v": 61263, "t": 1794222000000}, "yt:AyXrfBf_3SU": {"v": 21824, "t": 1794222000000}, "yt:1FUGJB8ZKus": {"v": 20719, "t": 1794222000000}, "yt:SRZ_gbSFl9k": {"v": 109933, "t": 1794222000000}, "yt:_HgLriEmKvU": {"v": 2557, "t": 1794222000000}, "yt:ncEvsuTFnB0": {"v": 101464, "t": 1794222000000}, "yt:OMQjBZJ4K2s": {"v": 8787, "t": 1794222000000}, "yt:QOI5dr7VydU": {"v": 8011, "t": 1794222000000}, "yt:sg6AXeYz-mc": {"v": 11641, "t": 1794222000000}, "yt:-UrqKqfdst4": {"v": 2406, "t": 1794222000000}};
+let VIEWS = {...RESEARCHED_VIEWS,...LS.get('bmxHitsterViews',{})};   // key -> {v:Zahl|null, t:Zeit}
+const viewsOf = c => { const k=vKey(c); return k&&VIEWS[k]&&VIEWS[k].v!=null?VIEWS[k].v:(c.views??null); };
 
 async function ytViews(id){
   try{ const d=await fetchJSON('https://returnyoutubedislikeapi.com/votes?videoId='+id,8000); if(typeof d.viewCount==='number') return d.viewCount; }catch(e){}
@@ -1077,6 +2052,7 @@ function eligible(c,o=opts()){
 function passesFilters(c,o=opts()){
   if(/Full-Length|Team-Video/i.test(c.section||'')&&!c.partResolved) return false;
   if(c.sourceMismatch) return false;
+  if((c.riders||[]).length!==1||c.reviewPending) return false;
   if(c.year<o.yearFrom) return false;
   if(o.fmt==='dvd'&&c.fmt!=='DVD') return false;
   if(o.fmt==='web'&&c.fmt!=='Web') return false;
@@ -1138,6 +2114,8 @@ let OPENV=new Set(), DELASK=null;
 function filterReason(c,o=opts()){
   if(/Full-Length|Team-Video/i.test(c.section||'')&&!c.partResolved) return 'Part-Zuordnung offen';
   if(c.sourceMismatch) return 'Video passt nicht zum Part';
+  if((c.riders||[]).length!==1) return 'Mixsection: Fahrer nicht eindeutig';
+  if(c.reviewPending) return c.reviewPending;
   if(c.year<o.yearFrom) return 'vor '+o.yearFrom;
   if(o.fmt==='dvd'&&c.fmt!=='DVD') return 'kein DVD-Part';
   if(o.fmt==='web'&&c.fmt!=='Web') return 'kein Webvideo';
@@ -1169,7 +2147,7 @@ function renderCardList(){
         <input type="checkbox" data-chk="${i}" ${off?'':'checked'}>
         <div class="pmain"><div class="pt">${esc(c.riders.join(', '))}${c.section?` <span class="hint">– ${esc(c.section)}</span>`:''}</div>
           <div class="ps">♪ ${songTxt(c)}</div>
-          <div class="ps" style="margin-top:3px">${viewPill(c)} ${soundPill(c)}${c.start?` <span class="hint">ab ${fmtTime(c.start)}</span>`:''}${c.ovr?' <span class="hint">· geändert</span>':''}${why?` <span class="pill p-na">gefiltert: ${esc(why)}</span>`:''}</div></div>
+          <div class="ps" style="margin-top:3px">${viewPill(c)} ${soundPill(c)}${c.start?` <span class="hint">${c.startKind==='published-part-start'?'Part ab':'ab'} ${fmtTime(c.start)}</span>`:''}${c.ovr?' <span class="hint">· geändert</span>':''}${why?` <span class="pill p-na">gefiltert: ${esc(why)}</span>`:''}</div></div>
         <div class="pacts"><button class="sec mini" data-edit="${i}" title="Video-Link / Startzeit">✎</button>
           <button class="mini ${DELASK===k?'danger':'sec'}" data-del="${i}" title="Part löschen">${DELASK===k?'Löschen?':'🗑'}</button></div></div>`;
       if(EDIT===i){
