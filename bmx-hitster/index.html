@@ -749,6 +749,100 @@ const DEFAULT_DECK = [
 ];
 
 /* ===================== Helfer ===================== */
+// Researched individual-upload credits. Exact song onsets are unknown, so use song previews.
+const RESEARCHED_PARTS = [
+ {"song":"Soldier","artist":"Destiny's Child","riders":["Aaron Ross"],"video":"Grow Up","year":2016,"company":"Sunday","fmt":"DVD","yt":"QqQPdVEQrm4","start":0,"src":"https://streetwatch.mov/films/F7766","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"The Rain That Never Came","artist":"Apache Sun","riders":["Brett Silva"],"video":"Grow Up","year":2016,"company":"Sunday","fmt":"DVD","yt":"VuajzrJf1hc","start":0,"src":"https://streetwatch.mov/films/F7786","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"What Happens When You Turn the Devil Down","artist":"The Mystery Lights","riders":["Brett Silva"],"video":"Grow Up","year":2016,"company":"Sunday","fmt":"DVD","yt":"VuajzrJf1hc","start":0,"src":"https://streetwatch.mov/films/F7786","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Last Chance","artist":"Shooting Star","riders":["Gary Young"],"video":"Grow Up","year":2016,"company":"Sunday","fmt":"DVD","yt":"Kw2PSKDLZbg","start":0,"src":"https://streetwatch.mov/films/F7781","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"See/Saw","artist":"Jay Reatard","riders":["Julian Arteaga","Jared Duncan","Alec Siemon"],"section":"Split-Part","video":"Grow Up","year":2016,"company":"Sunday","fmt":"DVD","yt":"xqerJ110Ri0","start":0,"src":"https://streetwatch.mov/films/F7749","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"The Damned","artist":"Plasmatics","riders":["Chris Childs"],"video":"Grow Up","year":2016,"company":"Sunday","fmt":"DVD","yt":"Hifx6_3bztw","start":0,"src":"https://streetwatch.mov/films/F7797","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Dreams (Will Come Alive) (Extended Version)","artist":"2 Brothers on the 4th Floor","riders":["Erik Elstran"],"video":"Grow Up","year":2016,"company":"Sunday","fmt":"DVD","yt":"_mTIQ8KSuSU","start":0,"src":"https://streetwatch.mov/films/F7798","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Bette Davis Eyes (Radio Edit)","artist":"Kim Carnes","riders":["Anthony Perrin"],"video":"FTS","year":2019,"company":"Federal","fmt":"DVD","yt":"_uBcrhSB2YU","start":0,"src":"https://streetwatch.mov/films/F3701","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"New Lands","artist":"Justice","riders":["Anthony Perrin"],"video":"FTS","year":2019,"company":"Federal","fmt":"DVD","yt":"_uBcrhSB2YU","start":0,"src":"https://streetwatch.mov/films/F3701","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"The Great Gig in the Sky","artist":"Pink Floyd","riders":["Bruno Hoffmann"],"video":"FTS","year":2019,"company":"Federal","fmt":"DVD","yt":"2kVmvORQp4s","start":0,"src":"https://streetwatch.mov/films/F3702","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"I Am Controlled By Your Love","artist":"Helene Smith","riders":["Bruno Hoffmann"],"video":"FTS","year":2019,"company":"Federal","fmt":"DVD","yt":"2kVmvORQp4s","start":0,"src":"https://streetwatch.mov/films/F3702","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Care","artist":"SS-Say","riders":["Bruno Hoffmann"],"video":"FTS","year":2019,"company":"Federal","fmt":"DVD","yt":"2kVmvORQp4s","start":0,"src":"https://streetwatch.mov/films/F3702","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Run Like Hell","artist":"Pink Floyd","riders":["Dan Lacey"],"video":"FTS","year":2019,"company":"Federal","fmt":"DVD","yt":"Y4bUI0wmfe4","start":0,"src":"https://streetwatch.mov/films/F3703","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Sons Of","artist":"Scott Walker","riders":["James Cunningham"],"video":"FTS","year":2019,"company":"Federal","fmt":"DVD","yt":"tlvPr4koEaM","start":0,"src":"https://streetwatch.mov/films/F3705","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Dark Entries","artist":"Bauhaus","riders":["James Cunningham"],"video":"FTS","year":2019,"company":"Federal","fmt":"DVD","yt":"tlvPr4koEaM","start":0,"src":"https://streetwatch.mov/films/F3705","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Bela Lugosi's Dead","artist":"Bauhaus","riders":["Joe Jarvis"],"video":"FTS","year":2019,"company":"Federal","fmt":"DVD","yt":"O5hSSkHMRLc","start":0,"src":"https://streetwatch.mov/films/F3706","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"New Level","artist":"A$AP Ferg","riders":["Joe Jarvis"],"video":"FTS","year":2019,"company":"Federal","fmt":"DVD","yt":"O5hSSkHMRLc","start":0,"src":"https://streetwatch.mov/films/F3706","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Daytona 500 (Radio Edit)","artist":"Ghostface Killah","riders":["Michal Smelko"],"video":"FTS","year":2019,"company":"Federal","fmt":"DVD","yt":"vTXY2dYR8xs","start":0,"src":"https://streetwatch.mov/films/F3707","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Raindrops Keep Fallin' On My Head","artist":"B.J. Thomas","riders":["Ryan Eles"],"video":"FTS","year":2019,"company":"Federal","fmt":"DVD","yt":"gWnmugC1pGg","start":0,"src":"https://streetwatch.mov/films/F3708","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Goldie","artist":"A$AP Rocky","riders":["Ryan Eles"],"video":"FTS","year":2019,"company":"Federal","fmt":"DVD","yt":"gWnmugC1pGg","start":0,"src":"https://streetwatch.mov/films/F3708","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"When I Dream","artist":"The Teardrop Explodes","riders":["Chase Krolicki"],"video":"At Ease","year":2020,"company":"Odyssey","fmt":"DVD","yt":"56MvoDJwlr8","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F6638","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Sunrise","artist":"Blackwater Holylight","riders":["Hilario Olivos"],"video":"At Ease","year":2020,"company":"Odyssey","fmt":"DVD","yt":"AGISuQTdNZU","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F6652","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"A Change Is Gonna Come","artist":"Greta Van Fleet","riders":["Jacob Cable"],"video":"At Ease","year":2020,"company":"Odyssey","fmt":"DVD","yt":"yFv3-Fv9r5A","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F6656","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"I Didn't Know","artist":"Skinshape","riders":["Murray Loubser"],"video":"At Ease","year":2020,"company":"Odyssey","fmt":"DVD","yt":"gqo5rRPEqfM","start":0,"src":"https://streetwatch.mov/films/F6668","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"If You Could","artist":"The Goat & The Occasional Others","riders":["Preston Okert"],"video":"At Ease","year":2020,"company":"Odyssey","fmt":"DVD","yt":"i3kqsGhLhx4","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F6683","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Knives on Both Sides","artist":"Ex-Cult","riders":["Preston Okert"],"video":"At Ease","year":2020,"company":"Odyssey","fmt":"DVD","yt":"i3kqsGhLhx4","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F6683","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Rhythm (Instrumental)","artist":"Daddy Kev","riders":["Dan Kruk"],"video":"Foundation","year":2017,"company":"Wethepeople","fmt":"DVD","yt":"IlYJPWbLnA8","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F2028","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"The Symphony","artist":"Marley Marl","riders":["Ed Zunda","Pete Sawyer","Dillon Lloyd"],"video":"Foundation","year":2017,"company":"Wethepeople","fmt":"DVD","yt":"NmFoAEgtXCM","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F2013","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Actin Crazy","artist":"Action Bronson","riders":["Felix Prangenberg"],"video":"Foundation","year":2017,"company":"Wethepeople","fmt":"DVD","yt":"51bPo8purRE","start":0,"src":"https://streetwatch.mov/films/F1994","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"One to Another","artist":"The Charlatans","riders":["Jordan Godwin"],"video":"Foundation","year":2017,"company":"Wethepeople","fmt":"DVD","yt":"E4lcpuAgyBM","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F2029","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"FOUR TEETH","artist":"True Widow","riders":["Mike Curley"],"video":"Foundation","year":2017,"company":"Wethepeople","fmt":"DVD","yt":"NWsy5uwjlrc","start":0,"src":"https://streetwatch.mov/films/F1995","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Always Forever","artist":"Cults","riders":["Moritz Nussbaumer","Will Jackson","Max Gaertig"],"video":"Foundation","year":2017,"company":"Wethepeople","fmt":"DVD","yt":"YjRFLrqAVXI","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F1980","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Serious feat AZ","artist":"Nas","riders":["Bob Randel","Matt Miller","Sean Sexton"],"video":"Intervention","year":2016,"company":"Kink","fmt":"DVD","yt":"T1EYkW_9-yQ","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F7286","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Ex-Everything","artist":"Fight Amp","riders":["Chad Osburn"],"video":"Intervention","year":2016,"company":"Kink","fmt":"DVD","yt":"rZnQoMmuu7E","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F7295","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Connor 25:17","artist":"Jon Connor","riders":["Chris Doyle"],"video":"Intervention","year":2016,"company":"Kink","fmt":"DVD","yt":"JLuXRXIXkSc","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F7303","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Heartbreaker","artist":"Aguaturbia","riders":["Dan Coller"],"video":"Intervention","year":2016,"company":"Kink","fmt":"DVD","yt":"RoBur6lUz8M","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F7320","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"State of Grace (Remix) (feat. Busta Rhymes)","artist":"Raekwon","riders":["Darryl Tocco","Jake Petruchik"],"video":"Intervention","year":2016,"company":"Kink","fmt":"DVD","yt":"LPhVLH-TPN0","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F7329","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"13","artist":"Gueringer The 13th, Loud Lord","riders":["Tony Hamlin"],"video":"Intervention","year":2016,"company":"Kink","fmt":"DVD","yt":"8wUk2RlHbRA","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F7457","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Testin My Gangsta","artist":"Three 6 Mafia","riders":["Corey Martinez"],"video":"Still United","year":2016,"company":"United","fmt":"DVD","yt":"010UBVKC9IY","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F6483","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Willie The Pimp","artist":"Frank Zappa","riders":["Geoff Slattery"],"video":"Still United","year":2016,"company":"United","fmt":"DVD","yt":"lRyIV9IOFCU","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F6494","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"People Who Died","artist":"The Jim Carroll Band","riders":["Jeff Kocsis"],"video":"Still United","year":2016,"company":"United","fmt":"DVD","yt":"2q0-c5y2JIY","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F6510","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Hand of Doom","artist":"Black Sabbath","riders":["Christian Rigal"],"video":"Still United","year":2016,"company":"United","fmt":"DVD","yt":"HaBR8u-9Id8","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F1876","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Where Did You Sleep Last Night (Live)","artist":"Nirvana","riders":["Nathan Williams"],"video":"Still United","year":2016,"company":"United","fmt":"DVD","yt":"3urjiQyAGhQ","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F6531","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"That's Good","artist":"DEVO","riders":["Sebastian Anton","Fernando Laczko","Nico Terrez","Tom Deville","Harry Mills Wakley"],"section":"Team Mix 1","video":"Still United","year":2016,"company":"United","fmt":"DVD","yt":"z_0aiZYGCyE","start":0,"src":"https://streetwatch.mov/films/F6543","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Chicago Wind (Instrumental)","artist":"Adrian Younge","riders":["Ethan Corriere"],"video":"F-IT ALL","year":2022,"company":"Fit Bike Co.","fmt":"DVD","yt":"Hpb71383TUc","start":0,"src":"https://streetwatch.mov/films/F5002","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Harlem Hendoo","artist":"Al Hirt","riders":["Jordan Hango"],"section":"Ender-Part","video":"F-IT ALL","year":2022,"company":"Fit Bike Co.","fmt":"DVD","yt":"VslEE-xjM-c","start":0,"src":"https://streetwatch.mov/films/F5131","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Pain","artist":"Mitty Collier","riders":["Justin Spriet"],"video":"F-IT ALL","year":2022,"company":"Fit Bike Co.","fmt":"DVD","yt":"Sd3Z1FITX-Y","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F5138","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Geek Down","artist":"J Dilla","riders":["Matt Nordstrom"],"video":"F-IT ALL","year":2022,"company":"Fit Bike Co.","fmt":"DVD","yt":"ATXG2RquSJ8","start":0,"src":"https://streetwatch.mov/films/F5150","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Run To Your Mama","artist":"Goat","riders":["Max Miller"],"video":"F-IT ALL","year":2022,"company":"Fit Bike Co.","fmt":"DVD","yt":"-mFhlOZVr1c","start":0,"src":"https://streetwatch.mov/films/F5153","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"World War III","artist":"Bad Religion","riders":["Mikey Andrew"],"video":"F-IT ALL","year":2022,"company":"Fit Bike Co.","fmt":"DVD","yt":"tOXx8nrLqL8","start":0,"src":"https://streetwatch.mov/films/F5159","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Make the World Go Away","artist":"Eddy Arnold","riders":["Mikey Andrew"],"video":"F-IT ALL","year":2022,"company":"Fit Bike Co.","fmt":"DVD","yt":"tOXx8nrLqL8","start":0,"src":"https://streetwatch.mov/films/F5159","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Epic Intro","artist":"Marco Polo","riders":["Nick Bonnell"],"video":"F-IT ALL","year":2022,"company":"Fit Bike Co.","fmt":"DVD","yt":"4ublNm5j-Vk","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F5165","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Real (Instrumental)","artist":"Freddie Gibbs, Madlib","riders":["Nick Bonnell"],"video":"F-IT ALL","year":2022,"company":"Fit Bike Co.","fmt":"DVD","yt":"4ublNm5j-Vk","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F5165","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Drained","artist":"The Brian Jonestown Massacre","riders":["Tom Dugan"],"video":"F-IT ALL","year":2022,"company":"Fit Bike Co.","fmt":"DVD","yt":"drZwFx82yog","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F5194","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Everybody Mad","artist":"O.T. Genasis","riders":["Chase Dehart"],"video":"It's Later Than You Think","year":2018,"company":"Cult","fmt":"DVD","yt":"QmE0Cm5mMdQ","start":0,"src":"https://streetwatch.mov/films/F1290","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Nobody Knows","artist":"Pastor T.L. Barrett And The Youth For Christ Choir","riders":["Andrew Castaneda"],"video":"It's Later Than You Think","year":2018,"company":"Cult","fmt":"DVD","yt":"dRC8agjW0uA","start":0,"src":"https://streetwatch.mov/films/F1277","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Prelude / Nightmare (From \"Vertigo\")","artist":"The City of Prague Philharmonic Orchestra","riders":["Chase Hawk"],"video":"It's Later Than You Think","year":2018,"company":"Cult","fmt":"DVD","yt":"9v4BfU_6u1c","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F1278","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"I Wanna Be Adored","artist":"The Stone Roses","riders":["Chase Hawk"],"video":"It's Later Than You Think","year":2018,"company":"Cult","fmt":"DVD","yt":"9v4BfU_6u1c","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F1278","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Linus And Lucy","artist":"Vince Guaraldi Trio","riders":["Dakota Roche"],"video":"It's Later Than You Think","year":2018,"company":"Cult","fmt":"DVD","yt":"BoWKESctOI0","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F1280","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Memories","artist":"Leonard Cohen","riders":["Dakota Roche"],"video":"It's Later Than You Think","year":2018,"company":"Cult","fmt":"DVD","yt":"BoWKESctOI0","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F1280","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Shattering Inner Journeys","artist":"The Gaslamp Killer","riders":["Kilian Roth","Timmy Theus","Dan Foley"],"section":"Split-Part","video":"It's Later Than You Think","year":2018,"company":"Cult","fmt":"DVD","yt":"7fJ1IGPyG1M","start":0,"src":"https://streetwatch.mov/films/F1284","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Stay with Me Baby","artist":"Terry Reid","riders":["Sean Ricany"],"video":"It's Later Than You Think","year":2018,"company":"Cult","fmt":"DVD","yt":"Mov8f3pdXTY","start":0,"src":"https://streetwatch.mov/films/F1286","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"For Want Of","artist":"Rites of Spring","riders":["Curtis Cantwell"],"video":"Typeshit","year":2025,"company":"Animal Bikes","fmt":"DVD","yt":"LPOTj7rg8_s","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F3514","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Everyday All Day","artist":"Naughty by Nature","riders":["Dan Banks"],"video":"Typeshit","year":2025,"company":"Animal Bikes","fmt":"DVD","yt":"xP8WeivJVsE","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F3623","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"It's Your Thing","artist":"The Isley Brothers","riders":["David Osterhouse"],"video":"Typeshit","year":2025,"company":"Animal Bikes","fmt":"DVD","yt":"XFFxXXxg3-I","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F3644","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Good Night","artist":"Westside Gunn","riders":["David Osterhouse"],"video":"Typeshit","year":2025,"company":"Animal Bikes","fmt":"DVD","yt":"XFFxXXxg3-I","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F3644","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"D. Original","artist":"Jeru the Damaja","riders":["Latane Coghill"],"video":"Typeshit","year":2025,"company":"Animal Bikes","fmt":"DVD","yt":"YFpZjqti__I","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F3589","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Cuz It's Wrong","artist":"Slick Rick","riders":["Richie Freeman"],"section":"Ender-Part","video":"Typeshit","year":2025,"company":"Animal Bikes","fmt":"DVD","yt":"O0au7KhS1A8","start":0,"src":"https://streetwatch.mov/films/F3599","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Kickback","artist":"Breakdown","riders":["Wesley Wilcox"],"video":"Typeshit","year":2025,"company":"Animal Bikes","fmt":"DVD","yt":"sc3hQTdpHjI","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F3505","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"I Wanna Live","artist":"Ramones","riders":["Chris Kerrigan"],"video":"Keep It Down","year":2024,"company":"Diego Bravo","fmt":"DVD","yt":"QTEiNyDvBgE","start":0,"src":"https://streetwatch.mov/films/F3507","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Ode","artist":"CCFX","riders":["Andrew Schubert"],"video":"Fictional Finalism","year":2019,"company":"Andrew Schubert / Brad Hill","fmt":"DVD","yt":"Fys9Ik2r4ZE","start":0,"src":"https://streetwatch.mov/films/F5446","songOnly":true,"partResolved":true,"songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Flowers & Fire","artist":"Blitz","riders":["Jason Teet"],"video":"Fictional Finalism","year":2019,"company":"Andrew Schubert / Brad Hill","fmt":"DVD","yt":"uiH_nX9TTlY","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F4869","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Diablo","artist":"Mt. Mountain","riders":["Dylan McCauley"],"video":"No Quarter","year":2018,"company":"Mutiny Bikes","fmt":"DVD","yt":"j2IFaKJ5bWI","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F8481","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Whore Pleaser","artist":"Nig-Heist","riders":["Chris Gonzalez"],"video":"Keep It Down","year":2024,"company":"Diego Bravo","fmt":"DVD","yt":"e0M0fCo9lTI","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F7775","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"London Dungeon","artist":"Misfits","riders":["Diego Bravo"],"video":"Keep It Down","year":2024,"company":"Diego Bravo","fmt":"DVD","yt":"-Ws9UfOhAUU","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F7789","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"You Didn't Need","artist":"Rollins Band","riders":["Diego Bravo"],"video":"Keep It Down","year":2024,"company":"Diego Bravo","fmt":"DVD","yt":"-Ws9UfOhAUU","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F7789","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Sixteen Tons","artist":"Jerry Reed","riders":["Zac Mealman"],"video":"Keep It Down","year":2024,"company":"Diego Bravo","fmt":"DVD","yt":"Df6go_dkkrE","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F0113","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"The Corgi","artist":"Sleaford Mods","riders":["Zac Mealman"],"video":"Keep It Down","year":2024,"company":"Diego Bravo","fmt":"DVD","yt":"Df6go_dkkrE","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F0113","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"Jimmy Jazz","artist":"The Clash","riders":["Mikey Andrew"],"video":"Keep It Down","year":2024,"company":"Diego Bravo","fmt":"DVD","yt":"QtP14EQ8Av4","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F6667","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"},
+ {"song":"The Bob (Medley)","artist":"Roxy Music","riders":["Mikey Andrew"],"video":"Keep It Down","year":2024,"company":"Diego Bravo","fmt":"DVD","yt":"QtP14EQ8Av4","start":0,"songOnly":true,"partResolved":true,"src":"https://streetwatch.mov/films/F6667","songSrc":"Streetwatch: Musikangabe zum Einzelpart","researchDate":"2026-11-09"}
+];
+// Film release year, not the later individual upload date (DIG 2018 video of the year).
+for(const c of DEFAULT_DECK) if(c.video==="It's Later Than You Think") c.year=2018;
+const sameResearchPart=(a,b)=>a.video===b.video&&a.year===b.year&&a.riders.length===b.riders.length&&a.riders.every(r=>b.riders.includes(r));
+for(let i=DEFAULT_DECK.length-1;i>=0;i--){
+  if(!DEFAULT_DECK[i].song&&RESEARCHED_PARTS.some(c=>sameResearchPart(c,DEFAULT_DECK[i])||(c.yt===DEFAULT_DECK[i].yt&&c.riders.length===DEFAULT_DECK[i].riders.length&&c.riders.every(r=>DEFAULT_DECK[i].riders.includes(r))))) DEFAULT_DECK.splice(i,1);
+}
+for(const c of RESEARCHED_PARTS){
+  const old=DEFAULT_DECK.find(d=>sameResearchPart(c,d)&&d.song===c.song&&d.artist===c.artist);
+  if(old) Object.assign(old,c); else DEFAULT_DECK.push(c);
+}
+
 const $ = s => document.querySelector(s);
 const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
@@ -879,7 +973,7 @@ function dedupeMeta(list){
     if(!c.fromMeta||c.riders.length!==1) return true;
     const b=base.get(key(c)); if(!b) return true;
     if(b.yt||b.vimeo){ if(!b.song&&c.song){ b.song=c.song; b.artist=c.artist; b.songSrc=c.songSrc; } return false; }                     // Part gibt es schon als eigenes Video
-    drop.add(b); if(!c.song&&b.song){ c.song=b.song; c.artist=b.artist; c.songSrc=null; }   // Song-Karte ohne Video → Kapitel übernimmt
+    drop.add(b); if(!c.song&&b.song){ c.song=b.song; c.artist=b.artist; c.songSrc=b.songSrc||null; c.songOnly=b.songOnly; }   // Song-Karte ohne Video → Kapitel übernimmt
     return true; });
   return out.filter(c=>!drop.has(c));
 }
@@ -915,7 +1009,7 @@ function enrichKnown(c){
   const same=DEFAULT_DECK.filter(b=>b.song&&b.artist&&b.video===c.video&&b.year===c.year&&b.riders.length===c.riders.length&&b.riders.every(r=>c.riders.includes(r)));
   const songs=new Map(same.map(b=>[b.artist+'|'+b.song,b]));
   if(songs.size!==1) return c;
-  const b=[...songs.values()][0]; return {...c,song:b.song,artist:b.artist,songSrc:b.src};
+  const b=[...songs.values()][0]; return {...c,song:b.song,artist:b.artist,songSrc:b.songSrc||b.src,songOnly:b.songOnly};
 }
 const rawCards = () => dedupeMeta(DEFAULT_DECK.concat(custom().map(c=>({...c,custom:true}))).flatMap(expandMeta).map(enrichKnown)).map(applyOvr);
 // Auswahl im Parts-Menü: abgewählte und gelöschte Parts (cardKey), im Browser gespeichert
@@ -958,8 +1052,8 @@ function eligible(c,o=opts()){
 }
 // Filter oben (Jahr, Format, Bonus, Ton, Aufrufe) – unabhängig vom Haken im Parts-Menü
 function passesFilters(c,o=opts()){
-  if(/Full-Length|Team-Video/i.test(c.section||'')&&!c.partResolved) return 'Part-Zuordnung offen';
-  if(c.sourceMismatch) return 'Video passt nicht zum Part';
+  if(/Full-Length|Team-Video/i.test(c.section||'')&&!c.partResolved) return false;
+  if(c.sourceMismatch) return false;
   if(c.year<o.yearFrom) return false;
   if(o.fmt==='dvd'&&c.fmt!=='DVD') return false;
   if(o.fmt==='web'&&c.fmt!=='Web') return false;
@@ -974,10 +1068,10 @@ function passesFilters(c,o=opts()){
 }
 // Karte hat sicher keinen Ton: kein spielbares Video und die Song-Vorschau wurde nicht gefunden
 // Karten ohne gelisteten Song: Ton nur aus dem Video selbst
-const songTxt = c => c.song?`${esc(c.song)} – ${esc(c.artist)}${c.songSrc?` <span class="hint">(laut ${esc(c.songSrc)})</span>`:''}`:'Song nicht gelistet (steht in der Videobeschreibung bzw. im Abspann)';
+const songTxt = c => c.song?`${esc(c.song)} – ${esc(c.artist)}${c.songSrc?` <span class="hint">(laut ${esc(c.songSrc)})</span>`:''}`:'Song noch nicht zugeordnet';
 function noSound(c){
   const s=scOf(c);
-  const vid=(c.yt&&!isFile&&!(s&&s.ok===false))||(c.vimeo&&!(s&&s.ok===false));
+  const vid=!c.songOnly&&((c.yt&&!isFile&&!(s&&s.ok===false))||(c.vimeo&&!(s&&s.ok===false)));
   if(vid) return false;
   if(!c.song) return true;
   const p=PV[songKey(c)];
@@ -1005,14 +1099,14 @@ function updateDeckInfo(){
   const all=allCards(), d=all.filter(c=>eligible(c));
   const web=all.filter(c=>c.fmt==='Web'&&!c.bonus);
   const ok=web.filter(c=>viewsOf(c)>=20000).length, low=web.filter(c=>viewsOf(c)!=null&&viewsOf(c)<20000).length, na=web.length-ok-low;
-  $('#deckInfo').textContent=`${d.length} Karten aus ${new Set(d.map(c=>c.video+c.company)).size} Videos im Stapel · ${d.filter(c=>c.yt||c.vimeo).length} davon mit Originalton aus dem Video.`;
+  $('#deckInfo').textContent=`${d.length} Karten aus ${new Set(d.map(c=>c.video+c.company)).size} Videos im Stapel · ${d.filter(c=>!c.songOnly&&(c.yt||c.vimeo)).length} davon mit Originalton aus dem Video.`;
   $('#viewStatus').innerHTML=`Webvideos: <b>${ok}</b> mit ≥ 20.000 Aufrufen bestätigt · <b>${low}</b> darunter (aussortiert) · <b>${na}</b> nicht prüfbar`+
     (na&&!$('#strict').checked?' (bleiben im Spiel – Haken oben setzen, um sie rauszuwerfen).':'.');
 }
 let LIST=[], EDIT=null;
 function soundPill(c){
   const pv=PV[songKey(c)], pvTxt=!c.song?'nur Originalton':pv?(pv.ok?'Vorschau ✓':'keine Vorschau'):'Vorschau ?';
-  if(!c.yt&&!c.vimeo) return `<span class="pill ${pv?(pv.ok?'p-ok':'p-low'):'p-na'}">${pvTxt}</span>`;
+  if(c.songOnly||(!c.yt&&!c.vimeo)) return `<span class="pill ${pv?(pv.ok?'p-ok':'p-low'):'p-na'}">${pvTxt}</span>`;
   const s=scOf(c), src=c.yt?'YouTube':'Vimeo';
   if(!s||s.ok===null) return `<span class="pill p-na">${src} ?</span>`;
   return s.ok?`<span class="pill p-ok">${src} ✓</span>`:`<span class="pill p-low" title="${esc(s.code||'')}">${src} ✗</span>`;
@@ -1396,10 +1490,10 @@ async function prepareSource(c){
   if(vmPlayer){ try{ vmPlayer.destroy(); }catch(e){} vmPlayer=null; } $('#vmHost').innerHTML='';
   $('#btnPlay').disabled=true; $('#btnMark').classList.add('hidden'); showHost(null); setStatus('Ton wird vorbereitet …');
   const sc=scOf(c), chain=[];
-  if(c.yt&&!isFile&&!(sc&&sc.ok===false)) chain.push('yt');
-  if(c.yt) chain.push('ytaudio');
-  if(c.vimeo&&!(sc&&sc.ok===false)) chain.push('vimeo');
-  if(c.song) chain.push('preview','ytsong');
+  if(!c.songOnly&&c.yt&&!isFile&&!(sc&&sc.ok===false)) chain.push('yt');
+  if(!c.songOnly&&c.yt) chain.push('ytaudio');
+  if(!c.songOnly&&c.vimeo&&!(sc&&sc.ok===false)) chain.push('vimeo');
+  if(c.song){ chain.push('preview'); if(!c.songOnly) chain.push('ytsong'); }
   G.chain=chain; await trySources(c);
 }
 async function trySources(c){
@@ -1457,7 +1551,13 @@ function sourceFailed(why){
 
 /* ---------- Song-Vorschau (iTunes, Deezer) ---------- */
 const norm=s=>String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/^the /,'').replace(/[^a-z0-9]/g,'');
-function bestMatch(list,c,ga,gt){ const a=norm(c.artist).slice(0,6), t=norm(c.song).slice(0,8);
+function bestMatch(list,c,ga,gt){
+  if(c.songOnly){
+    const title=x=>norm(String(x).replace(/\s*\([^)]*\)/g,''));
+    const a=norm(c.artist),t=title(c.song);
+    return list.find(x=>norm(ga(x))===a&&title(gt(x))===t);
+  }
+  const a=norm(c.artist).slice(0,6), t=norm(c.song).slice(0,8);
   return list.find(x=>norm(ga(x)).includes(a)&&norm(gt(x)).includes(t)) || list.find(x=>norm(ga(x)).includes(a)&&norm(gt(x)).includes(t.slice(0,4))); }
 const songKey=c=>norm(c.artist)+'|'+norm(c.song);
 let PV=LS.get('bmxHitsterPreview',{});      // songKey -> {ok:true|false, t}
@@ -1587,7 +1687,7 @@ async function runSoundCheck(force=false){
   try{ if(testYT) testYT.stopVideo(); }catch(e){}
   await runMetaCheck(force); renderCardList(); updateDeckInfo();
   // Karten, die auf die Song-Vorschau angewiesen sind: prüfen, ob es eine gibt
-  const need=[...new Map(allCards().filter(c=>{ const s=scOf(c); return c.song&&!((c.yt&&!isFile&&!(s&&s.ok===false))||(c.vimeo&&!(s&&s.ok===false))); })
+  const need=[...new Map(allCards().filter(c=>{ const s=scOf(c); return c.song&&(c.songOnly||!((c.yt&&!isFile&&!(s&&s.ok===false))||(c.vimeo&&!(s&&s.ok===false)))); })
       .map(c=>[songKey(c),c])).values()].filter(c=>force||!PV[songKey(c)]||Date.now()-PV[songKey(c)].t>7*864e5);
   let j=0;
   for(const c of need){
